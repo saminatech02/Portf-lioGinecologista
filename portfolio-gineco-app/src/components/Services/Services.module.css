@@ -1,0 +1,38 @@
+.services {
+  padding: 60px 40px;
+  text-align: center;
+  background-color: #fff6f7;
+  height: 300px;
+}
+
+.services h2 {
+  margin-bottom: 40px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #eee;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 12px;
+}

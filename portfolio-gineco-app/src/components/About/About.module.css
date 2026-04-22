@@ -1,0 +1,118 @@
+/* =========================
+   ABOUT - BASE (MOBILE FIRST)
+========================= */
+
+.about {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  padding: 40px 20px;
+
+  align-items: center;
+  text-align: center;
+
+  background: #fff6f7;
+}
+
+/* IMAGEM */
+.about img {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+/* TEXTO */
+.about h2 {
+  margin-bottom: 12px;
+}
+
+.about p {
+  color: #666;
+  margin-bottom: 16px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* HIGHLIGHTS */
+.highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  margin: 20px 0;
+  width: 100%;
+  max-width: 500px;
+}
+
+.highlightCard {
+  background: white;
+
+  border-left: 4px solid var(--gold);
+  padding: 12px 16px;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+  color: var(--text);
+
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+
+  text-align: left;
+}
+
+/* =========================
+   📲 TABLET (768px - 1023px)
+========================= */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .about {
+    padding: 60px 40px;
+  }
+
+  .about img {
+    max-width: 380px;
+  }
+
+  .about p {
+    font-size: 16px;
+  }
+
+  .highlights {
+    max-width: 600px;
+  }
+}
+
+/* =========================
+   💻 DESKTOP (1024px+)
+========================= */
+@media (min-width: 1024px) {
+  .about {
+    flex-direction: row;
+    text-align: left;
+    justify-content: center;
+
+    gap: 40px;
+    padding: 60px 40px;
+  }
+
+  .about img {
+    width: 350px;
+    max-width: none;
+  }
+
+  .highlights {
+    max-width: 100%;
+  }
+}
+
+/* =========================
+   💻 LARGE (1440px+)
+========================= */
+@media (min-width: 1440px) {
+  .about {
+    padding: 80px 120px;
+  }
+}

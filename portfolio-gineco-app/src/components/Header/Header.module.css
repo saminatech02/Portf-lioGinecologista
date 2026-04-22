@@ -1,0 +1,171 @@
+/* =========================
+   HEADER BASE (MOBILE FIRST)
+========================= */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid #eee;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 5%;
+}
+
+.headerInner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* LOGO */
+.logoContainer {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* NAV (MOBILE FIRST - escondida) */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #555;
+  font-size: 15px;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+.nav a:hover {
+  color: #C8A46A;
+}
+
+/* BOTÃO */
+.buttonAgendar {
+  background: linear-gradient(135deg, #C8A46A, #E5C185);
+  color: #ffffff;
+
+  padding: 8px 12px;
+  border-radius: 10px;
+
+  font-weight: 600;
+  font-size: 13px;
+  text-decoration: none;
+
+  border: none;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  white-space: nowrap;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonAgendar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(200, 164, 106, 0.35);
+}
+
+.buttonAgendar:active {
+  transform: scale(0.97);
+}
+
+/* =========================
+   📱 MOBILE (0px - 767px)
+========================= */
+@media (max-width: 767px) {
+  .nav {
+    display: none;
+  }
+
+  .logo {
+    height: 38px;
+  }
+
+  .header{
+    width: 100%;
+  }
+}
+
+/* =========================
+   📲 TABLET (768px - 1023px)
+   SOMENTE LOGO + BOTÃO
+========================= */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .nav {
+    display: none;
+  }
+
+  .logo {
+    height: 42px;
+  }
+
+  .buttonAgendar {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+}
+
+/* =========================
+   💻 DESKTOP (1024px - 1439px)
+   AQUI ENTRA NAV
+========================= */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .nav {
+    display: flex;
+    gap: 28px;
+  }
+
+  .logo {
+    height: 52px;
+  }
+
+  .buttonAgendar {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+}
+
+/* =========================
+   💻 LARGE DESKTOP (1440px+)
+========================= */
+@media (min-width: 1440px) {
+
+  .nav {
+    display: flex;
+    gap: 36px;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .header {
+    padding: 16px 80px;
+  }
+
+  .logo {
+    height: 55px;
+  }
+}
