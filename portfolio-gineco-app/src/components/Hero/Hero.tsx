@@ -14,7 +14,7 @@ const Hero: React.FC = () => {
         </p>
 
         <div className={styles.buttons}>
-          <button>Agendar consulta</button>
+          <a href="#agendamentos">Agendar consulta</a>
           <button className={styles.secondary}>Ver serviços</button>
         </div>
       </div>

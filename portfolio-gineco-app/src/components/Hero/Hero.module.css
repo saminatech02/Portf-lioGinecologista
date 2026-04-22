@@ -83,7 +83,7 @@
 }
 
 /* BOTÃO PRINCIPAL */
-.buttons button:first-child {
+.buttons a:first-child {
   background: linear-gradient(135deg, #C8A46A, #E5C185);
   color: #ffffff;
   padding: 14px 28px;
@@ -93,9 +93,10 @@
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-decoration: none;
 }
 
-.buttons button:first-child:hover {
+.buttons a:first-child:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(200, 164, 106, 0.35);
 }

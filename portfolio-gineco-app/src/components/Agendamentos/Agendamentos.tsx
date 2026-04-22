@@ -1,13 +1,14 @@
 import Calendar from "react-calendar";
 import { useState } from "react";
 import styles from "./Agendamento.module.css";
-import "react-calendar/dist/Calendar.css";
 
 type Value = Date | null;
 
 export default function Agendamentos() {
   const [date, setDate] = useState<Value>(new Date());
   const [horario, setHorario] = useState<string | null>(null);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   // FORM STATE
   const [form, setForm] = useState({
@@ -52,8 +53,8 @@ export default function Agendamentos() {
   return (
     <section className={styles.agendamento}>
       <div className={styles.agendTitle}>
-      <h2>Agende sua consulta</h2>
-      <p>Escolha a melhor data e horário</p>
+        <h2>Agende sua consulta</h2>
+        <p>Escolha a melhor data e horário</p>
       </div>
 
       <div className={styles.container}>
@@ -62,9 +63,15 @@ export default function Agendamentos() {
         <div className={styles.agendamentoCard}>
 
           <Calendar
-            selectRange={false}
-            onChange={(value) => setDate(value as Date)}
             value={date}
+            onChange={(value) => setDate(value as Date)}
+            minDate={today}
+            tileClassName={({ date }) => {
+              const d = new Date(date);
+              d.setHours(0, 0, 0, 0);
+
+              return d < today ? "past-day" : "";
+            }}
           />
 
           <div className={styles.horarios}>
@@ -142,6 +149,7 @@ export default function Agendamentos() {
               name="consentimento"
               checked={form.consentimento}
               onChange={handleChange}
+              className={styles.checkBOX}
             />
             Autorizo o contato para confirmação do agendamento
           </label>

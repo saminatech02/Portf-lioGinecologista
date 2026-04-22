@@ -23,14 +23,12 @@
   flex-direction: column;
   gap: 12px;
 
-  background: rgba(255,255,255,0.85);
+  background: #ffffff;
   padding: 25px;
 
   border-radius: 16px;
 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-
-  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 /* INPUTS CLAROS E ELEGANTES */
@@ -46,30 +44,29 @@
 
   outline: none;
 
-  background: #ffffff;   /* fundo claro */
-  color: #444;          /* texto suave */
+  background: #ffffff;
+  color: #444;
 
   transition: all 0.2s ease;
 }
 
-/* PLACEHOLDER SUAVE */
+/* PLACEHOLDER */
 .form input::placeholder,
 .form textarea::placeholder {
   color: #b8b8b8;
 }
 
-/* FOCO ELEGANTE */
+/* FOCO */
 .form input:focus,
 .form select:focus,
 .form textarea:focus {
-  border-color: #C8A46A;
+  border-color: #0B0F2F;
 
-  box-shadow: 0 0 0 3px rgba(200, 164, 106, 0.15);
+  box-shadow: 0 0 0 3px rgba(11, 15, 47, 0.1);
 
   background: #fff;
 }
 
-/* TEXTAREA */
 .form textarea {
   min-height: 90px;
   resize: none;
@@ -86,116 +83,50 @@
 }
 
 /* =========================
-   CARD DO CALENDÁRIO (ORGANIZAÇÃO)
+   TÍTULO / HORÁRIOS
 ========================= */
-.agendTitle{
+
+.agendTitle {
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 50px;
+
+  padding: 30px;
+
   text-align: left;
 }
 
-.horarios{
+.horarios {
   display: flex;
   align-items: center;
   justify-content: space-around;
+
   width: 100%;
 }
+
+/* =========================
+   CARD DO CALENDÁRIO
+========================= */
 
 .agendamentoCard {
   display: flex;
   flex-direction: column;
   gap: 20px;
+
   align-items: center;
 
-  padding: 30px;
+  padding: 25px;
 
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(12px);
-
+  background: #ffffff;
   border-radius: 16px;
 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 /* =========================
-   CALENDÁRIO LIMPO E CENTRALIZADO
-========================= */
-
-.react-calendar {
-  width: 100%;
-  max-width: 100%;
-
-  border: none;
-  background: transparent;
-
-  font-family: inherit;
-
-  line-height: 1.4;
-}
-
-/* REMOVE ESPAÇAMENTOS DESNECESSÁRIOS */
-.react-calendar__viewContainer {
-  padding: 0;
-}
-
-/* CENTRALIZA NAV */
-.react-calendar__navigation {
-  margin-bottom: 10px;
-}
-
-.react-calendar__navigation button {
-  background: none;
-  border: none;
-
-  color: var(--primary);
-  font-weight: 600;
-
-  font-size: 15px;
-
-  padding: 8px;
-  cursor: pointer;
-}
-
-/* GRID DOS DIAS MAIS ORGANIZADO */
-.react-calendar__month-view__days {
-  display: grid !important;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-}
-
-/* CADA DIA */
-.react-calendar__tile {
-  padding: 10px 0;
-
-  border-radius: 10px;
-
-  text-align: center;
-
-  transition: 0.2s ease;
-}
-
-/* HOVER LIMPO */
-.react-calendar__tile:hover {
-  background: rgba(200,164,106,0.12);
-}
-
-/* DIA SELECIONADO */
-.react-calendar__tile--active {
-  background: linear-gradient(135deg, #C8A46A, #E5C185);
-  color: white;
-}
-
-/* HOJE */
-.react-calendar__tile--now {
-  background: rgba(200,164,106,0.18);
-}
-
-/* =========================
-   RESPONSIVO
+   RESPONSIVO REAL (iPhone SE incluso)
 ========================= */
 
 @media (max-width: 900px) {
@@ -206,4 +137,113 @@
   .form {
     padding: 20px;
   }
+
+  .react-calendar {
+    max-width: 100%;
+  }
+
+  .agendamentoCard{
+    padding-bottom: 10px;
+  }
+}
+
+/* 📱 MOBILE PEQUENO (iPhone SE / 320px) */
+@media (max-width: 420px) {
+  .react-calendar {
+    max-width: 300px;
+    font-size: 12px;
+  }
+
+  .react-calendar__tile {
+    padding: 5px 0;
+    font-size: 11px;
+  }
+
+  .react-calendar__navigation button {
+    font-size: 13px;
+    padding: 4px;
+  }
+
+  .agendamentoCard{
+    padding: 0;
+    margin: 0;
+    max-width: 200px;
+    padding-bottom: 10px;
+  }
+
+    .container {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .form{
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form input, .form select, .form textarea, .form label{
+    width: 90%;
+  }
+
+  .form .checkBOX{
+    width: auto !important;
+  }
+}
+
+/* =========================
+   BOTÕES DE HORÁRIOS
+========================= */
+
+.horarioBtn {
+  background: #f8f8f8;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.horarioBtn:hover {
+  background: #f0f0f0;
+  border-color: #c0c0c0;
+}
+
+.horarioSelecionado {
+  background: #0B0F2F;
+  color: white;
+  border-color: #0B0F2F;
+  font-weight: 600;
+}
+
+.horarioSelecionado:hover {
+  background: #1a1f4d;
+  border-color: #1a1f4d;
+}
+
+/* =========================
+   BOTÃO CONFIRMAR
+========================= */
+
+.confirmar {
+  background: #0B0F2F;
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.confirmar:hover {
+  background: #1a1f4d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(11, 15, 47, 0.2);
 }

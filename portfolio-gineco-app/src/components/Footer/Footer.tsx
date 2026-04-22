@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
 
         {/* ENDEREÇO */}
         <div className={styles.block}>
-          <p>📍 Recife - PE</p>
+          <p>📍 Rua Francisco Alves, 325, Paissandu - Recife - PE (Clínica Acolher - salas 504 - 506)</p>
           <p>Atendimento com hora marcada</p>
         </div>
 
