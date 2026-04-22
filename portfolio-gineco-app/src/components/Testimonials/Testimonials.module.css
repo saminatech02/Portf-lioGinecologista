@@ -1,28 +1,125 @@
+/* =========================
+   TESTIMONIALS - BASE
+========================= */
+
 .testimonials {
-  padding: 60px 40px;
+  padding: 80px 20px;
   text-align: center;
   background: #fff6f7;
 }
 
+.testimonials h2 {
+  font-size: 28px;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+/* GRID RESPONSIVO */
 .grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 20px;
-  justify-content: center;
+
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
+/* CARD PREMIUM */
 .card {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 250px;
-  border: 1px solid #eee;
+  background: #ffffff;
+
+  padding: 24px;
+
+  border-radius: 16px;
+
+  border: 1px solid rgba(0,0,0,0.06);
+
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+
+  transition: all 0.3s ease;
+
+  text-align: left;
 }
 
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border-color: rgba(200, 164, 106, 0.3);
+}
+
+/* TEXTO DO DEPOIMENTO */
 .card p {
   font-style: italic;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
+
+  color: #555;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
+/* AUTOR / ESTRELAS */
 .card span {
-  color: #f5a623;
+  color: #C8A46A;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.testTitle{
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+/* nome da paciente */
+.name {
+  display: block;
+  margin-top: 10px;
+
+  font-size: 13px;
+  color: #777;
+
+  font-weight: 500;
+}
+
+/* =========================
+   📲 TABLET (768px - 1023px)
+========================= */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .testimonials {
+    padding: 90px 40px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .testimonials h2 {
+    font-size: 30px;
+  }
+}
+
+/* =========================
+   💻 DESKTOP (1024px+)
+========================= */
+@media (min-width: 1024px) {
+  .testimonials {
+    padding: 100px 60px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .testimonials h2 {
+    font-size: 34px;
+  }
+}
+
+/* =========================
+   💻 LARGE (1440px+)
+========================= */
+@media (min-width: 1440px) {
+  .testimonials {
+    padding: 120px 120px;
+  }
 }

@@ -9,49 +9,149 @@ export default function Agendamentos() {
   const [date, setDate] = useState<Value>(new Date());
   const [horario, setHorario] = useState<string | null>(null);
 
+  // FORM STATE
+  const [form, setForm] = useState({
+    nome: "",
+    telefone: "",
+    email: "",
+    pagamento: "",
+    convenio: "",
+    observacao: "",
+    consentimento: false,
+  });
+
   const horarios = ["08:00", "09:00", "10:00", "14:00", "15:00"];
 
-  const handleSubmit = () => {
-    if (!date || !horario) {
-      alert("Selecione uma data e um horário");
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!date || !horario || !form.nome || !form.telefone) {
+      alert("Preencha os dados obrigatórios");
       return;
     }
 
-    console.log("Agendado:", date, horario);
+    console.log("Agendado:", {
+      date,
+      horario,
+      ...form,
+    });
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]:
+        type === "checkbox"
+          ? (e.target as HTMLInputElement).checked
+          : value,
+    }));
   };
 
   return (
     <section className={styles.agendamento}>
+      <div className={styles.agendTitle}>
       <h2>Agende sua consulta</h2>
       <p>Escolha a melhor data e horário</p>
+      </div>
 
-      <div className={styles.agendamentoCard}>
-        
-        <Calendar
-          selectRange={false}
-          onChange={(value) => setDate(value as Date)}
-          value={date}
-        />
+      <div className={styles.container}>
 
-        <div className={styles.horarios}>
-          {horarios.map((h) => (
-            <button
-              key={h}
-              onClick={() => setHorario(h)}
-              className={
-                horario === h
-                  ? `${styles.horarioBtn} ${styles.horarioSelecionado}`
-                  : styles.horarioBtn
-              }
-            >
-              {h}
-            </button>
-          ))}
+        {/* CALENDÁRIO + HORÁRIOS */}
+        <div className={styles.agendamentoCard}>
+
+          <Calendar
+            selectRange={false}
+            onChange={(value) => setDate(value as Date)}
+            value={date}
+          />
+
+          <div className={styles.horarios}>
+            {horarios.map((h) => (
+              <button
+                key={h}
+                type="button"
+                onClick={() => setHorario(h)}
+                className={
+                  horario === h
+                    ? `${styles.horarioBtn} ${styles.horarioSelecionado}`
+                    : styles.horarioBtn
+                }
+              >
+                {h}
+              </button>
+            ))}
+          </div>
+
         </div>
 
-        <button className={styles.confirmar} onClick={handleSubmit}>
-          Confirmar agendamento
-        </button>
+        {/* FORMULÁRIO */}
+        <form className={styles.form} onSubmit={handleSubmit}>
+
+          <input
+            name="nome"
+            placeholder="Nome completo"
+            value={form.nome}
+            onChange={handleChange}
+          />
+
+          <input
+            name="telefone"
+            placeholder="Telefone / WhatsApp"
+            value={form.telefone}
+            onChange={handleChange}
+          />
+
+          <input
+            name="email"
+            placeholder="E-mail"
+            value={form.email}
+            onChange={handleChange}
+          />
+
+          <select
+            name="pagamento"
+            value={form.pagamento}
+            onChange={handleChange}
+          >
+            <option value="">Forma de pagamento</option>
+            <option value="pix">Pix</option>
+            <option value="credito">Cartão de crédito</option>
+            <option value="debito">Cartão de débito</option>
+            <option value="dinheiro">Dinheiro</option>
+          </select>
+
+          <input
+            name="convenio"
+            placeholder="Convênio (opcional)"
+            value={form.convenio}
+            onChange={handleChange}
+          />
+
+          <textarea
+            name="observacao"
+            placeholder="Motivo da consulta / observações"
+            value={form.observacao}
+            onChange={handleChange}
+          />
+
+          <label className={styles.check}>
+            <input
+              type="checkbox"
+              name="consentimento"
+              checked={form.consentimento}
+              onChange={handleChange}
+            />
+            Autorizo o contato para confirmação do agendamento
+          </label>
+
+          <button type="submit" className={styles.confirmar}>
+            Confirmar agendamento
+          </button>
+
+        </form>
+
       </div>
     </section>
   );

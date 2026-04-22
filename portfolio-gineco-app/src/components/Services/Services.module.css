@@ -90,7 +90,7 @@
 ========================= */
 @media (min-width: 768px) and (max-width: 1023px) {
   .services {
-    padding: 70px 40px;
+    padding: 10px 40px;
   }
 
   .services h2 {
@@ -107,7 +107,7 @@
 ========================= */
 @media (min-width: 1024px) {
   .services {
-    padding: 80px 60px;
+    padding: 20px 60px;
   }
 
   .services h2 {
@@ -124,6 +124,6 @@
 ========================= */
 @media (min-width: 1440px) {
   .services {
-    padding: 100px 120px;
+    padding: 10px 120px;
   }
 }

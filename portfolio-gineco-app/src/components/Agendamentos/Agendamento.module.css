@@ -1,64 +1,188 @@
-/* CONTAINER GERAL */
-.agendamento {
-  padding: 80px 6%;
-  background-color: #fff6f7;
-  text-align: center;
+/* =========================
+   LAYOUT PRINCIPAL
+========================= */
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+
+  max-width: 1100px;
+  margin: 0 auto;
+
+  align-items: start;
 }
 
-/* TÍTULO */
-.agendamento h2 {
-  font-size: 32px;
-  color: var(--primary);
+/* =========================
+   FORM PREMIUM
+========================= */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  background: rgba(255,255,255,0.85);
+  padding: 25px;
+
+  border-radius: 16px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+
+  backdrop-filter: blur(10px);
+}
+
+/* INPUTS CLAROS E ELEGANTES */
+.form input,
+.form select,
+.form textarea {
+  padding: 12px;
+
+  border-radius: 10px;
+  border: 1px solid #e6e6e6;
+
+  font-size: 14px;
+
+  outline: none;
+
+  background: #ffffff;   /* fundo claro */
+  color: #444;          /* texto suave */
+
+  transition: all 0.2s ease;
+}
+
+/* PLACEHOLDER SUAVE */
+.form input::placeholder,
+.form textarea::placeholder {
+  color: #b8b8b8;
+}
+
+/* FOCO ELEGANTE */
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  border-color: #C8A46A;
+
+  box-shadow: 0 0 0 3px rgba(200, 164, 106, 0.15);
+
+  background: #fff;
+}
+
+/* TEXTAREA */
+.form textarea {
+  min-height: 90px;
+  resize: none;
+}
+
+/* CHECKBOX */
+.check {
+  font-size: 12px;
+  color: #666;
+
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* =========================
+   CARD DO CALENDÁRIO (ORGANIZAÇÃO)
+========================= */
+.agendTitle{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 50px;
+  text-align: left;
+}
+
+.horarios{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.agendamentoCard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+
+  padding: 30px;
+
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px);
+
+  border-radius: 16px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+/* =========================
+   CALENDÁRIO LIMPO E CENTRALIZADO
+========================= */
+
+.react-calendar {
+  width: 100%;
+  max-width: 100%;
+
+  border: none;
+  background: transparent;
+
+  font-family: inherit;
+
+  line-height: 1.4;
+}
+
+/* REMOVE ESPAÇAMENTOS DESNECESSÁRIOS */
+.react-calendar__viewContainer {
+  padding: 0;
+}
+
+/* CENTRALIZA NAV */
+.react-calendar__navigation {
   margin-bottom: 10px;
 }
 
-.agendamento p {
-  color: var(--text-light);
-  margin-bottom: 40px;
-}
-
-/* CARD CENTRAL */
-.agendamentoCard {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 40px;
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(12px);
-  border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-}
-
-/* CALENDÁRIO */
-.react-calendar {
-  width: 100%;
-  border: none;
-  background: transparent;
-  font-family: inherit;
-}
-
-/* NAVEGAÇÃO */
 .react-calendar__navigation button {
   background: none;
   border: none;
+
   color: var(--primary);
   font-weight: 600;
-  font-size: 16px;
+
+  font-size: 15px;
+
+  padding: 8px;
   cursor: pointer;
 }
 
-/* DIAS */
+/* GRID DOS DIAS MAIS ORGANIZADO */
+.react-calendar__month-view__days {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+/* CADA DIA */
 .react-calendar__tile {
-  padding: 12px 0;
+  padding: 10px 0;
+
   border-radius: 10px;
-  transition: 0.2s;
+
+  text-align: center;
+
+  transition: 0.2s ease;
 }
 
-/* HOVER */
+/* HOVER LIMPO */
 .react-calendar__tile:hover {
-  background: rgba(200,164,106,0.15);
+  background: rgba(200,164,106,0.12);
 }
 
-/* DIA ATIVO */
+/* DIA SELECIONADO */
 .react-calendar__tile--active {
   background: linear-gradient(135deg, #C8A46A, #E5C185);
   color: white;
@@ -66,69 +190,19 @@
 
 /* HOJE */
 .react-calendar__tile--now {
-  background: rgba(200,164,106,0.25);
-  border-radius: 10px;
+  background: rgba(200,164,106,0.18);
 }
 
-/* HORÁRIOS */
-.horarios {
-  margin-top: 30px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-}
+/* =========================
+   RESPONSIVO
+========================= */
 
-.horarioBtn {
-  padding: 10px 18px;
-  border-radius: 10px;
-  border: 1px solid var(--gold);
-  background: transparent;
-  color: var(--gold);
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.horarioBtn:hover {
-  background: var(--gold);
-  color: white;
-}
-
-.horarioSelecionado {
-  background: linear-gradient(135deg, #C8A46A, #E5C185);
-  color: white;
-  border: none;
-}
-
-/* BOTÃO CONFIRMAR */
-.confirmar {
-  margin-top: 30px;
-  padding: 14px 28px;
-  background: linear-gradient(135deg, #C8A46A, #E5C185);
-  color: var(--primary);
-  border: none;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.confirmar:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(200,164,106,0.3);
-}
-
-/* MOBILE */
-@media (max-width: 767px) {
-  .agendamentoCard {
-    padding: 25px;
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr;
   }
 
-  .react-calendar__tile {
-    padding: 10px 0;
-  }
-
-  .horarioBtn {
-    padding: 8px 14px;
+  .form {
+    padding: 20px;
   }
 }
