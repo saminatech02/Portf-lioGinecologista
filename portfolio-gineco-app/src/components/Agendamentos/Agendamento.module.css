@@ -1,249 +1,381 @@
 /* =========================
-   LAYOUT PRINCIPAL
+SECTION
 ========================= */
 
 .container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
+  grid-template-columns: minmax(320px, 1fr) minmax(320px, 1fr);
+  gap: 40px;
 
-  max-width: 1100px;
+  max-width: 1180px;
   margin: 0 auto;
 
-  padding-bottom: 30px;
+  padding: 40px 6% 60px;
   align-items: start;
 }
 
 /* =========================
-   FORM PREMIUM
+FORM PREMIUM
 ========================= */
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 
-  background: #ffffff;
-  padding: 25px;
+  background: #fff;
 
-  border-radius: 16px;
+  padding: 32px;
 
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border-radius: 22px;
+
+  box-shadow:
+    0 10px 30px rgba(18, 20, 40, .05);
 }
 
-/* INPUTS CLAROS E ELEGANTES */
 .form input,
 .form select,
 .form textarea {
-  padding: 12px;
+  width: 100%;
 
-  border-radius: 10px;
+  padding: 14px 16px;
+
+  border-radius: 12px;
   border: 1px solid #e6e6e6;
 
-  font-size: 14px;
+  font-size: 15px;
+  line-height: 1.4;
+
+  background: #fff;
+  color: #444;
 
   outline: none;
 
-  background: #ffffff;
-  color: #444;
-
-  transition: all 0.2s ease;
+  transition: .25s;
 }
 
-/* PLACEHOLDER */
 .form input::placeholder,
 .form textarea::placeholder {
   color: #b8b8b8;
 }
 
-/* FOCO */
 .form input:focus,
 .form select:focus,
 .form textarea:focus {
   border-color: #0B0F2F;
 
-  box-shadow: 0 0 0 3px rgba(11, 15, 47, 0.1);
-
-  background: #fff;
+  box-shadow:
+    0 0 0 4px rgba(11, 15, 47, .08);
 }
 
 .form textarea {
-  min-height: 90px;
+  min-height: 120px;
   resize: none;
 }
 
-/* CHECKBOX */
 .check {
-  font-size: 12px;
-  color: #666;
-
   display: flex;
-  gap: 8px;
-  align-items: center;
+  align-items: flex-start;
+  gap: 10px;
+
+  font-size: 13px;
+  line-height: 1.5;
+  color: #666;
 }
 
 /* =========================
-   TÍTULO / HORÁRIOS
+TÍTULO
 ========================= */
 
 .agendTitle {
   display: flex;
-  width: 100%;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
 
-  padding: 30px;
+  text-align: center;
 
-  text-align: left;
+  padding: 20px 26px;
+}
+
+.agendTitle h2 {
+  margin-bottom: 12px;
 }
 
 .horarios {
   display: flex;
-  align-items: center;
-  justify-content: space-around;
-
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
   width: 100%;
 }
 
 /* =========================
-   CARD DO CALENDÁRIO
+CARD CALENDÁRIO
 ========================= */
 
 .agendamentoCard {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 
   align-items: center;
 
-  padding: 25px;
+  padding: 32px;
 
-  background: #ffffff;
-  border-radius: 16px;
+  background: #fff;
 
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border-radius: 22px;
+
+  box-shadow:
+    0 10px 30px rgba(18, 20, 40, .05);
 }
 
 /* =========================
-   RESPONSIVO REAL (iPhone SE incluso)
+CALENDÁRIO
 ========================= */
 
-@media (max-width: 900px) {
-  .container {
-    grid-template-columns: 1fr;
-  }
+:global(.react-calendar) {
+  width: 100%;
+  max-width: 430px;
 
-  .form {
-    padding: 20px;
-  }
+  border: none !important;
 
-  .react-calendar {
-    max-width: 100%;
-  }
+  border-radius: 18px;
 
-  .agendamentoCard{
-    padding-bottom: 10px;
-  }
+  padding: 18px;
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, .05);
 }
 
-/* 📱 MOBILE PEQUENO (iPhone SE / 320px) */
-@media (max-width: 420px) {
-  .react-calendar {
-    max-width: 300px;
-    font-size: 12px;
-  }
+:global(.react-calendar__navigation) {
+  margin-bottom: 14px;
+}
 
-  .react-calendar__tile {
-    padding: 5px 0;
-    font-size: 11px;
-  }
+:global(.react-calendar__navigation button) {
+  min-width: 44px;
+  border-radius: 10px;
+  font-weight: 600;
+}
 
-  .react-calendar__navigation button {
-    font-size: 13px;
-    padding: 4px;
-  }
+:global(.react-calendar__tile) {
+  padding: 14px 8px;
+  border-radius: 10px;
+}
 
-  .agendamentoCard{
-    padding: 0;
-    margin: 0;
-    max-width: 200px;
-    padding-bottom: 10px;
-  }
-
-    .container {
-    grid-template-columns: 1fr;
-    width: 100%;
-  }
-
-  .form{
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .form input, .form select, .form textarea, .form label{
-    width: 90%;
-  }
-
-  .form .checkBOX{
-    width: auto !important;
-  }
+:global(.react-calendar__tile--active) {
+  background: #C8A46A !important;
+  color: #fff !important;
 }
 
 /* =========================
-   BOTÕES DE HORÁRIOS
+HORÁRIOS
 ========================= */
 
 .horarioBtn {
-  background: #f8f8f8;
+  background: #fafafa;
   color: #333;
-  border: 1px solid #e0e0e0;
-  padding: 10px 20px;
-  border-radius: 6px;
+
+  border: 1px solid #e5e5e5;
+
+  padding: 12px 18px;
+
+  border-radius: 10px;
+
   font-size: 14px;
   font-weight: 500;
+
   cursor: pointer;
-  transition: all 0.25s ease;
+
+  transition: .25s;
 }
 
 .horarioBtn:hover {
-  background: #f0f0f0;
-  border-color: #c0c0c0;
+  transform: translateY(-2px);
+  border-color: #C8A46A;
 }
 
 .horarioSelecionado {
-  background: #0B0F2F;
-  color: white;
-  border-color: #0B0F2F;
-  font-weight: 600;
+  background: #C8A46A;
+  color: #fff;
+  border-color: #C8A46A;
 }
 
 .horarioSelecionado:hover {
-  background: #1a1f4d;
-  border-color: #1a1f4d;
+  background: #B8934F;
 }
 
 /* =========================
-   BOTÃO CONFIRMAR
+BOTÃO
 ========================= */
 
 .confirmar {
+  width: 100%;
+
+  padding: 15px 30px;
+
   background: #0B0F2F;
-  color: white;
-  padding: 12px 30px;
+  color: #fff;
+
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
+
   font-size: 15px;
   font-weight: 600;
+
   cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
+
+  transition: .3s;
 }
 
 .confirmar:hover {
-  background: #1a1f4d;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(11, 15, 47, 0.2);
+
+  background: #1a1f4d;
+
+  box-shadow:
+    0 8px 20px rgba(11, 15, 47, .16);
+}
+
+/* =========================
+TABLET
+========================= */
+
+@media (max-width:1024px) {
+
+  .container {
+    grid-template-columns: 1fr;
+    gap: 34px;
+    padding: 40px 7% 60px;
+  }
+
+  .form,
+  .agendamentoCard {
+    max-width: 760px;
+    width: 100%;
+    margin: auto;
+  }
+
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media (max-width:768px) {
+
+  .container {
+    padding: 30px 5% 50px;
+    gap: 28px;
+  }
+
+  .form {
+    padding: 24px;
+    border-radius: 18px;
+  }
+
+  .agendamentoCard {
+    padding: 24px;
+    border-radius: 18px;
+  }
+
+  .horarios {
+    gap: 10px;
+  }
+
+  .horarioBtn {
+    padding: 11px 16px;
+    font-size: 13px;
+  }
+
+  :global(.react-calendar) {
+    max-width: 100%;
+    padding: 14px;
+  }
+
+  :global(.react-calendar__tile) {
+    padding: 12px 6px;
+  }
+
+}
+
+/* =========================
+SMALL MOBILE
+========================= */
+
+@media (max-width:480px) {
+
+  .container {
+    padding: 24px 16px 40px;
+  }
+
+  .form {
+    padding: 18px;
+  }
+
+  .agendamentoCard {
+    padding: 18px;
+  }
+
+  .form input,
+  .form select,
+  .form textarea {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+
+  .confirmar {
+    padding: 14px;
+  }
+
+  .horarios {
+    justify-content: center;
+  }
+
+  .horarioBtn {
+    width: calc(50% - 8px);
+    padding: 12px 10px;
+  }
+
+  :global(.react-calendar) {
+    padding: 10px;
+  }
+
+  :global(.react-calendar__tile) {
+    font-size: 12px;
+    padding: 10px 4px;
+  }
+
+  :global(.react-calendar__navigation button) {
+    font-size: 13px;
+    min-width: 36px;
+  }
+
+}
+
+/* =========================
+IPHONE SE / 320
+========================= */
+
+@media (max-width:360px) {
+
+  .container {
+    padding: 20px 12px;
+  }
+
+  .form,
+  .agendamentoCard {
+    padding: 14px;
+  }
+
+  .horarioBtn {
+    width: 100%;
+  }
+
+  :global(.react-calendar__tile) {
+    padding: 8px 2px;
+    font-size: 11px;
+  }
+
 }

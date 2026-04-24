@@ -4,6 +4,14 @@ import logo from "../../assets/logo.png";
 import whatsapp from "../../assets/whatsapp.png";
 
 const Header: React.FC = () => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+    e.preventDefault();
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.logoContainer}>
@@ -11,10 +19,10 @@ const Header: React.FC = () => {
       </div>
 
       <nav className={styles.nav}>
-        <a href="#inicio">Início</a>
-        <a href="#sobre">Sobre</a>
-        <a href="#servicos">Serviços</a>
-        <a href="#contato">Contato</a>
+        <a href="#inicio" onClick={(e) => handleNavClick(e, "inicio")}>Início</a>
+        <a href="#sobre" onClick={(e) => handleNavClick(e, "sobre")}>Sobre</a>
+        <a href="#servicos" onClick={(e) => handleNavClick(e, "servicos")}>Serviços</a>
+        <a href="#contato" onClick={(e) => handleNavClick(e, "contato")}>Contato</a>
       </nav>
 
       <div className={styles.buttonAgendar}>

@@ -7,6 +7,7 @@ import Testimonials from "../components/Testimonials/Testimonials";
 import CTA from "../components/CTA/CTA";
 import Footer from "../components/Footer/Footer";
 import Agendamentos from "../components/Agendamentos/Agendamentos";
+import Convenios from "../components/Convênios/Convenios";
 
 const Home: React.FC = () => {
   return (
@@ -27,6 +28,10 @@ const Home: React.FC = () => {
 
       <section id="testimonials">
         <Testimonials />
+      </section>
+
+      <section id="convenios">
+        <Convenios />
       </section>
 
       <section id="agendamentos">

@@ -21,13 +21,13 @@ const Footer: React.FC = () => {
 
         {/* CONTATO */}
         <div className={styles.block}>
-          <p>📞 (81) 99812-4105</p>
-          <p>✉️ contato@clinica.com</p>
+          <p> (81) 99812-4105</p>
+          <p>drdennychalegre@gmail.com</p>
         </div>
 
         {/* ENDEREÇO */}
         <div className={styles.block}>
-          <p>📍 Rua Francisco Alves, 325, Paissandu - Recife - PE (Clínica Acolher - salas 504 - 506)</p>
+          <p> Rua Francisco Alves, 325, Paissandu - Recife - PE (Clínica Acolher Saúde - salas 504 - 506)</p>
           <p>Atendimento com hora marcada</p>
         </div>
 

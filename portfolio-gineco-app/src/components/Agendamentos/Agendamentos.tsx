@@ -13,13 +13,24 @@ export default function Agendamentos() {
   // FORM STATE
   const [form, setForm] = useState({
     nome: "",
+    nascimento: "",
     telefone: "",
     email: "",
+    cpf: "",
+    cpfResponsavel: "",
     pagamento: "",
     convenio: "",
     observacao: "",
     consentimento: false,
   });
+
+  const formasPagamento = [
+    "Pix",
+    "Cartão de crédito",
+    "Cartão de débito",
+    "Dinheiro",
+    "Convênio"
+  ];
 
   const horarios = ["08:00", "09:00", "10:00", "14:00", "15:00"];
 
@@ -96,6 +107,8 @@ export default function Agendamentos() {
         {/* FORMULÁRIO */}
         <form className={styles.form} onSubmit={handleSubmit}>
 
+          {/* DADOS PESSOAIS */}
+
           <input
             name="nome"
             placeholder="Nome completo"
@@ -104,8 +117,29 @@ export default function Agendamentos() {
           />
 
           <input
+            name="nascimento"
+            placeholder="Data de nascimento (dd/mm/aaaa)"
+            value={form.nascimento || ""}
+            onChange={handleChange}
+          />
+
+          <input
+            name="cpf"
+            placeholder="CPF"
+            value={form.cpf || ""}
+            onChange={handleChange}
+          />
+
+          <input
+            name="cpfResponsavel"
+            placeholder="CPF do responsável (se aplicável)"
+            value={form.cpfResponsavel || ""}
+            onChange={handleChange}
+          />
+
+          <input
             name="telefone"
-            placeholder="Telefone / WhatsApp"
+            placeholder="Celular / WhatsApp"
             value={form.telefone}
             onChange={handleChange}
           />
@@ -117,24 +151,26 @@ export default function Agendamentos() {
             onChange={handleChange}
           />
 
+          {/* PAGAMENTO */}
+
           <select
             name="pagamento"
             value={form.pagamento}
             onChange={handleChange}
           >
-            <option value="">Forma de pagamento</option>
-            <option value="pix">Pix</option>
-            <option value="credito">Cartão de crédito</option>
-            <option value="debito">Cartão de débito</option>
-            <option value="dinheiro">Dinheiro</option>
-          </select>
+            <option value="">
+              Forma de pagamento
+            </option>
 
-          <input
-            name="convenio"
-            placeholder="Convênio (opcional)"
-            value={form.convenio}
-            onChange={handleChange}
-          />
+            {formasPagamento.map((forma) => (
+              <option
+                key={forma}
+                value={forma.toLowerCase()}
+              >
+                {forma}
+              </option>
+            ))}
+          </select>
 
           <textarea
             name="observacao"
@@ -151,10 +187,13 @@ export default function Agendamentos() {
               onChange={handleChange}
               className={styles.checkBOX}
             />
-            Autorizo o contato para confirmação do agendamento
+            Autorizo contato para confirmação do agendamento
           </label>
 
-          <button type="submit" className={styles.confirmar}>
+          <button
+            type="submit"
+            className={styles.confirmar}
+          >
             Confirmar agendamento
           </button>
 

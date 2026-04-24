@@ -8,7 +8,7 @@ const Hero: React.FC = () => {
         <div className={styles.decor1}></div>
         <div className={styles.decor2}></div>
       <div className={styles.text}>
-        <h1>Cuidado que acolhe, prevenção que transforma.</h1>
+        <h1>Cuidado que acolhe, prevenção que transforma</h1>
         <p>
           Atendimento ginecológico humanizado em todas as fases da vida da mulher.
         </p>
