@@ -53,11 +53,7 @@ export default function Convenios() {
     return (
         <section className={styles.convenios}>
 
-            <span className={styles.badge}>
-                +30 convênios atendidos
-            </span>
-
-            <h2>Convênios Atendidos</h2>
+            <h2>+30 convênios atendidos</h2>
 
             <p>
                 Atendimento por planos e consultas particulares
@@ -65,7 +61,7 @@ export default function Convenios() {
 
             <div className={styles.sliderWrapper}>
 
-                <button 
+                <button
                     className={styles.prev}
                     onClick={goPrev}
                 >
@@ -76,18 +72,17 @@ export default function Convenios() {
                     ref={swiperRef}
                     modules={[Autoplay]}
                     loop={true}
+                    centeredSlides={false}
+                    watchSlidesProgress={true}
                     spaceBetween={24}
                     className={styles.slider}
-
                     autoplay={{
                         delay: 2500,
                         disableOnInteraction: false
                     }}
-
                     onSwiper={(swiper) => {
                         swiperRef.current = swiper;
                     }}
-
                     breakpoints={{
                         320: {
                             slidesPerView: 1.2
@@ -112,7 +107,7 @@ export default function Convenios() {
 
                 </Swiper>
 
-                <button 
+                <button
                     className={styles.next}
                     onClick={goNext}
                 >

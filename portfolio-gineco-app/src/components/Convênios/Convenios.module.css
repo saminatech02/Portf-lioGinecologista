@@ -1,344 +1,291 @@
-.convenios {
-    padding: 60px 6%;
-    background: #fff6f7;
-    text-align: center;
-    overflow: hidden;
+.convenios{
+    padding:72px 6%;
+    background:#fff6f7;
+    text-align:center;
+    overflow:hidden;
 }
 
-/* badge */
-.badge {
-    display: inline-block;
-    padding: 10px 18px;
-    border-radius: 999px;
-    background: rgba(200, 164, 106, .14);
-    color: var(--gold);
-    font-weight: 600;
-    margin-bottom: 18px;
-    letter-spacing: .2px;
+/* ---------- heading ---------- */
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    padding:12px 22px;
+    border-radius:999px;
+    background:rgba(200,164,106,.12);
+    color:var(--gold);
+    font-weight:600;
+    margin-bottom:22px;
 }
 
-.convenios h2 {
-    color: var(--primary);
-    margin-bottom: 12px;
-    font-size: clamp(30px, 5vw, 48px);
-    line-height: 1.1;
+.convenios h2{
+    color:var(--primary);
+    font-size: 40px;
+    line-height:1.08;
+    margin-bottom:14px;
 }
 
-.convenios p {
-    margin-bottom: 40px;
-    color: #666;
-    max-width: 680px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.7;
+.convenios p{
+    max-width:700px;
+    margin:0 auto 10px;
+    color:#6b6b6b;
+    line-height:1.7;
 }
 
-/* slider */
-.sliderWrapper {
-    display: flex;
-    align-items: center;
-    gap: 22px;
+
+/* =====================
+SLIDER
+===================== */
+
+.sliderWrapper{
+    display:flex;
+    align-items:center;
+    gap:18px;
 }
 
-.slider :global(.swiper-wrapper) {
-    transition-timing-function:
-        cubic-bezier(.22, 1, .36, 1) !important;
+.slider{
+    flex:1;
+    min-width:0;
 }
 
-/* =========================
-CARDS PREMIUM
-========================= */
+.slider :global(.swiper){
+    overflow:visible !important;
+}
 
-.card {
-    position: relative;
+.slider :global(.swiper-slide){
+    display:flex;
+    height:auto;
+}
 
-    min-height: 100px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
+/* =====================
+CARDS
+===================== */
 
-    padding: 24px 34px;
+.card{
+    width:100%;
+    min-height:96px;
 
-    /* duas linhas douradas laterais + fundo */
-    background:
-        linear-gradient(180deg,
-            #F2D59A,
-            #C8A46A,
-            #F2D59A) left 0 top 18px / 4px calc(100% - 36px) no-repeat,
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
 
-        linear-gradient(180deg,
-            #F2D59A,
-            #C8A46A,
-            #F2D59A) right 0 top 18px / 4px calc(100% - 36px) no-repeat,
+    padding:20px 26px;
 
-        linear-gradient(145deg,
-            #ffffff 0%,
-            #fffdf9 100%);
+    background:#fff;
 
-    border: 1px solid rgba(200, 164, 106, .16);
+    border-radius:22px;
 
-    border-radius: 22px;
+    border:1px solid rgba(200,164,106,.14);
+
+    position:relative;
 
     box-shadow:
-        0 8px 22px rgba(18, 20, 40, .04),
-        0 1px 0 rgba(255, 255, 255, .8) inset;
+      0 8px 22px rgba(18,20,40,.04);
 
     transition:
-        transform .35s ease,
-        box-shadow .35s ease,
-        border-color .35s ease;
+      transform .4s ease,
+      box-shadow .4s ease,
+      opacity .4s ease;
 
-    overflow: hidden;
+    opacity:.58;
+    transform:scale(.95);
 }
 
-/* glow dourado */
-.card::before {
-    content: "";
-    position: absolute;
-    top: -30%;
-    right: -10%;
-
-    width: 130px;
-    height: 130px;
+/* filetes dourados laterais */
+.card::before,
+.card::after{
+    content:"";
+    position:absolute;
+    top:18px;
+    bottom:18px;
+    width:3px;
+    border-radius:999px;
 
     background:
-        radial-gradient(circle,
-            rgba(229, 193, 133, .18),
-            transparent 70%);
-
-    pointer-events: none;
+      linear-gradient(
+        180deg,
+        #F2D59A,
+        #C8A46A,
+        #F2D59A
+      );
 }
 
-/* destaque ativo */
-/* Card ativo */
-.slider :global(.swiper-slide-next) .card,
-.slider :global(.swiper-slide-next + .swiper-slide) .card {
+.card::before{
+    left:0;
+}
+
+.card::after{
+    right:0;
+}
+
+
+/* segundo card (principal) */
+.slider :global(.swiper-slide-next) .card{
+    opacity:1;
+
     transform:
-        translateY(-4px) scale(1.03);
-
-    border-color:
-        rgba(200, 164, 106, .32);
+      translateY(-8px)
+      scale(1.03);
 
     box-shadow:
-        0 18px 34px rgba(200, 164, 106, .18),
-        0 8px 18px rgba(18, 20, 40, .04);
+      0 16px 34px rgba(200,164,106,.18);
 }
 
-.card:hover {
-    transform: translateY(-6px);
 
-    border-color:
-        rgba(200, 164, 106, .38);
+/* terceiro card */
+.slider :global(.swiper-slide-next + .swiper-slide) .card{
+    opacity:1;
+
+    transform:
+      translateY(-8px)
+      scale(1.03);
 
     box-shadow:
-        0 20px 38px rgba(200, 164, 106, .18),
-        0 10px 24px rgba(18, 20, 40, .05);
+      0 16px 34px rgba(200,164,106,.18);
 }
 
-/* ícone */
-.icon {
-    width: 38px;
-    height: 38px;
 
-    border-radius: 50%;
+.card:hover{
+    transform:
+      translateY(-6px)
+      scale(1.025);
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    opacity:1;
+
+    box-shadow:
+      0 16px 30px rgba(200,164,106,.16);
+}
+
+
+/* ---------- icon ---------- */
+
+.icon{
+    width:42px;
+    height:42px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
 
     background:
-        linear-gradient(135deg,
-            #C8A46A,
-            #E5C185);
+      linear-gradient(
+       135deg,
+       #C8A46A,
+       #E5C185
+      );
+
+    color:#fff;
+    font-weight:700;
 
     box-shadow:
-        0 6px 16px rgba(200, 164, 106, .32);
+      0 6px 14px rgba(200,164,106,.28);
 
-    color: white;
-    font-size: 15px;
-    font-weight: 700;
-
-    flex-shrink: 0;
+    flex-shrink:0;
 }
 
-/* =========================
-SETAS PREMIUM
-========================= */
+
+/* =====================
+ARROWS
+===================== */
 
 .prev,
-.next {
-    width: 56px;
-    height: 56px;
+.next{
+    width:54px;
+    height:54px;
 
-    border: none;
-    border-radius: 50%;
+    border:none;
+    border-radius:50%;
 
-    cursor: pointer;
+    background:#fff;
+    color:var(--gold);
 
-    font-size: 34px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: white;
-    color: var(--gold);
+    cursor:pointer;
+    flex-shrink:0;
 
     box-shadow:
-        0 8px 22px rgba(0, 0, 0, .08);
+      0 8px 20px rgba(0,0,0,.07);
 
-    transition: .3s;
-
-    flex-shrink: 0;
+    transition:.3s;
 }
 
 .prev:hover,
-.next:hover {
-    transform:
-        translateY(-2px) scale(1.06);
+.next:hover{
+    transform:translateY(-2px) scale(1.04);
 
     background:
-        linear-gradient(135deg,
-            #C8A46A,
-            #E5C185);
+      linear-gradient(
+       135deg,
+       #C8A46A,
+       #E5C185
+      );
 
-    color: white;
-
-    box-shadow:
-        0 10px 28px rgba(200, 164, 106, .34);
+    color:#fff;
 }
 
-/* =========================
+
+/* =====================
 INFO BOX
-========================= */
+===================== */
 
-.infoBox {
-    margin-top: 50px;
-    padding: 34px 28px;
-
-    background: white;
-
-    border-radius: 24px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.infoBox{
+    margin-top:56px;
+    background:#fff;
+    border-radius:28px;
+    padding:30px 30px;
 
     box-shadow:
-        0 10px 28px rgba(0, 0, 0, .04);
+      0 8px 24px rgba(0,0,0,.04);
 }
 
-.infoBox h3 {
-    color: var(--primary);
-    margin-bottom: 12px;
-    font-size: 22px;
-}
 
-.infoBox p {
-    margin: 0;
-}
-
-/* ======================
+/* =====================
 MOBILE
-====================== */
+===================== */
 
-@media(max-width:767px) {
+@media(max-width:767px){
 
-    .convenios {
-        padding: 60px 5%;
+    .convenios{
+        padding:60px 5%;
     }
 
-    .sliderWrapper {
-        gap: 10px;
+    .sliderWrapper{
+        gap:10px;
     }
 
-    .prev,
-    .next {
-        width: 42px;
-        height: 42px;
-        font-size: 26px;
+    .card{
+        min-height:82px;
+        padding:15px 18px;
+        font-size:14px;
+
+        transform:none;
+        opacity:1;
     }
 
-    .card {
-        min-height: 78px;
-
-        padding: 16px 18px;
-
-        font-size: 14px;
-        gap: 10px;
-
-        border-radius: 18px;
+    .card::before,
+    .card::after{
+        top:14px;
+        bottom:14px;
     }
 
-    .card::before {
-        display: none;
+    .slider :global(.swiper-slide-next) .card,
+    .slider :global(.swiper-slide-next + .swiper-slide) .card{
+        transform:none;
     }
 
-    .slider :global(.swiper-slide-active) .card {
-        transform: none;
-    }
-
-    .icon {
-        width: 28px;
-        height: 28px;
-        font-size: 13px;
-    }
-
-    .infoBox {
-        padding: 24px 18px;
-    }
-
-    .infoBox h3 {
-        font-size: 19px;
-    }
-
-}
-
-/* ======================
-TABLET
-====================== */
-
-@media(min-width:768px) and (max-width:1023px) {
-
-    .convenios {
-        padding: 75px 7%;
-    }
-
-    .sliderWrapper {
-        gap: 16px;
+    .icon{
+        width:32px;
+        height:32px;
+        font-size:12px;
     }
 
     .prev,
-    .next {
-        width: 48px;
-        height: 48px;
-        font-size: 30px;
-    }
-
-    .card {
-        min-height: 84px;
-        padding: 20px 22px;
-        font-size: 15px;
-    }
-
-}
-
-/* ======================
-DESKTOP LARGE
-====================== */
-
-@media(min-width:1440px) {
-
-    .convenios {
-        padding: 90px 10%;
-    }
-
-    .card {
-        min-height: 100px;
-        font-size: 16px;
+    .next{
+        width:42px;
+        height:42px;
     }
 
 }

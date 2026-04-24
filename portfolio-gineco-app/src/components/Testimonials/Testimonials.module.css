@@ -86,7 +86,7 @@
 ========================= */
 @media (min-width: 768px) and (max-width: 1023px) {
   .testimonials {
-    padding: 90px 40px;
+    padding: 50px 40px;
   }
 
   .grid {
@@ -103,7 +103,7 @@
 ========================= */
 @media (min-width: 1024px) {
   .testimonials {
-    padding: 100px 60px;
+    padding: 50px 60px;
   }
 
   .grid {
