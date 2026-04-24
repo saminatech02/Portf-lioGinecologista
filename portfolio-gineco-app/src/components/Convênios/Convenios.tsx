@@ -85,13 +85,13 @@ export default function Convenios() {
                     }}
                     breakpoints={{
                         320: {
-                            slidesPerView: 1.2
+                            slidesPerView: 1
                         },
                         768: {
-                            slidesPerView: 2.3
+                            slidesPerView: 3
                         },
                         1024: {
-                            slidesPerView: 4
+                            slidesPerView: 3
                         }
                     }}
                 >

@@ -73,6 +73,11 @@ FORM PREMIUM
   resize: none;
 }
 
+.checkBOX{
+  width: 10% !important;
+  padding: 0;
+}
+
 .check {
   display: flex;
   align-items: flex-start;
@@ -238,6 +243,13 @@ BOTÃO
     0 8px 20px rgba(11, 15, 47, .16);
 }
 
+  .form input::placeholder,
+  .form select::placeholder,
+  .form textarea::placeholder {
+    font-size: 14px;
+    color: gray;
+  }
+
 /* =========================
 TABLET
 ========================= */
@@ -327,6 +339,15 @@ SMALL MOBILE
   .form textarea {
     padding: 12px 14px;
     font-size: 14px;
+    color: black;
+  }
+
+  .form input::placeholder,
+  .form select::placeholder,
+  .form textarea::placeholder {
+    padding: 12px 14px;
+    font-size: 14px;
+    color: black;
   }
 
   .confirmar {
