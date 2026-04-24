@@ -53,21 +53,63 @@ button {
   cursor: pointer;
 }
 
-h1, h2 {
-  color: var(--primary);
+/* Base tipográfica responsiva e legível */
+/* Tipografia mais confortável e grande */
+
+h1, h2{
+  color:var(--primary);
+  letter-spacing:-0.02em;
 }
 
-/* Tipografia responsiva */
-h1 {
-  font-size: clamp(28px, 5vw, 42px);
+h1{
+  font-size:clamp(2.5rem,8vw,3rem); /* 40px até 72px */
+  line-height:1.12;
+  font-weight:600;
 }
 
-h2 {
-  font-size: clamp(22px, 4vw, 32px);
+h2{
+  font-size:clamp(1rem,3vw,1.5rem); /* 32px até 51px */
+  line-height:1.2;
+  font-weight:600;
 }
 
-p {
-  font-size: clamp(14px, 2vw, 16px);
+p{
+  font-size:clamp(1.125rem,3vw,0.2rem); /* 18px até 21px */
+  line-height:1.8;
+}
+
+/* celulares pequenos */
+@media (max-width:480px){
+
+  h1{
+    font-size:2.6rem; /* ~42px */
+    line-height:1.15;
+  }
+
+  h2{
+    font-size:2rem; /* 32px */
+  }
+
+  p{
+    font-size:1.125rem; /* 18px */
+    line-height:1.85;
+  }
+}
+
+/* tablets */
+@media (min-width:768px) and (max-width:1023px){
+
+  h1{
+    font-size:3.3rem; /* ~53px */
+  }
+
+  h2{
+    font-size:1.5rem;
+  }
+
+  p{
+    font-size:1.5rem;
+  }
 }
 
 /* ===========================

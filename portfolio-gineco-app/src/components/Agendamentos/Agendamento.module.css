@@ -298,6 +298,10 @@ MOBILE
     padding: 12px 6px;
   }
 
+  .checkBOX {
+    padding: 0;
+  }
+
 }
 
 /* =========================
@@ -350,6 +354,11 @@ SMALL MOBILE
   :global(.react-calendar__navigation button) {
     font-size: 13px;
     min-width: 36px;
+  }
+
+  .checkBOX {
+    padding: 0 !important;
+    width: 10% !important;
   }
 
 }
