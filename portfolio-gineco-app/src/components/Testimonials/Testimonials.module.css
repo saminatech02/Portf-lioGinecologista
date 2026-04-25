@@ -69,21 +69,6 @@ CARD
 }
 
 
-/* aspas */
-.card::before {
-  content: "“";
-  position: absolute;
-  top: 18px;
-  right: 24px;
-
-  font-size: 70px;
-  line-height: 1;
-
-  color: rgba(200, 164, 106, .12);
-  font-family: serif;
-}
-
-
 /* =========================
 TEXTO
 ========================= */

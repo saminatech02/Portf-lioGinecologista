@@ -12,7 +12,7 @@ const depoimentos = [
   },
   {
     nome: "Ana Cláudia",
-    texto: `Só tenho elogios pra o Dr. Denny. Ele fez o meu parto no Imip. Profissional humano, amoroso com o paciente. Poderia ter feito apenas a obrigação, principalmente por estar ali num hospital público, atendendo "de graça", mas foi me recepcionar, me deixou muito tranquila e à vontade e ainda caprichou na playlist pra que o momento fosse o mais tranquilo e natural possível. Nunca vou esquecer o carinho e a atenção comigo tanto dele quanto da equipe naquela noite. Ah, se toda paciente tivesse a sorte de cruzar o caminho do Dr. Denny ou de outro profissional igual a ele, que ama o que faz! Deus abençoe o senhor, Dr. Denny! Sou grata a esse Deus tão bom por ter colocado o senhor no meu caminho. Que esse mesmo Deus de amor lhe dê o Céu, quando terminar sua carreira aqui na terra daqui há muitas décadas!`
+    texto: `Só tenho elogios pra o Dr. Denny. Ele fez o meu parto no Imip. Profissional humano, amoroso com o paciente. Poderia ter feito apenas a obrigação, principalmente por estar ali num hospital público, atendendo de graça, mas foi me recepcionar, me deixou muito tranquila e à vontade e ainda caprichou na playlist pra que o momento fosse o mais tranquilo e natural possível. Nunca vou esquecer o carinho e a atenção comigo tanto dele quanto da equipe naquela noite. Ah, se toda paciente tivesse a sorte de cruzar o caminho do Dr. Denny ou de outro profissional igual a ele, que ama o que faz! Deus abençoe o senhor, Dr. Denny! Sou grata a esse Deus tão bom por ter colocado o senhor no meu caminho. Que esse mesmo Deus de amor lhe dê o Céu, quando terminar sua carreira aqui na terra daqui há muitas décadas!`
   }
 ];
 
