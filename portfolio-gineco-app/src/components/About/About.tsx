@@ -9,9 +9,8 @@ const About: React.FC = () => {
       <div>
         <h2>Sobre o Dr. Denny Chalegre</h2>
         <p>
-         Dr. Denny Chalegre é médico especialista em Ginecologia e Obstetrícia pelo IMIP, com fellowship em Uroginecologia. 
-         Formado pela UFPE, atua com foco na saúde da mulher, oferecendo um atendimento humanizado, baseado em escuta, 
-         confiança e cuidado individualizado.
+         Dr. Denny Chalegre é Ginecologista, Obstetra e Uroginecologista pelo IMIP. Médico formado pela UFPE, atua com foco na saúde da mulher, 
+         oferecendo um atendimento humanizado, baseado em escuta, confiança e cuidado individualizado.
         </p>
         <div className={styles.highlights}>
           <div className={styles.highlightCard}>
@@ -19,7 +18,7 @@ const About: React.FC = () => {
           </div>
 
           <div className={styles.highlightCard}>
-            Fellow em Uroginecologia (IMIP)
+            Fellowship em Uroginecologia (IMIP)
           </div>
 
           <div className={styles.highlightCard}>

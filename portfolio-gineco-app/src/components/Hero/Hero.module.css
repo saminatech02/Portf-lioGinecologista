@@ -8,12 +8,10 @@ HERO
   justify-content: space-between;
   text-align: left;
   padding: 80px 6%;
-  background: linear-gradient(
-    135deg,
-    #ffffff 0%,
-    #FEF7F6 40%,
-    #FEF7F6 100%
-  );
+  background: linear-gradient(135deg,
+      #ffffff 0%,
+      #FEF7F6 40%,
+      #FEF7F6 100%);
   position: relative;
   overflow: hidden;
 
@@ -127,24 +125,34 @@ HERO
   position: absolute;
 
   right: 0;
-  bottom: 0;
+  top: 0;
 
-  width: min(46vw, 720px);
+  display: flex;
+  align-items: center;
+
+  width: 50%;
   height: auto;
 
   z-index: 1;
 
   mask-image:
-    linear-gradient(to left,
-      black 72%,
-      rgba(0, 0, 0, .7) 88%,
-      transparent 100%);
+    linear-gradient(to top,
+      transparent 0%,
+      black 18%),
+    linear-gradient(to right,
+      transparent 0%,
+      black 18%);
 
   -webkit-mask-image:
-    linear-gradient(to left,
-      black 72%,
-      rgba(0, 0, 0, .7) 88%,
-      transparent 100%);
+    linear-gradient(to top,
+      transparent 0%,
+      black 18%),
+    linear-gradient(to right,
+      transparent 0%,
+      black 18%);
+
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
 }
 
 /* =========================
