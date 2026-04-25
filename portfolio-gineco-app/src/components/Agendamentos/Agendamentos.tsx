@@ -32,7 +32,7 @@ export default function Agendamentos() {
     "Convênio"
   ];
 
-  const horarios = ["08:00", "09:00", "10:00", "14:00", "15:00"];
+  const horarios: string[] = [];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,12 +41,6 @@ export default function Agendamentos() {
       alert("Preencha os dados obrigatórios");
       return;
     }
-
-    console.log("Agendado:", {
-      date,
-      horario,
-      ...form,
-    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -60,6 +54,10 @@ export default function Agendamentos() {
           : value,
     }));
   };
+
+  function hasHorariosDisponiveis(horarios: string[]): boolean {
+    return horarios.length > 0;
+  }
 
   return (
     <section className={styles.agendamento}>
@@ -84,30 +82,32 @@ export default function Agendamentos() {
               return d < today ? "past-day" : "";
             }}
           />
-
-          <div className={styles.horarios}>
-            {horarios.map((h) => (
-              <button
-                key={h}
-                type="button"
-                onClick={() => setHorario(h)}
-                className={
-                  horario === h
-                    ? `${styles.horarioBtn} ${styles.horarioSelecionado}`
-                    : styles.horarioBtn
-                }
-              >
-                {h}
-              </button>
-            ))}
-          </div>
+          {hasHorariosDisponiveis(horarios) ? (
+            <div className={styles.horarios}>
+              {horarios.map((h) => (
+                <button
+                  key={h}
+                  type="button"
+                  onClick={() => setHorario(h)}
+                  className={
+                    horario === h
+                      ? `${styles.horarioBtn} ${styles.horarioSelecionado}`
+                      : styles.horarioBtn
+                  }
+                >
+                  {h}
+                </button>
+              ))}
+            </div>) : (
+            <p className={styles.semHorarios}>Sem horários disponíveis para esta data</p>
+          )}
 
         </div>
 
         {/* FORMULÁRIO */}
         <form className={styles.form} onSubmit={handleSubmit}>
 
-          {/* DADOS PESSOAIS */}
+          <h3> Preencha as informações abaixo: </h3>
 
           <input
             name="nome"

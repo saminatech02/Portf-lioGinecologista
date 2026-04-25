@@ -109,16 +109,11 @@
 
 /* Estados de Destaque no Slider (Desktop) */
 .slider :global(.swiper-slide-active) .card,
-.slider :global(.swiper-slide-next) .card {
+.slider :global(.swiper-slide-next) .card,
+.card {
     border-color: rgba(242, 213, 154, 0.6);
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(200, 164, 106, 0.15);
-}
-
-.card:hover {
-    transform: translateY(-8px) scale(1.02);
-    border-color: #F2D59A;
-    box-shadow: 0 20px 40px rgba(18, 20, 40, 0.12);
 }
 
 .card:hover::before,

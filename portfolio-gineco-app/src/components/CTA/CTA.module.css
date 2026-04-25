@@ -13,6 +13,10 @@
 .content {
   color: black;
   max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .badge {
@@ -130,4 +134,70 @@
   .content p {
     font-size: 16px;
   }
+}
+
+.actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+  align-items: center;
+  justify-content: center;
+}
+
+.whatsappBtn {
+  padding: 16px 28px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+
+  background: #0B0F2F;
+  color: white;
+
+  font-weight: 700;
+
+  transition: .3s;
+}
+
+.whatsappBtn:hover {
+  transform: translateY(-2px);
+}
+
+.reviewBtn {
+  padding: 16px 28px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+
+  background:
+    linear-gradient(135deg,
+      #C8A46A,
+      #E5C185);
+
+  color: white;
+  font-weight: 700;
+
+  box-shadow:
+    0 10px 26px rgba(200, 164, 106, .28);
+
+  transition: .3s;
+}
+
+.reviewBtn:hover {
+  transform:
+    translateY(-2px) scale(1.02);
+}
+
+@media(max-width:767px) {
+
+  .actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .whatsappBtn,
+  .reviewBtn {
+    width: 100%;
+  }
+
 }

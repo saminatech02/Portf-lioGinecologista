@@ -53,7 +53,7 @@ export default function Convenios() {
     return (
         <section className={styles.convenios}>
 
-            <h2>+30 convênios atendidos</h2>
+            <h2>+ de 30 convênios atendidos</h2>
 
             <p>
                 Atendimento por planos e consultas particulares
