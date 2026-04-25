@@ -113,6 +113,7 @@ HERO
   font-size: 15px;
   cursor: pointer;
   transition: 0.3s;
+  margin-bottom: 20px;
 }
 
 .secondary:hover {
@@ -185,6 +186,7 @@ TABLET
   .hero {
     flex-direction: column;
     text-align: center;
+    background: #FDF4F1;
 
     padding: 70px 8%;
     min-height: auto;
@@ -210,17 +212,9 @@ TABLET
 
     width: 118% !important;
 
+    top: 0px;
+
     margin-top: 40px;
-
-    mask-image:
-      linear-gradient(to top,
-        black 75%,
-        transparent 100%);
-
-    -webkit-mask-image:
-      linear-gradient(to top,
-        black 75%,
-        transparent 100%);
   }
 
   .decor1,
@@ -273,8 +267,20 @@ MOBILE
 
     margin-top: -10%;
 
-    mask-image: none;
-    -webkit-mask-image: none;
+    top: 0px;
+
+    mask-image:
+      linear-gradient(to top,
+        transparent 0%,
+        black 18%);
+
+    -webkit-mask-image:
+      linear-gradient(to top,
+        transparent 0%,
+        black 18%);
+
+    mask-composite: intersect;
+    -webkit-mask-composite: source-in;
   }
 }
 
