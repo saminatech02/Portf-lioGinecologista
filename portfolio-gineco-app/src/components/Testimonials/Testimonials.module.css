@@ -234,6 +234,18 @@ MODAL
 }
 
 
+@media (min-width: 320px) and (max-width: 767px) {
+  .testimonials {
+    padding: 60px 40px;
+    margin-top: -35px;
+    background: #FDF4F1;
+  }
+
+  .testimonials h2 {
+    font-size: 34px;
+  }
+}
+
 /* =========================
 TABLET
 ========================= */

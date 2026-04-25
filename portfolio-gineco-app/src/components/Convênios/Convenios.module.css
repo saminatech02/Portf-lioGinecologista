@@ -182,6 +182,7 @@
 @media(max-width: 767px) {
     .convenios {
         padding: 50px 5%;
+        background: #FDF4F1;
     }
 
     .convenios h2 {

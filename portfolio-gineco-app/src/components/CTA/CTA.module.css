@@ -99,6 +99,28 @@
   font-size: 18px;
 }
 
+@media(max-width:787px) {
+  .cta {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 35px;
+    background: #FDF4F1;
+  }
+
+  .content {
+    margin: auto;
+  }
+
+  .button {
+    margin: auto;
+  }
+
+  .mapCard {
+    max-width: 700px;
+    margin: auto;
+  }
+}
+
 /* Tablet */
 @media (max-width:1023px) {
   .cta {
