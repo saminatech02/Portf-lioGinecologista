@@ -60,9 +60,29 @@
   font-size: 20px;
   color: var(--text);
 
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 
   text-align: left;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+  .about h2 {
+    font-size: 34px;
+  }
+
+  .about {
+    padding: 60px 40px;
+    background: #FDF4F1;
+    margin-top: -35px;
+  }
+
+  .highlightCard {
+    font-size: 17px;
+  }
+
+  .about p{
+    text-align: justify;
+  }
 }
 
 /* =========================
@@ -74,7 +94,7 @@
     background: #FDF4F1;
   }
 
-  .highlightCard{
+  .highlightCard {
     font-size: 17px;
   }
 
@@ -84,6 +104,10 @@
 
   .about p {
     font-size: 16px;
+  }
+
+  h2 {
+    font-size: 15px !important;
   }
 
   .highlights {

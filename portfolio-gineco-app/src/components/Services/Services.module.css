@@ -2,7 +2,7 @@
    SERVICES - BASE (MOBILE FIRST)
 ========================= */
 
-.titulo{
+.titulo {
   width: 100%;
   display: flex;
   align-items: left;
@@ -41,14 +41,14 @@
 
   transition: all 0.3s ease;
 
-  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 
   text-align: left;
 }
 
 .card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   border-color: rgba(200, 164, 106, 0.3);
 }
 
@@ -83,6 +83,17 @@
 .card button:hover {
   background: #C8A46A;
   color: #fff;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+  .services {
+    padding: 10px 30px;
+    background: #FDF4F1
+  }
+
+  .services h2 {
+    font-size: 30px;
+  }
 }
 
 /* =========================
