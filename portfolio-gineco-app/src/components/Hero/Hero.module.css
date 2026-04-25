@@ -11,7 +11,7 @@ HERO
   background: linear-gradient(135deg,
       #ffffff 0%,
       #FEF7F6 40%,
-      #FEF7F6 100%);
+      #FDF4F1 100%);
   position: relative;
   overflow: hidden;
 
@@ -262,12 +262,20 @@ MOBILE
     text-align: center;
   }
 
+
+
   .hero img {
-    width: 115% !important;
-    margin-top: 25px;
+    position: relative;
+    z-index: 2;
 
+    width: 170% !important;
+    left: -17%;
+
+    margin-top: -10%;
+
+    mask-image: none;
+    -webkit-mask-image: none;
   }
-
 }
 
 /* =========================

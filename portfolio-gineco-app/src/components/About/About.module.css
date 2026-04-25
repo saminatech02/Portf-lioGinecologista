@@ -28,6 +28,7 @@
 /* TEXTO */
 .about h2 {
   margin-bottom: 12px;
+  font-size: 45px;
 }
 
 .about p {
@@ -56,7 +57,7 @@
 
   border-radius: 8px;
 
-  font-size: 14px;
+  font-size: 20px;
   color: var(--text);
 
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
@@ -70,6 +71,11 @@
 @media (min-width: 768px) and (max-width: 1023px) {
   .about {
     padding: 60px 40px;
+    background: #FDF4F1;
+  }
+
+  .highlightCard{
+    font-size: 17px;
   }
 
   .about img {
