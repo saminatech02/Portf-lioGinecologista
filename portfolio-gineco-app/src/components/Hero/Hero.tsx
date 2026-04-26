@@ -19,9 +19,9 @@ const Hero: React.FC = () => {
 
         <div className={styles.buttons}>
           <a href="#agendamentos">Agendar consulta</a>
-          <button className={styles.secondary}>
-            Ver serviços
-          </button>
+          <a className={styles.secondary} href="#contato">
+            Ver localização
+          </a>
         </div>
       </div>
 

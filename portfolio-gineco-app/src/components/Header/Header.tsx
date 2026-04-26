@@ -26,10 +26,10 @@ const Header: React.FC = () => {
       </nav>
 
       <div className={styles.buttonAgendar}>
-      <img src={whatsapp} className={styles.imgWpp} />
-      <a className={styles.linksWpp} href="https://api.whatsapp.com/send?phone=5581998124105&text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20informa%C3%A7%C3%B5es.">Agendar consulta</a>
-      </div>
-    </header>
+        <img src={whatsapp} className={styles.imgWpp} />
+        <a className={styles.linksWpp} href="https://api.whatsapp.com/send?phone=5581998124105&text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20informa%C3%A7%C3%B5es."  target="_blank" rel="noopener noreferrer">Agendar consulta</a>
+    </div>
+    </header >
   );
 };
 
