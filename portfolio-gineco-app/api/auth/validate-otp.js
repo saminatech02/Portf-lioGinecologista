@@ -1,6 +1,6 @@
-import otpStore from "../_lib/otp-store.js";
+import { supabase } from "../_lib/supabase.js";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   try {
     if (req.method !== "POST") {
       return res.status(405).json({
@@ -21,18 +21,36 @@ export default function handler(req, res) {
       });
     }
 
-    const stored =
-      otpStore.get(email);
+    const { data, error } =
+      await supabase
+        .from("otp_codes")
+        .select("*")
+        .eq("email", email)
+        .order("created_at", {
+          ascending: false
+        })
+        .limit(1)
+        .maybeSingle();
 
-    if (!stored) {
+    if (error) {
+      throw error;
+    }
+
+    if (!data) {
       return res.status(400).json({
         status: "error",
         message: "OTP não encontrado"
       });
     }
 
-    if (Date.now() > stored.expires) {
-      otpStore.delete(email);
+    if (
+      new Date(data.expires_at).getTime() <
+      Date.now()
+    ) {
+      await supabase
+        .from("otp_codes")
+        .delete()
+        .eq("email", email);
 
       return res.status(400).json({
         status: "error",
@@ -40,14 +58,17 @@ export default function handler(req, res) {
       });
     }
 
-    if (stored.otp !== String(otp)) {
+    if (data.otp !== String(otp)) {
       return res.status(400).json({
         status: "error",
         message: "OTP inválido"
       });
     }
 
-    otpStore.delete(email);
+    await supabase
+      .from("otp_codes")
+      .delete()
+      .eq("email", email);
 
     return res.status(200).json({
       status: "success",
@@ -55,7 +76,10 @@ export default function handler(req, res) {
     });
 
   } catch (error) {
-    console.error("Erro validar OTP:", error);
+    console.error(
+      "Erro validar OTP:",
+      error
+    );
 
     return res.status(500).json({
       status: "error",
