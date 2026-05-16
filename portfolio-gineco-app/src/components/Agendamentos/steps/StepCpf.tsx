@@ -102,7 +102,7 @@ export default function StepCpf({
 
             const response =
                 await fetch(
-                    `http://localhost:3000/patients/exists?cpf=${cpf}`
+                    `${import.meta.env.VITE_API_URL}/patients/exists?cpf=${cpf}`
                 );
 
             const result =
@@ -174,7 +174,7 @@ export default function StepCpf({
 
             const response =
                 await fetch(
-                    "http://localhost:3000/auth/send-otp",
+                    `${import.meta.env.VITE_API_URL}/auth/send-otp`,
                     {
                         method: "POST",
 
