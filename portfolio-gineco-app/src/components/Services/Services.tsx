@@ -33,9 +33,18 @@ const EX1 = getImage("EX.jpeg")
 const EX2 = getImage("EX2.jpeg")
 const EX3 = getImage("EX3.jpeg")
 
+const PL = getImage("PL.jpeg")
+const PL2 = getImage("pl2.jpeg")
+const PL3 = getImage("PL3.jpeg")
+const PL4 = getImage("PL4.jpeg")
+
+const NF = getImage("nf.jpeg")
+const NF2 = getImage("NF2.jpeg")
+const NF3 = getImage("NF3.jpeg")
+
 const servicesData = [
   {
-    images: [CG1, CG2, CG3],
+    images: [CG3, CG2, CG1],
     title: "Consulta Ginecológica",
     description: "Avaliação completa da sua saúde geral e íntima, com escuta atenta, acolhimento e um plano de cuidado individualizado em todas as fases da vida da mulher. Investigação e tratamento de sindrome dos ovários policísticos (SOP), endometriose, sangramento uterino anormal, dor pélvica e dor na relação sexual, corrimento vaginal e infecções ginecológicas, alterações menstruais, HPV e câncer de colo do útero."
   },
@@ -45,7 +54,7 @@ const servicesData = [
     description: "Prescrição e orientação de exames essenciais para prevenção e diagnóstico precoce, com foco em segurança e tranquilidade. Realização de Papanicolau e exame de DNA HPV."
   },
   {
-    images: [heroImg, logoImg],
+    images: [PL4, PL, PL2, PL3],
     title: "Planejamento Familiar",
     description: "Aconselhamento personalizado sobre métodos contraceptivos (DIU, anticoncepcional, implante, laqueadura tubária) e planejamento reprodutivo, respeitando seus desejos e seu momento de vida."
   },
@@ -65,7 +74,7 @@ const servicesData = [
     description: "Realização de cirurgias ginecológicas com técnicas tradicionais e modernas (minimamente invasivas), como histeroscopia, cirurgia por via abdominal e por via vaginal, com foco em segurança, recuperação mais rápida e melhores resultados."
   },
   {
-    images: [heroImg, logoImg],
+    images: [NF, NF2, NF3],
     title: "Ninfoplastia e Cirurgias Íntimas Femininas",
     description: "Procedimentos cirúrgicos íntimos, como ninfoplastia (redução e/ou correção de assimetria dos pequenos lábios) e outras cirurgias íntimas femininas, indicadas para desconforto funcional ou estético, sempre com avaliação criteriosa, técnica precisa e foco na naturalidade, segurança e bem-estar da paciente."
   },
