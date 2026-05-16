@@ -101,9 +101,7 @@ export default function StepCpf({
         async (cpf: string) => {
 
             const response =
-                await fetch(
-                    `${import.meta.env.VITE_API_URL}patients/exists?cpf=${cpf}`
-                );
+                await fetch(`/api/patients/exists?cpf=${cpf}`);
 
             const result =
                 await response.json();
@@ -174,7 +172,7 @@ export default function StepCpf({
 
             const response =
                 await fetch(
-                    `${import.meta.env.VITE_API_URL}auth/send-otp`,
+                    `api/auth/send-otp`,
                     {
                         method: "POST",
 
@@ -267,7 +265,6 @@ export default function StepCpf({
                         patient
                     );
 
-                    // 🔥 envia OTP usando email do exists
                     await sendOtp(
                         patient.email
                     );

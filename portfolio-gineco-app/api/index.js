@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: ["http://localhost:5173", "https://www.dennychalegre.com.br"]
+  origin: ["http://localhost:5174", "https://www.dennychalegre.com.br"]
 }));
 
 app.use(express.json());
@@ -826,16 +826,17 @@ app.get("/test", (req, res) => {
   });
 });
 
-// =========================
-// START
-// =========================
 
-const PORT =
-  process.env.PORT || 3000;
+if (process.env.NODE_ENV !== "production") {
 
-app.listen(PORT, () => {
+  const PORT = 3000;
 
-  console.log(
-    `Servidor rodando na porta ${PORT}`
-  );
-});
+  app.listen(PORT, () => {
+
+    console.log(
+      `Servidor rodando na porta ${PORT}`
+    );
+  });
+}
+
+export default app;

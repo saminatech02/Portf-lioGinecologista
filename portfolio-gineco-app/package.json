@@ -3,22 +3,30 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+
+  "engines": {
+    "node": "20.x"
+  },
+
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
+
   "dependencies": {
     "@supabase/supabase-js": "^2.104.1",
-    "axios": "^1.15.2",
+    "axios": "^1.16.1",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "nodemailer": "^8.0.7",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "swiper": "^10.3.1"
   },
+
   "devDependencies": {
     "@eslint/js": "^9.39.4",
     "@types/node": "^24.12.2",
@@ -32,10 +40,5 @@
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
     "vite": "^8.0.9"
-  },
-  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
-  "main": "eslint.config.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }
