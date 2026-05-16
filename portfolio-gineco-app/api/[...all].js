@@ -112,7 +112,7 @@ app.get("/doctors", async (req, res) => {
 // VALIDAR CPF
 // =========================
 
-app.get("/api/patients/exists", async (req, res) => {
+app.get("/patients/exists", async (req, res) => {
 
   try {
 
@@ -637,7 +637,7 @@ app.get("/events", async (req, res) => {
 // CRIAR AGENDAMENTO
 // =========================
 
-app.post("/api/appointments", async (req, res) => {
+app.post("/appointments", async (req, res) => {
 
   try {
 
@@ -820,7 +820,7 @@ app.get("/calendar", async (req, res) => {
 // TESTE
 // =========================
 
-app.get("/api/test", (req, res) => {
+app.get("/test", (req, res) => {
   res.json({
     message:
       "Servidor funcionando!"
