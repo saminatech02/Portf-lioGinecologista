@@ -172,7 +172,7 @@ export default function StepCpf({
 
             const response =
                 await fetch(
-                    `api/auth/send-otp`,
+                    `/api/auth/send-otp`,
                     {
                         method: "POST",
 
