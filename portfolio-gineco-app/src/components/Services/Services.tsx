@@ -1,7 +1,29 @@
 import React, { useState } from "react";
 import styles from "./Services.module.css";
-import heroImg from "../../assets/hero.png";
-import logoImg from "../../assets/logo.png";
+
+const assetImages = import.meta.glob("../../assets/*.{jpg,jpeg,png,webp}", {
+  eager: true,
+  import: "default"
+}) as Record<string, string>;
+
+const getImage = (fileName: string) => {
+  const imagePath = Object.keys(assetImages).find((path) =>
+    path.endsWith(fileName)
+  );
+
+  return imagePath ? assetImages[imagePath] : "";
+};
+
+const C3 = getImage("Cirurgia 1.jpeg");
+const C2 = getImage("Cirurgia 2.jpeg");
+const C1 = getImage("Cirurgia.jpeg");
+
+const heroImg = getImage("Hero.png");
+const logoImg = getImage("Logo.png");
+
+const CL1 = getImage("Climatério.jpeg");
+const CL2 = getImage("Climatério 2.jpeg");
+const CL3 = getImage("Climatério 3.jpeg");
 
 const servicesData = [
   {
@@ -20,7 +42,7 @@ const servicesData = [
     description: "Aconselhamento personalizado sobre métodos contraceptivos (DIU, anticoncepcional, implante, laqueadura tubária) e planejamento reprodutivo, respeitando seus desejos e seu momento de vida."
   },
   {
-    images: [heroImg, logoImg],
+    images: [CL1, CL2, CL3],
     title: "Climatério e Menopausa",
     description: "Acompanhamento especializado para essa fase de transição, promovendo equilíbrio hormonal, controle dos sintomas, avaliação da terapia de reposição hormonal, promovendo melhora da qualidade de vida e bem-estar."
   },
@@ -30,7 +52,7 @@ const servicesData = [
     description: "Diagnóstico e tratamento de disfunções do assoalho pélvico, como incontinência urinária, bexiga caída/sensação de bola na vagina (prolapso genital), infecções urinárias de repetição e dor pélvica, com abordagem moderna e individualizada."
   },
   {
-    images: [heroImg, logoImg],
+    images: [C1, C2, C3],
     title: "Cirurgias Ginecológicas (Tradicionais e minimamente Invasivas)",
     description: "Realização de cirurgias ginecológicas com técnicas tradicionais e modernas (minimamente invasivas), como histeroscopia, cirurgia por via abdominal e por via vaginal, com foco em segurança, recuperação mais rápida e melhores resultados."
   },
