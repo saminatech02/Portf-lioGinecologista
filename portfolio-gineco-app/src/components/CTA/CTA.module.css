@@ -1,6 +1,5 @@
 .cta {
   background: #fff6f7;
-
   padding: 80px 6%;
 
   display: grid;
@@ -13,18 +12,20 @@
 .content {
   color: black;
   max-width: 560px;
+
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 }
 
 .badge {
-  display: inline-block;
   padding: 10px 18px;
   border-radius: 999px;
+
   background: rgba(200, 164, 106, .18);
   color: #C8A46A;
+
   font-weight: 600;
   margin-bottom: 18px;
 }
@@ -32,7 +33,14 @@
 .content h2 {
   font-size: clamp(34px, 5vw, 56px);
   line-height: 1.1;
+  text-align: left;
   margin-bottom: 18px;
+}
+
+.cta h4 {
+  font-size: 20px;
+  width: 300px;
+  text-align: left;
 }
 
 .content p {
@@ -40,7 +48,10 @@
   line-height: 1.7;
   opacity: .9;
   margin-bottom: 28px;
+  text-align: left;
 }
+
+/* BOTÃO PRINCIPAL */
 
 .button {
   display: inline-flex;
@@ -53,15 +64,10 @@
   text-decoration: none;
   font-weight: 600;
 
-  background: linear-gradient(135deg,
-      #C8A46A,
-      #E5C185);
-
+  background: linear-gradient(135deg, #C8A46A, #E5C185);
   color: #fff;
 
-  box-shadow:
-    0 12px 30px rgba(200, 164, 106, .3);
-
+  box-shadow: 0 12px 30px rgba(200, 164, 106, .3);
   transition: .3s;
 }
 
@@ -69,28 +75,30 @@
   transform: translateY(-3px);
 }
 
+/* MAPA */
+
 .mapCard {
   background: #fff;
   border-radius: 26px;
   overflow: hidden;
 
-  box-shadow:
-    0 20px 50px rgba(0, 0, 0, .12);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .12);
 }
 
 .mapCard iframe {
   display: block;
   width: 100%;
   height: 320px;
-  /* bem menor */
   border: 0;
 }
 
 .address {
   padding: 20px 24px;
+
   display: flex;
   flex-direction: column;
   gap: 6px;
+
   color: #555;
 }
 
@@ -99,72 +107,14 @@
   font-size: 18px;
 }
 
-@media(max-width:787px) {
-  .cta {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 35px;
-    background: #FDF4F1;
-  }
-
-  .content {
-    margin: auto;
-  }
-
-  .button {
-    margin: auto;
-  }
-
-  .mapCard {
-    max-width: 700px;
-    margin: auto;
-  }
-}
-
-/* Tablet */
-@media (max-width:1023px) {
-  .cta {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 35px;
-  }
-
-  .content {
-    margin: auto;
-  }
-
-  .button {
-    margin: auto;
-  }
-
-  .mapCard {
-    max-width: 700px;
-    margin: auto;
-  }
-}
-
-/* Mobile */
-@media (max-width:767px) {
-  .cta {
-    padding: 60px 5%;
-  }
-
-  .mapCard iframe {
-    height: 250px;
-  }
-
-  .content p {
-    font-size: 16px;
-  }
-}
+/* BOTÕES AÇÃO */
 
 .actions {
   display: flex;
   gap: 14px;
-  flex-wrap: wrap;
   margin-top: 28px;
+
   align-items: center;
-  justify-content: center;
 }
 
 .whatsappBtn {
@@ -177,7 +127,6 @@
   color: white;
 
   font-weight: 700;
-
   transition: .3s;
 }
 
@@ -191,35 +140,148 @@
   border-radius: 999px;
   cursor: pointer;
 
-  background:
-    linear-gradient(135deg,
-      #C8A46A,
-      #E5C185);
-
+  background: linear-gradient(135deg, #C8A46A, #E5C185);
   color: white;
-  font-weight: 700;
 
-  box-shadow:
-    0 10px 26px rgba(200, 164, 106, .28);
+  font-weight: 700;
+  box-shadow: 0 10px 26px rgba(200, 164, 106, .28);
 
   transition: .3s;
 }
 
 .reviewBtn:hover {
-  transform:
-    translateY(-2px) scale(1.02);
+  transform: translateY(-2px) scale(1.02);
 }
 
-@media(max-width:767px) {
+/* =========================
+TABLET
+========================= */
 
+@media (max-width: 1023px) {
+
+  .cta {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+
+  }
+
+  .content {
+    width: 50%;
+    margin: 0 auto;
+    align-items: flex-start;
+    text-align: flex-start;
+  }
+
+  .content h2,
+  .content p,
+  .cta h4 {
+    text-align: left;
+    width: 100%;
+  }
+
+  .content h2 {
+    font-size: 32px !important;
+  } 
+
+  .content h4{
+    width: 50%;
+  }
+
+  .button {
+    margin: 0 auto;
+  }
+
+  .actions {
+    justify-content: center;
+  }
+
+  .mapCard {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media (max-width: 767px) {
+
+  .cta {
+    padding: 50px 20px;
+    gap: 30px;
+    background: #FDF4F1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .badge {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
+  .content {
+    width: 100%;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .content h2 {
+    font-size: 28px;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .cta h4 {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .content p {
+    font-size: 15px;
+    line-height: 1.6;
+    text-align: center;
+    margin: 0;;
+  }
+
+  /* BOTÕES MOBILE */
   .actions {
     flex-direction: column;
     width: 100%;
+    gap: 12px;
+    display: flex;
+    flex-direction: row;
   }
 
   .whatsappBtn,
   .reviewBtn {
     width: 100%;
+    padding: 14px;
+    text-align: center;
+    width: 75%;
+  }
+
+  /* MAPA */
+  .mapCard {
+    border-radius: 18px;
+  }
+
+  .mapCard{
+    width: 75%;
+  }
+
+  .mapCard iframe {
+    height: 220px;
+  }
+
+  .address {
+    padding: 16px;
   }
 
 }

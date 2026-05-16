@@ -8,6 +8,7 @@ import CTA from "../components/CTA/CTA";
 import Footer from "../components/Footer/Footer";
 import Agendamentos from "../components/Agendamentos/Agendamentos";
 import Convenios from "../components/Convênios/Convenios";
+import styles from "./Home.module.css";
 
 const Home: React.FC = () => {
   return (
@@ -34,7 +35,7 @@ const Home: React.FC = () => {
         <Convenios />
       </section>
 
-      <section id="agendamentos">
+      <section id="agendamentos" className={styles.agendamentos}>
         <Agendamentos />
       </section>
 

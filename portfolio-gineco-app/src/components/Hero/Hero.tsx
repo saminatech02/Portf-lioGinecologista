@@ -7,9 +7,6 @@ import dennyMobile from "../../assets/imagem-denny-mobile.png";
 const Hero: React.FC = () => {
   return (
     <section className={styles.hero}>
-      <div className={styles.decor1}></div>
-      <div className={styles.decor2}></div>
-
       <div className={styles.text}>
         <h1>Cuidado que acolhe, prevenção que transforma</h1>
 
@@ -29,7 +26,7 @@ const Hero: React.FC = () => {
         <div className={styles.imageWrap}>
         </div>
         <source
-          media="(max-width: 767px)"
+          media="(max-width: 1024px)"
           srcSet={dennyMobile}
         />
 

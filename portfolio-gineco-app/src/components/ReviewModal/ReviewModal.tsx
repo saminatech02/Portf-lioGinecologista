@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { api } from "../../lib/supabase";
 import styles from "./ReviewModal.module.css";
 
 type Props = {
@@ -13,6 +14,7 @@ export default function ReviewModal({
 
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
+    const [enviando, setEnviando] = useState(false);
 
     const [form, setForm] = useState({
         name: "",
@@ -22,7 +24,7 @@ export default function ReviewModal({
 
     if (!isOpen) return null;
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!rating) {
@@ -30,13 +32,34 @@ export default function ReviewModal({
             return;
         }
 
-        console.log({
-            rating,
-            ...form
-        });
+        if (!form.name.trim() || !form.comment.trim()) {
+            alert("Preencha seu nome e comentário");
+            return;
+        }
 
-        alert("Avaliação enviada com sucesso ✨");
-        onClose();
+        setEnviando(true);
+
+        try {
+            // Enviar para o Supabase - aprovado = publish (usuário autoriza)
+            await api.createAvaliacao({
+                paciente_nome: form.name,
+                comentario: form.comment,
+                nota: rating,
+                aprovado: form.publish
+            });
+
+            alert("Avaliação enviada com sucesso! Obrigada pelo feedback ✨");
+            onClose();
+            
+            // Limpar formulário
+            setForm({ name: "", comment: "", publish: false });
+            setRating(0);
+        } catch (error) {
+            console.error("Erro ao enviar avaliação:", error);
+            alert("Erro ao enviar avaliação. Tente novamente.");
+        } finally {
+            setEnviando(false);
+        }
     };
 
     return (
@@ -116,8 +139,9 @@ export default function ReviewModal({
                                 setForm({
                                     ...form,
                                     publish: e.target.checked
-                                })
-                            }
+                                })}
+                            className={styles.checkboxSelect}
+                            
                         />
                         Autorizo publicar meu depoimento
                     </label>
@@ -125,8 +149,9 @@ export default function ReviewModal({
                     <button
                         className={styles.submit}
                         type="submit"
+                        disabled={enviando}
                     >
-                        Enviar avaliação
+                        {enviando ? "Enviando..." : "Enviar avaliação"}
                     </button>
 
                 </form>

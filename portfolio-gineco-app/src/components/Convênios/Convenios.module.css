@@ -228,8 +228,12 @@
     }
 }
 
-@media(min-width: 768px) and (max-width: 1023px) {
+@media(min-width: 768px) and (max-width: 1025px) {
     .icon {
-        display: none;
+        display: none !important;
+    }
+
+    .card{
+        padding: 0;
     }
 }

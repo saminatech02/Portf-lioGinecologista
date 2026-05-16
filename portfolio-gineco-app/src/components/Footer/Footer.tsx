@@ -9,8 +9,8 @@ const Footer: React.FC = () => {
 
         {/* IDENTIDADE */}
         <div className={styles.block}>
-          <p className={styles.title}>Dr. Denny Chalegre</p>
-          <p>Ginecologia e Obstetrícia</p>
+          <h4 className={styles.title}>Dr. Denny Chalegre</h4>
+          <p>Ginecologia, Obstetrícia e Uroginecologia</p>
         </div>
 
         {/* REGISTROS */}
@@ -23,6 +23,14 @@ const Footer: React.FC = () => {
         <div className={styles.block}>
           <p> (81) 99812-4105</p>
           <p>drdennychalegre@gmail.com</p>
+          <a
+            href="https://instagram.com/drdennychalegre"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.socialLink}
+          >
+            @drdennychalegre
+          </a>
         </div>
 
         {/* ENDEREÇO */}

@@ -26,8 +26,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 22px;
-  max-width: 1180px;
-  margin: auto;
+  max-width: 100%;
 }
 
 
@@ -137,6 +136,50 @@ TEXTO
 
 
 /* =========================
+CARROSSEL CONTROLES
+========================= */
+
+.carouselControls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.carouselControls button {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: #C8A46A;
+  color: white;
+
+  font-size: 18px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: .25s;
+}
+
+.carouselControls button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 18px rgba(200, 164, 106, .35);
+}
+
+.carouselControls span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+}
+
+
+/* =========================
 MODAL
 ========================= */
 
@@ -188,16 +231,23 @@ MODAL
   }
 }
 
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .close {
   position: absolute;
   top: 18px;
   right: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   width: 42px;
   height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 
   border: none;
   border-radius: 50%;
@@ -222,16 +272,54 @@ MODAL
 }
 
 
-@media (min-width: 320px) and (max-width: 767px) {
+/* =========================
+MOBILE (CARROSSEL REAL)
+========================= */
+
+@media (max-width: 767px) {
+
   .testimonials {
-    padding: 60px 40px;
+    padding: 60px 16px;
     background: #FDF4F1;
   }
 
   .testimonials h2 {
-    font-size: 34px;
+    font-size: 26px;
   }
+
+  /* 🔥 vira carrossel horizontal */
+  .grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 16px;
+
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+
+    padding-bottom: 10px;
+  }
+
+  /* remove scrollbar feia */
+  .grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .card {
+    min-width: 85%;
+    flex: 0 0 auto;
+
+    scroll-snap-align: center;
+
+    min-height: auto;
+  }
+
+  /* opcional: esconder setas no mobile */
+  .carouselControls {
+    display: flex;
+  }
+
 }
+
 
 /* =========================
 TABLET

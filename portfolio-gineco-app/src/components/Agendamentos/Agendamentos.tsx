@@ -1,205 +1,420 @@
-import Calendar from "react-calendar";
 import { useState } from "react";
+
+import StepPatientType from "./steps/StepPatientType";
+import StepCpf from "./steps/StepCpf";
+import StepRegisterPersonal from "./steps/StepRegisterPersonal";
+import StepRegisterAddress from "./steps/StepRegisterAddress";
+import StepOtp from "./steps/StepOtp";
+import StepType from "./steps/StepType";
+import StepCategory from "./steps/StepCategory";
+import StepSchedule from "./steps/StepSchedule";
+import StepSuccess from "./steps/StepSuccess";
+
 import styles from "./Agendamento.module.css";
 
-type Value = Date | null;
+export type Step =
+  | "patientType"
+  | "cpf"
+  | "register"
+  | "otp"
+  | "category"
+  | "date"
+  | "schedule"
+  | "success";
 
-export default function Agendamentos() {
-  const [date, setDate] = useState<Value>(new Date());
-  const [horario, setHorario] = useState<string | null>(null);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+export default function Agendamento() {
 
-  // FORM STATE
+  const [step, setStep] =
+    useState<Step>("patientType");
+
+  const [registerStep, setRegisterStep] =
+    useState(1);
+
   const [form, setForm] = useState({
-    nome: "",
-    nascimento: "",
-    telefone: "",
-    email: "",
+
     cpf: "",
-    cpfResponsavel: "",
-    pagamento: "",
-    convenio: "",
-    observacao: "",
-    consentimento: false,
+    code: "",
+
+    name: "",
+    born: "",
+    gender: "",
+
+    contact_cellphone: "",
+    email: "",
+
+    cpf_responsible: "",
+
+    insurance_number: "",
+    insurance_id: "",
+
+    address_cep: "",
+    address_address: "",
+    address_number: "",
+    address_district: "",
+    address_city: "",
+    address_state: "",
+    address_country: "Brasil",
+
+    categoria: "",
+
+    data: "",
+    horario: ""
   });
 
-  const formasPagamento = [
-    "Pix",
-    "Cartão de crédito",
-    "Cartão de débito",
-    "Dinheiro",
-    "Convênio"
-  ];
-
-  const horarios: string[] = [];
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!date || !horario || !form.nome || !form.telefone) {
-      alert("Preencha os dados obrigatórios");
-      return;
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value, type } = e.target;
+  const updateField = (
+    field: string,
+    value: string
+  ) => {
 
     setForm((prev) => ({
       ...prev,
-      [name]:
-        type === "checkbox"
-          ? (e.target as HTMLInputElement).checked
-          : value,
+      [field]: value
     }));
   };
 
-  function hasHorariosDisponiveis(horarios: string[]): boolean {
-    return horarios.length > 0;
-  }
+  // =========================
+  // FLUXO CPF
+  // =========================
+
+  const handleCpfCheck = (
+    pacienteExiste: boolean
+  ) => {
+
+    if (pacienteExiste) {
+
+      setStep("otp");
+
+    } else {
+
+      setStep("register");
+    }
+  };
+
+  // =========================
+  // VOLTAR
+  // =========================
+
+  const handleBack = () => {
+
+    if (step === "cpf") {
+
+      setStep("patientType");
+    }
+
+    else if (
+      step === "register" &&
+      registerStep === 2
+    ) {
+
+      setRegisterStep(1);
+    }
+
+    else if (
+      step === "register" &&
+      registerStep === 1
+    ) {
+
+      setStep("patientType");
+    }
+
+    else if (step === "otp") {
+
+      if (form.name) {
+
+        setStep("register");
+
+      } else {
+
+        setStep("cpf");
+      }
+    }
+
+    else if (step === "category") {
+
+      setStep("otp");
+    }
+
+    else if (step === "date") {
+
+      setStep("category");
+    }
+
+    else if (step === "schedule") {
+
+      setStep("date");
+    }
+
+    else if (step === "success") {
+
+      setStep("schedule");
+    }
+  };
 
   return (
-    <section className={styles.agendamento}>
-      <div className={styles.agendTitle}>
-        <h2>Agende sua consulta</h2>
-        <p>Escolha a melhor data e horário</p>
+
+    <section className={styles.wrapper}>
+
+      {/* =========================
+          PROGRESS BAR
+      ========================= */}
+
+      <div className={styles.progress}>
+        <div
+          className={`
+            ${styles.bar}
+            ${styles[step]}
+          `}
+        />
       </div>
 
-      <div className={styles.container}>
+      {/* =========================
+          HEADER
+      ========================= */}
 
-        {/* CALENDÁRIO + HORÁRIOS */}
-        <div className={styles.agendamentoCard}>
+      <div className={styles.header}>
 
-          <Calendar
-            value={date}
-            onChange={(value) => setDate(value as Date)}
-            minDate={today}
-            tileClassName={({ date }) => {
-              const d = new Date(date);
-              d.setHours(0, 0, 0, 0);
-
-              return d < today ? "past-day" : "";
-            }}
-          />
-          {hasHorariosDisponiveis(horarios) ? (
-            <div className={styles.horarios}>
-              {horarios.map((h) => (
-                <button
-                  key={h}
-                  type="button"
-                  onClick={() => setHorario(h)}
-                  className={
-                    horario === h
-                      ? `${styles.horarioBtn} ${styles.horarioSelecionado}`
-                      : styles.horarioBtn
-                  }
-                >
-                  {h}
-                </button>
-              ))}
-            </div>) : (
-            <p className={styles.semHorarios}>Sem horários disponíveis para esta data</p>
-          )}
-
-        </div>
-
-        {/* FORMULÁRIO */}
-        <form className={styles.form} onSubmit={handleSubmit}>
-
-          <h3> Preencha as informações abaixo: </h3>
-
-          <input
-            name="nome"
-            placeholder="Nome completo"
-            value={form.nome}
-            onChange={handleChange}
-          />
-
-          <input
-            name="nascimento"
-            placeholder="Data de nascimento (dd/mm/aaaa)"
-            value={form.nascimento || ""}
-            onChange={handleChange}
-          />
-
-          <input
-            name="cpf"
-            placeholder="CPF"
-            value={form.cpf || ""}
-            onChange={handleChange}
-          />
-
-          <input
-            name="cpfResponsavel"
-            placeholder="CPF do responsável (se aplicável)"
-            value={form.cpfResponsavel || ""}
-            onChange={handleChange}
-          />
-
-          <input
-            name="telefone"
-            placeholder="Celular / WhatsApp"
-            value={form.telefone}
-            onChange={handleChange}
-          />
-
-          <input
-            name="email"
-            placeholder="E-mail"
-            value={form.email}
-            onChange={handleChange}
-          />
-
-          {/* PAGAMENTO */}
-
-          <select
-            name="pagamento"
-            value={form.pagamento}
-            onChange={handleChange}
-          >
-            <option value="">
-              Forma de pagamento
-            </option>
-
-            {formasPagamento.map((forma) => (
-              <option
-                key={forma}
-                value={forma.toLowerCase()}
-              >
-                {forma}
-              </option>
-            ))}
-          </select>
-
-          <textarea
-            name="observacao"
-            placeholder="Motivo da consulta / observações"
-            value={form.observacao}
-            onChange={handleChange}
-          />
-
-          <label className={styles.check}>
-            <input
-              type="checkbox"
-              name="consentimento"
-              checked={form.consentimento}
-              onChange={handleChange}
-              className={styles.checkBOX}
-            />
-            Autorizo contato para confirmação do agendamento
-          </label>
+        {step !== "patientType" && (
 
           <button
-            type="submit"
-            className={styles.confirmar}
+            className={styles.backButton}
+            onClick={handleBack}
           >
-            Confirmar agendamento
+            ←
           </button>
+        )}
 
-        </form>
+        <h1>
+          Agendar consulta
+        </h1>
 
       </div>
+
+      {/* =========================
+          CARD
+      ========================= */}
+
+      <div className={styles.card}>
+
+        {/* =========================
+            PACIENTE
+        ========================= */}
+
+        {step === "patientType" && (
+
+          <StepPatientType
+
+            onExistingPatient={() =>
+              setStep("cpf")
+            }
+
+            onNewPatient={() =>
+              setStep("register")
+            }
+          />
+        )}
+
+        {/* =========================
+            CPF
+        ========================= */}
+
+        {step === "cpf" && (
+
+          <StepCpf
+
+            form={form}
+
+            updateField={updateField}
+
+            onNext={(
+              pacienteExiste: boolean
+            ) =>
+              handleCpfCheck(
+                pacienteExiste
+              )
+            }
+          />
+        )}
+
+        {/* =========================
+            CADASTRO - DADOS
+        ========================= */}
+
+        {step === "register" &&
+          registerStep === 1 && (
+
+            <StepRegisterPersonal
+
+              form={form}
+
+              updateField={updateField}
+
+              onNext={() =>
+                setRegisterStep(2)
+              }
+            />
+          )}
+
+        {/* =========================
+            CADASTRO - ENDEREÇO
+        ========================= */}
+
+        {step === "register" &&
+          registerStep === 2 && (
+
+            <StepRegisterAddress
+
+              form={form}
+
+              updateField={updateField}
+
+              onBack={() =>
+                setRegisterStep(1)
+              }
+
+              onSubmit={() =>
+                setStep("otp")
+              }
+            />
+          )}
+
+        {/* =========================
+            OTP
+        ========================= */}
+
+        {step === "otp" && (
+
+          <StepOtp
+
+            form={form}
+
+            updateField={updateField}
+
+            onNext={() =>
+              setStep("category")
+            }
+          />
+        )}
+
+        {/* =========================
+            TIPO CONSULTA
+        ========================= */}
+
+        {step === "category" && (
+
+          <StepType
+
+            onSelect={(tipo: string) => {
+
+              updateField(
+                "categoria",
+                tipo
+              );
+
+              setStep("date");
+            }}
+          />
+        )}
+
+        {/* =========================
+            DATA
+        ========================= */}
+
+        {step === "date" && (
+
+          <StepCategory
+
+            selectedDate={form.data}
+
+            onSelect={(data: string) => {
+
+              updateField(
+                "data",
+                data
+              );
+
+              setStep("schedule");
+            }}
+          />
+        )}
+
+        {/* =========================
+            HORÁRIO
+        ========================= */}
+
+        {step === "schedule" && (
+
+          <StepSchedule
+
+            selectedDate={form.data}
+
+            onSelect={(horario: string) => {
+
+              updateField(
+                "horario",
+                horario
+              );
+
+              setStep("success");
+            }}
+          />
+        )}
+
+        {/* =========================
+            SUCESSO
+        ========================= */}
+
+        {step === "success" && (
+
+          <StepSuccess
+
+            horario={form.horario}
+
+            data={form.data}
+
+            categoria={form.categoria}
+
+            onFinish={() => {
+
+              setStep("patientType");
+
+              setRegisterStep(1);
+
+              setForm({
+
+                cpf: "",
+                code: "",
+
+                name: "",
+                born: "",
+                gender: "",
+
+                contact_cellphone: "",
+                email: "",
+
+                cpf_responsible: "",
+
+                insurance_number: "",
+                insurance_id: "",
+
+                address_cep: "",
+                address_address: "",
+                address_number: "",
+                address_district: "",
+                address_city: "",
+                address_state: "",
+                address_country: "Brasil",
+
+                categoria: "",
+
+                data: "",
+                horario: ""
+              });
+            }}
+          />
+        )}
+
+      </div>
+
     </section>
   );
 }

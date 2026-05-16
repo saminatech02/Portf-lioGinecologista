@@ -1,6 +1,7 @@
 .footer {
   background: #7a1f2b;
-  color: white;
+  color: white !important;
+  font-family: Arial, Helvetica, sans-serif;
 
   padding: 50px 20px;
 
@@ -21,13 +22,6 @@
 
 .block {
   font-size: 14px !important;
-  line-height: 1.6;
-}
-
-.title {
-  font-weight: 600;
-  font-size: 16px !important;
-  margin-bottom: 6px;
 }
 
 .copy {
@@ -36,7 +30,26 @@
 }
 
 .footer p{
-  font-size: 13px !important;
+  font-size: 17px !important;
+  color: white !important;
+}
+
+.socialLink {
+  display: inline-block;
+  margin-top: 8px;
+  color: white !important;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.socialLink:hover {
+  text-decoration: none;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 19px !important;
+  margin-bottom: 6px;
 }
 
 /* RESPONSIVO */
