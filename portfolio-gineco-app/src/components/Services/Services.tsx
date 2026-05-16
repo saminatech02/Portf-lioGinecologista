@@ -18,9 +18,6 @@ const C3 = getImage("Cirurgia 2.jpeg");
 const C2 = getImage("Cirurgia 3.jpeg");
 const C1 = getImage("Cirurgia.jpeg");
 
-const heroImg = getImage("Hero.png");
-const logoImg = getImage("Logo.png");
-
 const CL1 = getImage("Climatério.jpeg");
 const CL2 = getImage("Climatério 2.jpeg");
 const CL3 = getImage("Climatério 3.jpeg");
