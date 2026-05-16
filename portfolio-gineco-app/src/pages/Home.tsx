@@ -9,7 +9,7 @@ import Footer from "../components/Footer/Footer";
 import Agendamentos from "../components/Agendamentos/Agendamentos";
 import Convenios from "../components/Convênios/Convenios";
 import styles from "./Home.module.css";
-import FAQ from "../components/FQA/FQA";
+import FQA from "../components/FQA/FQA";
 
 const Home: React.FC = () => {
   return (
@@ -29,7 +29,7 @@ const Home: React.FC = () => {
       </section>
 
       <section id="duvidas">
-        <FAQ/>
+        <FQA/>
       </section>
 
       <section id="testimonials">
