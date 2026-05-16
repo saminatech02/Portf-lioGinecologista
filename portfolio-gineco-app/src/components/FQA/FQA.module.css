@@ -1,6 +1,7 @@
 .faq {
   background: #fff6f7;
   padding: 50px 20px;
+  width: 100%;
 }
 
 .titulo {
@@ -21,9 +22,6 @@
 .list {
   max-width: 1100px;
   margin: 0 auto;
-
-  display: grid;
-  grid-template-columns: 1fr;
   gap: 14px;
 }
 
