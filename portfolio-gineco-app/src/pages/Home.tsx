@@ -9,6 +9,7 @@ import Footer from "../components/Footer/Footer";
 import Agendamentos from "../components/Agendamentos/Agendamentos";
 import Convenios from "../components/Convênios/Convenios";
 import styles from "./Home.module.css";
+import FAQ from "../components/FQA/FQA";
 
 const Home: React.FC = () => {
   return (
@@ -25,6 +26,10 @@ const Home: React.FC = () => {
 
       <section id="servicos">
         <Services />
+      </section>
+
+      <section id="duvidas">
+        <FAQ/>
       </section>
 
       <section id="testimonials">
