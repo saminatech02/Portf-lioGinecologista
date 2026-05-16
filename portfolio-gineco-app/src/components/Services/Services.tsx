@@ -42,6 +42,14 @@ const NF = getImage("nf.jpeg")
 const NF2 = getImage("NF2.jpeg")
 const NF3 = getImage("NF3.jpeg")
 
+const PT = getImage("PT.jpg")
+const PT2 = getImage("pt2.jpg")
+const PT3 = getImage("PT3.jpeg")
+
+const U = getImage("U.jpeg")
+const U2 = getImage("U2.jpeg")
+const U3 = getImage("U3.jpeg")
+
 const servicesData = [
   {
     images: [CG3, CG2, CG1],
@@ -64,7 +72,7 @@ const servicesData = [
     description: "Acompanhamento especializado para essa fase de transição, promovendo equilíbrio hormonal, controle dos sintomas, avaliação da terapia de reposição hormonal, promovendo melhora da qualidade de vida e bem-estar."
   },
   {
-    images: [heroImg, logoImg],
+    images: [U, U2, U3],
     title: "Uroginecologia",
     description: "Diagnóstico e tratamento de disfunções do assoalho pélvico, como incontinência urinária, bexiga caída/sensação de bola na vagina (prolapso genital), infecções urinárias de repetição e dor pélvica, com abordagem moderna e individualizada."
   },
@@ -79,7 +87,7 @@ const servicesData = [
     description: "Procedimentos cirúrgicos íntimos, como ninfoplastia (redução e/ou correção de assimetria dos pequenos lábios) e outras cirurgias íntimas femininas, indicadas para desconforto funcional ou estético, sempre com avaliação criteriosa, técnica precisa e foco na naturalidade, segurança e bem-estar da paciente."
   },
   {
-    images: [heroImg, logoImg],
+    images: [PT, PT2, PT3],
     title: "Pré-natal e Parto",
     description: "Acompanhamento completo da gestação, com consultas detalhadas, solicitação e interpretação de exames e orientação contínua, garantindo segurança e cuidado próximo em todas as fases. Assistência ao parto com abordagem humanizada, respeitando suas escolhas e priorizando a segurança materno-fetal, com presença e suporte do planejamento ao nascimento."
   }
