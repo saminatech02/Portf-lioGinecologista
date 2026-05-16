@@ -3,6 +3,7 @@ import cors from "cors";
 import axios from "axios";
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
+import serverless from "serverless-http";
 
 dotenv.config();
 
