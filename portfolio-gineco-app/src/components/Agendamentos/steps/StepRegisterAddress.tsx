@@ -77,7 +77,7 @@ export default function StepRegisterAddress({
 
                     const response =
                         await fetch(
-                            "http://localhost:3000/insurances/plans/19768?user_id=160011"
+                            "/api/insurances/plans/19768?user_id=160011"
                         );
 
                     const result =
@@ -274,7 +274,7 @@ export default function StepRegisterAddress({
 
                 const otpResponse =
                     await fetch(
-                        "http://localhost:3000/auth/send-otp",
+                        "/api/auth/send-otp",
                         {
                             method: "POST",
 

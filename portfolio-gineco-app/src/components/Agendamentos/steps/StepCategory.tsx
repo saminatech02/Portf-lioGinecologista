@@ -72,7 +72,7 @@ export default function StepCategory({
 
                     const response =
                         await fetch(
-                            `http://localhost:3000/calendar?event_id=${form.event_id}&place_id=13649`
+                            `/api/calendar?event_id=${form.event_id}&place_id=13649`
                         );
 
                     const result =

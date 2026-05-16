@@ -141,7 +141,7 @@ export default function StepSchedule({
 
                 const response =
                     await fetch(
-                        "http://localhost:3000/appointments",
+                        "/api/appointments",
                         {
                             method: "POST",
 

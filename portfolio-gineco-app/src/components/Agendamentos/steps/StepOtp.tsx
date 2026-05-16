@@ -63,7 +63,7 @@ export default function StepOtp({
 
             const otpResponse =
                 await fetch(
-                    "http://localhost:3000/auth/validate-otp",
+                    "/api/auth/validate-otp",
                     {
                         method: "POST",
 
@@ -209,7 +209,7 @@ export default function StepOtp({
 
             const patientResponse =
                 await fetch(
-                    "http://localhost:3000/patients",
+                    "/api/patients",
                     {
                         method: "POST",
 

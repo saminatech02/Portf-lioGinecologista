@@ -62,7 +62,7 @@ export default function StepType({
 
                 const response =
                     await fetch(
-                        "http://localhost:3000/events?place_id=13649"
+                        "/api/events?place_id=13649"
                     );
 
                 const result =
