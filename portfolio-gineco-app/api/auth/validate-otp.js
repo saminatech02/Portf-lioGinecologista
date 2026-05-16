@@ -9,8 +9,10 @@ export default function handler(req, res) {
       });
     }
 
-    const { email, otp } =
-      req.body;
+    const {
+      email,
+      otp
+    } = req.body;
 
     if (!email || !otp) {
       return res.status(400).json({
@@ -53,10 +55,7 @@ export default function handler(req, res) {
     });
 
   } catch (error) {
-    console.error(
-      "Erro validar OTP:",
-      error
-    );
+    console.error("Erro validar OTP:", error);
 
     return res.status(500).json({
       status: "error",
