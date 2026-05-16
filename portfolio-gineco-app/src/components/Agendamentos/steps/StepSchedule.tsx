@@ -165,12 +165,23 @@ export default function StepSchedule({
                         result.message ||
                         "Erro ao criar agendamento"
                     );
+                } else {
+                    await fetch("/api/notifications/appointment-confirmation", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            email: form.email,
+                            patientName: form.name,
+                            eventName: form.event?.preview_name || form.event?.name,
+                            date: form.data,
+                            hour: form.horario,
+                            doctorName: "Dr. Denny Chalegre",
+                            placeName: "Consultório"
+                        })
+                    });
                 }
-
-                console.log(
-                    "AGENDAMENTO:",
-                    result
-                );
 
                 onSuccess();
 
