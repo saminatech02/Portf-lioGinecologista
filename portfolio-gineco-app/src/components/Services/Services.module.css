@@ -190,15 +190,45 @@
   border-radius: 12px;
   margin-bottom: 15px;
   background: #f5f5f5;
+
+  padding: 0 38px;
+  box-sizing: border-box;
+}
+
+.carouselTrack {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+
+  border-radius: 12px;
+}
+
+.carouselTrack::-webkit-scrollbar {
+  display: none;
+}
+
+.carouselTrack {
+  scrollbar-width: none;
 }
 
 .carousel img {
+  min-width: 100%;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-position: top;
+  object-fit: cover;
+  scroll-snap-align: center;
 }
 
-.prevBtn, .nextBtn {
+.prevBtn,
+.nextBtn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -219,11 +249,11 @@
 }
 
 .prevBtn {
-  left: 8px;
+  left: -4px;
 }
 
 .nextBtn {
-  right: 8px;
+  right: -4px;
 }
 
 
@@ -276,7 +306,14 @@
   }
 
   .carousel {
-    height: 140px;
+    height: 180px;
+    overflow-x: auto;
+    padding: 0 28px;
+    scroll-behavior: smooth;
+  }
+
+  .carousel::-webkit-scrollbar {
+    display: none;
   }
 
   .card h3 {
@@ -287,7 +324,8 @@
     font-size: 13px;
   }
 
-  .prevBtn, .nextBtn {
+  .prevBtn,
+  .nextBtn {
     width: 24px;
     height: 24px;
     font-size: 12px;

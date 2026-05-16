@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./Services.module.css";
 
 const assetImages = import.meta.glob("../../assets/*.{jpg,jpeg,png,webp}", {
@@ -23,110 +23,180 @@ const CL2 = getImage("Climatério 2.jpeg");
 const CL3 = getImage("Climatério 3.jpeg");
 
 const CG1 = getImage("CG.jpg");
-const CG2 = getImage("CG2.jpg")
-const CG3 = getImage("CG3.jpg")
+const CG2 = getImage("CG2.jpg");
+const CG3 = getImage("CG3.jpg");
 
-const EX1 = getImage("EX.jpeg")
-const EX2 = getImage("EX2.jpeg")
-const EX3 = getImage("EX3.jpeg")
+const EX1 = getImage("EX.jpeg");
+const EX2 = getImage("EX2.jpeg");
+const EX3 = getImage("EX3.jpeg");
 
-const PL = getImage("PL.jpeg")
-const PL2 = getImage("pl2.jpeg")
-const PL3 = getImage("PL3.jpeg")
-const PL4 = getImage("PL4.jpeg")
+const PL = getImage("PL.jpeg");
+const PL2 = getImage("pl2.jpeg");
+const PL3 = getImage("PL3.jpeg");
+const PL4 = getImage("PL4.jpeg");
 
-const NF = getImage("nf.jpeg")
-const NF2 = getImage("NF2.jpeg")
-const NF3 = getImage("NF3.jpeg")
+const NF = getImage("nf.jpeg");
+const NF2 = getImage("NF2.jpeg");
+const NF3 = getImage("NF3.jpeg");
 
-const PT = getImage("PT.jpg")
-const PT2 = getImage("pt2.jpeg")
-const PT3 = getImage("PT3.jpeg")
+const PT = getImage("PT.jpg");
+const PT2 = getImage("pt2.jpeg");
+const PT3 = getImage("PT3.jpeg");
 
-const U = getImage("U.jpeg")
-const U2 = getImage("u2.jpeg")
-const U3 = getImage("U3.jpeg")
+const U = getImage("U.jpeg");
+const U2 = getImage("u2.jpeg");
+const U3 = getImage("U3.jpeg");
 
 const servicesData = [
   {
     images: [CG3, CG2, CG1],
     title: "Consulta Ginecológica",
-    description: "Avaliação completa da sua saúde geral e íntima, com escuta atenta, acolhimento e um plano de cuidado individualizado em todas as fases da vida da mulher. Investigação e tratamento de sindrome dos ovários policísticos (SOP), endometriose, sangramento uterino anormal, dor pélvica e dor na relação sexual, corrimento vaginal e infecções ginecológicas, alterações menstruais, HPV e câncer de colo do útero."
+    description:
+      "Avaliação completa da sua saúde geral e íntima, com escuta atenta, acolhimento e um plano de cuidado individualizado em todas as fases da vida da mulher. Investigação e tratamento de sindrome dos ovários policísticos (SOP), endometriose, sangramento uterino anormal, dor pélvica e dor na relação sexual, corrimento vaginal e infecções ginecológicas, alterações menstruais, HPV e câncer de colo do útero."
   },
   {
     images: [EX2, EX1, EX3],
     title: "Exames Preventivos (Papanicolau e Check-up Ginecológico)",
-    description: "Prescrição e orientação de exames essenciais para prevenção e diagnóstico precoce, com foco em segurança e tranquilidade. Realização de Papanicolau e exame de DNA HPV."
+    description:
+      "Prescrição e orientação de exames essenciais para prevenção e diagnóstico precoce, com foco em segurança e tranquilidade. Realização de Papanicolau e exame de DNA HPV."
   },
   {
     images: [PL4, PL, PL2, PL3],
     title: "Planejamento Familiar",
-    description: "Aconselhamento personalizado sobre métodos contraceptivos (DIU, anticoncepcional, implante, laqueadura tubária) e planejamento reprodutivo, respeitando seus desejos e seu momento de vida."
+    description:
+      "Aconselhamento personalizado sobre métodos contraceptivos (DIU, anticoncepcional, implante, laqueadura tubária) e planejamento reprodutivo, respeitando seus desejos e seu momento de vida."
   },
   {
     images: [CL1, CL2, CL3],
     title: "Climatério e Menopausa",
-    description: "Acompanhamento especializado para essa fase de transição, promovendo equilíbrio hormonal, controle dos sintomas, avaliação da terapia de reposição hormonal, promovendo melhora da qualidade de vida e bem-estar."
+    description:
+      "Acompanhamento especializado para essa fase de transição, promovendo equilíbrio hormonal, controle dos sintomas, avaliação da terapia de reposição hormonal, promovendo melhora da qualidade de vida e bem-estar."
   },
   {
     images: [U, U2, U3],
     title: "Uroginecologia",
-    description: "Diagnóstico e tratamento de disfunções do assoalho pélvico, como incontinência urinária, bexiga caída/sensação de bola na vagina (prolapso genital), infecções urinárias de repetição e dor pélvica, com abordagem moderna e individualizada."
+    description:
+      "Diagnóstico e tratamento de disfunções do assoalho pélvico, como incontinência urinária, bexiga caída/sensação de bola na vagina (prolapso genital), infecções urinárias de repetição e dor pélvica, com abordagem moderna e individualizada."
   },
   {
     images: [C1, C2, C3],
     title: "Cirurgias Ginecológicas (Tradicionais e minimamente Invasivas)",
-    description: "Realização de cirurgias ginecológicas com técnicas tradicionais e modernas (minimamente invasivas), como histeroscopia, cirurgia por via abdominal e por via vaginal, com foco em segurança, recuperação mais rápida e melhores resultados."
+    description:
+      "Realização de cirurgias ginecológicas com técnicas tradicionais e modernas (minimamente invasivas), como histeroscopia, cirurgia por via abdominal e por via vaginal, com foco em segurança, recuperação mais rápida e melhores resultados."
   },
   {
     images: [NF, NF2, NF3],
     title: "Ninfoplastia e Cirurgias Íntimas Femininas",
-    description: "Procedimentos cirúrgicos íntimos, como ninfoplastia (redução e/ou correção de assimetria dos pequenos lábios) e outras cirurgias íntimas femininas, indicadas para desconforto funcional ou estético, sempre com avaliação criteriosa, técnica precisa e foco na naturalidade, segurança e bem-estar da paciente."
+    description:
+      "Procedimentos cirúrgicos íntimos, como ninfoplastia (redução e/ou correção de assimetria dos pequenos lábios) e outras cirurgias íntimas femininas, indicadas para desconforto funcional ou estético, sempre com avaliação criteriosa, técnica precisa e foco na naturalidade, segurança e bem-estar da paciente."
   },
   {
     images: [PT, PT2, PT3],
     title: "Pré-natal e Parto",
-    description: "Acompanhamento completo da gestação, com consultas detalhadas, solicitação e interpretação de exames e orientação contínua, garantindo segurança e cuidado próximo em todas as fases. Assistência ao parto com abordagem humanizada, respeitando suas escolhas e priorizando a segurança materno-fetal, com presença e suporte do planejamento ao nascimento."
+    description:
+      "Acompanhamento completo da gestação, com consultas detalhadas, solicitação e interpretação de exames e orientação contínua, garantindo segurança e cuidado próximo em todas as fases. Assistência ao parto com abordagem humanizada, respeitando suas escolhas e priorizando a segurança materno-fetal, com presença e suporte do planejamento ao nascimento."
   }
 ];
 
-const ServiceCard: React.FC<{ service: typeof servicesData[0]; onReadMore: () => void }> = ({ service, onReadMore }) => {
+const ServiceCard: React.FC<{
+  service: typeof servicesData[0];
+  onReadMore: () => void;
+}> = ({ service, onReadMore }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const trackRef = useRef<HTMLDivElement | null>(null);
+
+  const validImages = service.images.filter(Boolean);
+
+  const goToImage = (index: number) => {
+    if (validImages.length === 0) return;
+
+    const safeIndex =
+      (index + validImages.length) % validImages.length;
+
+    setCurrentIndex(safeIndex);
+
+    const track = trackRef.current;
+
+    if (track) {
+      track.scrollTo({
+        left: track.clientWidth * safeIndex,
+        behavior: "smooth"
+      });
+    }
+  };
+
   const nextImage = () => {
-    setCurrentIndex((prev) => (prev + 1) % service.images.length);
+    goToImage(currentIndex + 1);
   };
 
   const prevImage = () => {
-    setCurrentIndex((prev) => (prev - 1 + service.images.length) % service.images.length);
+    goToImage(currentIndex - 1);
   };
 
   return (
     <div className={styles.card}>
       <div className={styles.carousel}>
-        <img 
-          src={service.images[currentIndex]} 
-          alt={service.title}
-          className={styles.cardImage}
-        />
-        {service.images.length > 1 && (
+        <div
+          ref={trackRef}
+          className={styles.carouselTrack}
+          onScroll={(e) => {
+            const scrollLeft = e.currentTarget.scrollLeft;
+            const width = e.currentTarget.clientWidth;
+            const index = Math.round(scrollLeft / width);
+
+            setCurrentIndex(index);
+          }}
+        >
+          {validImages.map((image, idx) => (
+            <img
+              key={idx}
+              src={image}
+              alt={service.title}
+              className={styles.cardImage}
+            />
+          ))}
+        </div>
+
+        {validImages.length > 1 && (
           <>
-            <button className={styles.prevBtn} onClick={prevImage}>&#10094;</button>
-            <button className={styles.nextBtn} onClick={nextImage}>&#10095;</button>
+            <button
+              type="button"
+              className={styles.prevBtn}
+              onClick={prevImage}
+            >
+              &#10094;
+            </button>
+
+            <button
+              type="button"
+              className={styles.nextBtn}
+              onClick={nextImage}
+            >
+              &#10095;
+            </button>
+
             <div className={styles.dots}>
-              {service.images.map((_, idx) => (
-                <span 
+              {validImages.map((_, idx) => (
+                <span
                   key={idx}
-                  className={`${styles.dot} ${idx === currentIndex ? styles.activeDot : ''}`}
-                  onClick={() => setCurrentIndex(idx)}
+                  className={`${styles.dot} ${
+                    idx === currentIndex ? styles.activeDot : ""
+                  }`}
+                  onClick={() => goToImage(idx)}
                 />
               ))}
             </div>
           </>
         )}
       </div>
+
       <h3>{service.title}</h3>
-      <p className={styles.cardDescription}>{service.description}</p>
+
+      <p className={styles.cardDescription}>
+        {service.description}
+      </p>
+
       <button className={styles.readMoreBtn} onClick={onReadMore}>
         Ler mais
       </button>
@@ -136,7 +206,9 @@ const ServiceCard: React.FC<{ service: typeof servicesData[0]; onReadMore: () =>
 
 const Services: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState<typeof servicesData[0] | null>(null);
+
+  const [selectedService, setSelectedService] =
+    useState<typeof servicesData[0] | null>(null);
 
   const openModal = (service: typeof servicesData[0]) => {
     setSelectedService(service);
@@ -151,25 +223,36 @@ const Services: React.FC = () => {
   return (
     <section className={styles.services}>
       <div className={styles.titulo}>
-        <h2 className={styles.titulo}>Como posso te ajudar</h2>
+        <h2 className={styles.titulo}>
+          Como posso te ajudar
+        </h2>
       </div>
 
       <div className={styles.grid}>
         {servicesData.map((service, index) => (
-          <ServiceCard 
-            key={index} 
-            service={service} 
+          <ServiceCard
+            key={index}
+            service={service}
             onReadMore={() => openModal(service)}
           />
         ))}
       </div>
 
-      {/* MODAL */}
       {modalOpen && selectedService && (
         <div className={styles.modalOverlay} onClick={closeModal}>
-          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.closeModal} onClick={closeModal}>&times;</button>
+          <div
+            className={styles.modalContent}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className={styles.closeModal}
+              onClick={closeModal}
+            >
+              &times;
+            </button>
+
             <h3>{selectedService.title}</h3>
+
             <p>{selectedService.description}</p>
           </div>
         </div>
