@@ -14,7 +14,7 @@ const getImage = (fileName: string) => {
   return imagePath ? assetImages[imagePath] : "";
 };
 
-const C3 = getImage("Cirurgia 1.jpeg");
+const C3 = getImage("Cirurgia 2.jpeg");
 const C2 = getImage("Cirurgia 3.jpeg");
 const C1 = getImage("Cirurgia.jpeg");
 
@@ -25,13 +25,13 @@ const CL1 = getImage("Climatério.jpeg");
 const CL2 = getImage("Climatério 2.jpeg");
 const CL3 = getImage("Climatério 3.jpeg");
 
-const CG1 = getImage("CG");
-const CG2 = getImage("CG2")
-const CG3 = getImage("CG3")
+const CG1 = getImage("CG.jpg");
+const CG2 = getImage("CG2.jpg")
+const CG3 = getImage("CG3.jpg")
 
-const EX1 = getImage("EX")
-const EX2 = getImage("EX2")
-const EX3 = getImage("EX3")
+const EX1 = getImage("EX.jpeg")
+const EX2 = getImage("EX2.jpeg")
+const EX3 = getImage("EX3.jpeg")
 
 const servicesData = [
   {
