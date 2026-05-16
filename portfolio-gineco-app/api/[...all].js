@@ -820,7 +820,7 @@ app.get("/calendar", async (req, res) => {
 // TESTE
 // =========================
 
-app.get("/test", (req, res) => {
+app.get("/api/test", (req, res) => {
   res.json({
     message:
       "Servidor funcionando!"
