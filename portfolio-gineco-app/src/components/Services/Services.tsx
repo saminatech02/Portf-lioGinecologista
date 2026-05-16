@@ -15,7 +15,7 @@ const getImage = (fileName: string) => {
 };
 
 const C3 = getImage("Cirurgia 1.jpeg");
-const C2 = getImage("Cirurgia 2.jpeg");
+const C2 = getImage("Cirurgia 3.jpeg");
 const C1 = getImage("Cirurgia.jpeg");
 
 const heroImg = getImage("Hero.png");
@@ -25,14 +25,22 @@ const CL1 = getImage("Climatério.jpeg");
 const CL2 = getImage("Climatério 2.jpeg");
 const CL3 = getImage("Climatério 3.jpeg");
 
+const CG1 = getImage("CG");
+const CG2 = getImage("CG2")
+const CG3 = getImage("CG3")
+
+const EX1 = getImage("EX")
+const EX2 = getImage("EX2")
+const EX3 = getImage("EX3")
+
 const servicesData = [
   {
-    images: [heroImg, logoImg],
+    images: [CG1, CG2, CG3],
     title: "Consulta Ginecológica",
     description: "Avaliação completa da sua saúde geral e íntima, com escuta atenta, acolhimento e um plano de cuidado individualizado em todas as fases da vida da mulher. Investigação e tratamento de sindrome dos ovários policísticos (SOP), endometriose, sangramento uterino anormal, dor pélvica e dor na relação sexual, corrimento vaginal e infecções ginecológicas, alterações menstruais, HPV e câncer de colo do útero."
   },
   {
-    images: [heroImg, logoImg],
+    images: [EX2, EX1, EX3],
     title: "Exames Preventivos (Papanicolau e Check-up Ginecológico)",
     description: "Prescrição e orientação de exames essenciais para prevenção e diagnóstico precoce, com foco em segurança e tranquilidade. Realização de Papanicolau e exame de DNA HPV."
   },
