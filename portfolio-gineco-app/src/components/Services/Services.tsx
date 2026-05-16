@@ -40,11 +40,11 @@ const NF2 = getImage("NF2.jpeg")
 const NF3 = getImage("NF3.jpeg")
 
 const PT = getImage("PT.jpg")
-const PT2 = getImage("pt2.jpg")
+const PT2 = getImage("pt2.jpeg")
 const PT3 = getImage("PT3.jpeg")
 
 const U = getImage("U.jpeg")
-const U2 = getImage("U2.jpeg")
+const U2 = getImage("u2.jpeg")
 const U3 = getImage("U3.jpeg")
 
 const servicesData = [
