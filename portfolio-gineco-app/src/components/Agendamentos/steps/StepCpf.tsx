@@ -134,6 +134,11 @@ export default function StepCpf({
     ) => {
 
         updateField(
+            "patient_id",
+            String(patient.id || "")
+        );
+
+        updateField(
             "name",
             patient.name || ""
         );
@@ -153,7 +158,6 @@ export default function StepCpf({
             patient.born || ""
         );
     };
-
     // =========================
     // ENVIAR OTP
     // =========================

@@ -11,92 +11,116 @@ export default function StepRegisterAddress({
     const [errorMessage, setErrorMessage] =
         useState("");
 
-    // 🔥 convênios vindos da API
+    const [loading, setLoading] =
+        useState(false);
+
+    // =========================
+    // CONVÊNIOS
+    // =========================
+
     const [convenios, setConvenios] =
         useState<any[]>([]);
 
     const [loadingConvenios, setLoadingConvenios] =
         useState(false);
 
-    // 🔥 apenas convênios aceitos
+    // =========================
+    // CONVÊNIOS PERMITIDOS
+    // =========================
+
     const conveniosPermitidos = [
-        36769, // ALLIANZ
-        36768, // AMEPE / CAMPE
-        36770, // ASSEFAZ
-        36772, // BANCO CENTRAL
-        36775, // CAMED
-        36778, // CAPESAUDE
-        36803, // CARE PLUS
-        36788, // CODEVASF
-        36782, // COMSAUDE
-        36784, // CONAB
-        36794, // EMBRATEL
-        36797, // FISCO SAUDE
-        36773, // FIO PREV
-        36779, // FIO SAUDE
-        36774, // GAMA SAÚDE
-        42866, // GEAP
-        36781, // FUSEX
-        36780, // HOSPITAL NAVAL
-        36771, // LIFE EMPRESARIAL
-        36802, // MEDISERVICE
-        36776, // OMINT
-        36785, // POSTAL SAUDE
-        36795, // PROASA
-        36793, // PLAN ASSISTE
-        36804, // SERPRO
-        36801, // SAUDE CAIXA
-        36799, // SAUDE PETROBRAS
-        36787, // TRT 6
-        36800 // UNAFISCO
+        36769,
+        36768,
+        36770,
+        36772,
+        36775,
+        36778,
+        36803,
+        36788,
+        36782,
+        36784,
+        36794,
+        36797,
+        36773,
+        36779,
+        36774,
+        42866,
+        36781,
+        36780,
+        36771,
+        36802,
+        36776,
+        36785,
+        36795,
+        36793,
+        36804,
+        36801,
+        36799,
+        36787,
+        36800
     ];
 
-    // 🔥 buscar convênios
+    // =========================
+    // BUSCAR CONVÊNIOS
+    // =========================
+
     useEffect(() => {
 
-        const buscarConvenios = async () => {
+        const buscarConvenios =
+            async () => {
 
-            try {
+                try {
 
-                setLoadingConvenios(true);
+                    setLoadingConvenios(
+                        true
+                    );
 
-                const response = await fetch(
-                    "http://localhost:3000/insurances/plans/19768?user_id=160011"
-                );
+                    const response =
+                        await fetch(
+                            "http://localhost:3000/insurances/plans/19768?user_id=160011"
+                        );
 
-                const result =
-                    await response.json();
+                    const result =
+                        await response.json();
 
-                if (!response.ok) {
-                    throw new Error(
-                        result.message ||
-                        "Erro ao buscar convênios"
+                    if (!response.ok) {
+
+                        throw new Error(
+                            result.message ||
+                            "Erro ao buscar convênios"
+                        );
+                    }
+
+                    setConvenios(
+                        result.data || []
+                    );
+
+                } catch (error: any) {
+
+                    console.error(
+                        error
+                    );
+
+                    setErrorMessage(
+                        "Erro ao carregar convênios."
+                    );
+
+                } finally {
+
+                    setLoadingConvenios(
+                        false
                     );
                 }
-
-                setConvenios(
-                    result.data || []
-                );
-
-            } catch (error: any) {
-
-                console.error(error);
-
-                setErrorMessage(
-                    "Erro ao carregar convênios."
-                );
-
-            } finally {
-
-                setLoadingConvenios(false);
-            }
-        };
+            };
 
         buscarConvenios();
 
     }, []);
 
-    // 🔥 filtra somente convênios aceitos
+    // =========================
+    // FILTRAR CONVÊNIOS
+    // =========================
+
     const conveniosFiltrados =
         useMemo(() => {
 
@@ -109,17 +133,24 @@ export default function StepRegisterAddress({
 
         }, [convenios]);
 
-    // 🔥 verifica idade
+    // =========================
+    // CALCULAR IDADE
+    // =========================
+
     const calcularIdade = (
         dataNascimento: string
     ) => {
 
-        if (!dataNascimento) return 0;
+        if (!dataNascimento)
+            return 0;
 
-        const hoje = new Date();
+        const hoje =
+            new Date();
 
         const nascimento =
-            new Date(dataNascimento);
+            new Date(
+                dataNascimento
+            );
 
         let idade =
             hoje.getFullYear() -
@@ -144,9 +175,14 @@ export default function StepRegisterAddress({
     };
 
     const menorDeIdade =
-        calcularIdade(form.born) < 18;
+        calcularIdade(
+            form.born
+        ) < 18;
 
-    // 🔥 máscara CPF
+    // =========================
+    // MÁSCARA CPF
+    // =========================
+
     const formatCPF = (
         value: string
     ) => {
@@ -168,135 +204,135 @@ export default function StepRegisterAddress({
             .slice(0, 14);
     };
 
-    const handleSubmit = async () => {
+    // =========================
+    // ENVIAR OTP
+    // =========================
 
-        setErrorMessage("");
+    const handleSubmit =
+        async () => {
 
-        // 🔥 validações
-        if (!form.insurance_id) {
-            setErrorMessage(
-                "Selecione um convênio."
-            );
-            return;
-        }
+            setErrorMessage("");
 
-        if (
-            form.insurance_id !== "no-insurance" &&
-            !form.insurance_number?.trim()
-        ) {
-            setErrorMessage(
-                "Informe o número do convênio."
-            );
-            return;
-        }
+            // =========================
+            // VALIDAÇÕES
+            // =========================
 
-        if (!form.cpf?.trim()) {
-            setErrorMessage(
-                "Informe o CPF do paciente."
-            );
-            return;
-        }
+            if (
+                !form.insurance_id
+            ) {
 
-
-
-        if (
-            menorDeIdade &&
-            !form.cpf_responsible?.trim()
-        ) {
-            setErrorMessage(
-                "Menores de idade precisam informar um CPF responsável."
-            );
-            return;
-        }
-
-        const payload = {
-
-            name: form.name,
-            born: form.born,
-            contact_cellphone:
-                form.contact_cellphone.replace(/\D/g, ""),
-            email: form.email,
-
-            cpf: form.cpf?.replace(
-                /\D/g,
-                ""
-            ),
-
-            cpf_responsible:
-                menorDeIdade
-                    ? form.cpf_responsible?.replace(
-                        /\D/g,
-                        ""
-                    )
-                    : form.cpf?.replace(
-                        /\D/g,
-                        ""
-                    ),
-
-            insurance_number:
-                form.insurance_id === "no-insurance"
-                    ? ""
-                    : form.insurance_number,
-
-            insurance_id:
-                form.insurance_id === "no-insurance"
-                    ? null
-                    : Number(form.insurance_id)
-        };
-
-        console.log(
-            "Payload final:",
-            payload
-        );
-
-        try {
-
-            const response =
-                await fetch(
-                    "http://localhost:3000/patients",
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body: JSON.stringify(
-                            payload
-                        )
-                    }
+                setErrorMessage(
+                    "Selecione um convênio."
                 );
 
-            const result =
-                await response.json();
-
-            if (!response.ok) {
-                throw new Error(
-                    result.message ||
-                    "Erro ao cadastrar"
-                );
+                return;
             }
 
-            console.log(
-                "Paciente cadastrado:",
-                result
-            );
+            if (
+                form.insurance_id !==
+                "no-insurance" &&
+                !form.insurance_number?.trim()
+            ) {
 
-            onSubmit();
+                setErrorMessage(
+                    "Informe o número do convênio."
+                );
 
-        } catch (error: any) {
+                return;
+            }
 
-            console.error(error);
+            if (
+                !form.cpf?.trim()
+            ) {
 
-            setErrorMessage(
-                error.message ||
-                "Erro ao cadastrar paciente"
-            );
-        }
-    };
+                setErrorMessage(
+                    "Informe o CPF do paciente."
+                );
+
+                return;
+            }
+
+            if (
+                menorDeIdade &&
+                !form.cpf_responsible?.trim()
+            ) {
+
+                setErrorMessage(
+                    "Menores de idade precisam informar um CPF responsável."
+                );
+
+                return;
+            }
+
+            try {
+
+                setLoading(true);
+
+                // =========================
+                // ENVIA OTP
+                // =========================
+
+                const otpResponse =
+                    await fetch(
+                        "http://localhost:3000/auth/send-otp",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                email:
+                                    form.email
+                            })
+                        }
+                    );
+
+                const otpResult =
+                    await otpResponse.json();
+
+                if (
+                    !otpResponse.ok
+                ) {
+
+                    throw new Error(
+                        otpResult.message ||
+                        "Erro ao enviar OTP"
+                    );
+                }
+
+                console.log(
+                    "OTP enviado:",
+                    otpResult
+                );
+
+                // =========================
+                // AVANÇA ETAPA
+                // =========================
+
+                onSubmit();
+
+            } catch (error: any) {
+
+                console.error(
+                    error
+                );
+
+                setErrorMessage(
+                    error.message ||
+                    "Erro ao enviar código"
+                );
+
+            } finally {
+
+                setLoading(false);
+            }
+        };
 
     return (
+
         <div className={styles.card}>
 
             <h2>
@@ -305,25 +341,29 @@ export default function StepRegisterAddress({
 
             <div className={styles.formGrid}>
 
-                {/* 🔥 Convênio */}
+                {/* CONVÊNIO */}
                 <select
-                    value={form.insurance_id}
+                    value={
+                        form.insurance_id
+                    }
                     onChange={(e) => {
 
-                        const value = e.target.value;
+                        const value =
+                            e.target.value;
 
                         updateField(
                             "insurance_id",
                             value
                         );
 
-                        // 🔥 limpa número do convênio
-                        // caso não possua convênio
-                        if (value === "no-insurance") {
+                        if (
+                            value ===
+                            "no-insurance"
+                        ) {
 
                             updateField(
                                 "insurance_number",
-                                ""
+                                "42470"
                             );
                         }
                     }}
@@ -338,13 +378,13 @@ export default function StepRegisterAddress({
                             : "Selecione o convênio"}
                     </option>
 
-                    {/* 🔥 opção sem convênio */}
                     <option value="no-insurance">
-                        Não possuo convênio
+                        Particular
                     </option>
 
                     {conveniosFiltrados.map(
                         (convenio) => (
+
                             <option
                                 key={
                                     convenio.id
@@ -362,29 +402,33 @@ export default function StepRegisterAddress({
 
                 </select>
 
-                {/* 🔥 Número convênio */}
-                {form.insurance_id !== "no-insurance" && (
-                    <input
-                        placeholder="Número do convênio"
-                        value={
-                            form.insurance_number
-                        }
-                        onChange={(e) =>
-                            updateField(
-                                "insurance_number",
-                                e.target.value
-                            )
-                        }
-                        className={
-                            styles.formInput
-                        }
-                    />
-                )}
+                {/* NÚMERO CONVÊNIO */}
+                {form.insurance_id !==
+                    "no-insurance" && (
 
-                {/* 🔥 CPF responsável */}
+                        <input
+                            placeholder="Número do convênio"
+                            value={
+                                form.insurance_number
+                            }
+                            onChange={(e) =>
+                                updateField(
+                                    "insurance_number",
+                                    e.target.value
+                                )
+                            }
+                            className={
+                                styles.formInput
+                            }
+                        />
+                    )}
+
+                {/* CPF PACIENTE */}
                 <input
                     placeholder="CPF do paciente"
-                    value={form.cpf || ""}
+                    value={
+                        form.cpf || ""
+                    }
                     onChange={(e) =>
                         updateField(
                             "cpf",
@@ -398,8 +442,9 @@ export default function StepRegisterAddress({
                     }
                 />
 
-                {/* 🔥 CPF responsável */}
+                {/* CPF RESPONSÁVEL */}
                 {menorDeIdade && (
+
                     <input
                         placeholder="CPF do responsável"
                         value={
@@ -423,6 +468,7 @@ export default function StepRegisterAddress({
             </div>
 
             {errorMessage && (
+
                 <div
                     className={
                         styles.disclaimer
@@ -436,18 +482,24 @@ export default function StepRegisterAddress({
 
                 <button
                     onClick={onBack}
+                    disabled={loading}
                 >
                     Voltar
                 </button>
 
                 <button
-                    onClick={handleSubmit}
+                    onClick={
+                        handleSubmit
+                    }
+                    disabled={loading}
                 >
-                    Cadastrar
+                    {loading
+                        ? "Enviando..."
+                        : "Continuar"}
                 </button>
 
             </div>
 
         </div>
-    )
+    );
 }

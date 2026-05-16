@@ -1,34 +1,343 @@
+import { useState } from "react";
 import styles from "../Agendamento.module.css";
 
-const slots = [
-    "09:00",
-    "10:30",
-    "14:00",
-    "16:30"
-];
+type Props = {
+    form: any;
+    onSuccess: () => void;
+};
 
 export default function StepSchedule({
-    onSelect
-}: any) {
+    form,
+    onSuccess
+}: Props) {
+
+    const [loading, setLoading] =
+        useState(false);
+
+    const [error, setError] =
+        useState("");
+
+    // =========================
+    // FORMATAR DATA
+    // =========================
+
+    const formatDate = (
+        date: string
+    ) => {
+
+        if (!date) {
+            return "";
+        }
+
+        const [year, month, day] =
+            date.split("-");
+
+        const localDate =
+            new Date(
+                Number(year),
+                Number(month) - 1,
+                Number(day)
+            );
+
+        return localDate.toLocaleDateString(
+            "pt-BR",
+            {
+                weekday: "long",
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
+            }
+        );
+    };
+
+    // =========================
+    // CONFIRMAR AGENDAMENTO
+    // =========================
+
+    const handleConfirm =
+        async () => {
+
+            try {
+
+                setLoading(true);
+
+                setError("");
+
+                // =========================
+                // START DATE
+                // =========================
+
+                const startDate =
+                    `${form.data} ${form.horario}`;
+
+                // =========================
+                // END DATE (+30 MIN)
+                // =========================
+
+                const start =
+                    new Date(
+                        `${form.data}T${form.horario}:00`
+                    );
+
+                const end =
+                    new Date(start);
+
+                end.setMinutes(
+                    end.getMinutes() + 30
+                );
+
+                const endHours =
+                    String(
+                        end.getHours()
+                    ).padStart(2, "0");
+
+                const endMinutes =
+                    String(
+                        end.getMinutes()
+                    ).padStart(2, "0");
+
+                const endDate =
+                    `${form.data} ${endHours}:${endMinutes}`;
+
+                // =========================
+                // PAYLOAD
+                // =========================
+
+                const payload = {
+
+                    insurance_id:
+                        form.insurance_id
+                            ? Number(
+                                form.insurance_id
+                            )
+                            : null,
+
+                    event_id:
+                        Number(form.event_id),
+
+                    user_id:
+                        Number(form.user_id),
+
+                    start_date:
+                        startDate,
+
+                    end_date:
+                        endDate,
+
+                    place_id: 13649,
+
+                    patient_id:
+                        form.patient_id
+                            ? Number(
+                                form.patient_id
+                            )
+                            : null
+                };
+
+                console.log(
+                    "PAYLOAD:",
+                    payload
+                );
+
+                const response =
+                    await fetch(
+                        "http://localhost:3000/appointments",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify(
+                                payload
+                            )
+                        }
+                    );
+
+                const result =
+                    await response.json();
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        result.message ||
+                        "Erro ao criar agendamento"
+                    );
+                }
+
+                console.log(
+                    "AGENDAMENTO:",
+                    result
+                );
+
+                onSuccess();
+
+            } catch (error: any) {
+
+                console.error(error);
+
+                setError(
+                    error.message ||
+                    "Erro ao finalizar agendamento"
+                );
+
+            } finally {
+
+                setLoading(false);
+            }
+        };
 
     return (
+
         <div className={styles.card}>
 
-            <h2>Escolha horário</h2>
+            <span className={styles.badge}>
+                Passo 6 de 7
+            </span>
 
-            <div className={styles.slots}>
-                {slots.map(slot => (
-                    <button
-                        key={slot}
-                        onClick={() =>
-                            onSelect(slot)
-                        }
+            <h2 className={styles.title}>
+                Confirmar agendamento
+            </h2>
+
+            <p className={styles.subtitle}>
+                Confira as informações antes de finalizar
+            </p>
+
+            {/* RESUMO */}
+
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 16,
+                    marginTop: 25
+                }}
+            >
+
+                {/* CONSULTA */}
+
+                <div
+                    style={{
+                        padding: 16,
+                        border:
+                            "1px solid #e5e7eb",
+                        borderRadius: 14
+                    }}
+                >
+
+                    <p
+                        style={{
+                            margin: 0,
+                            fontSize: 13,
+                            opacity: 0.7
+                        }}
                     >
-                        {slot}
-                    </button>
-                ))}
+                        Tipo de consulta
+                    </p>
+
+                    <strong>
+                        {form.event?.preview_name ||
+                            form.event?.name ||
+                            "-"}
+                    </strong>
+
+                </div>
+
+                {/* DATA */}
+
+                <div
+                    style={{
+                        padding: 16,
+                        border:
+                            "1px solid #e5e7eb",
+                        borderRadius: 14
+                    }}
+                >
+
+                    <p
+                        style={{
+                            margin: 0,
+                            fontSize: 13,
+                            opacity: 0.7
+                        }}
+                    >
+                        Data
+                    </p>
+
+                    <strong>
+                        {formatDate(
+                            form.data
+                        )}
+                    </strong>
+
+                </div>
+
+                {/* HORÁRIO */}
+
+                <div
+                    style={{
+                        padding: 16,
+                        border:
+                            "1px solid #e5e7eb",
+                        borderRadius: 14
+                    }}
+                >
+
+                    <p
+                        style={{
+                            margin: 0,
+                            fontSize: 13,
+                            opacity: 0.7
+                        }}
+                    >
+                        Horário
+                    </p>
+
+                    <strong>
+                        {form.horario}
+                    </strong>
+
+                </div>
+
             </div>
 
+            {/* ERROR */}
+
+            {error && (
+
+                <div
+                    className={
+                        styles.disclaimer
+                    }
+                    style={{
+                        marginTop: 20
+                    }}
+                >
+                    {error}
+                </div>
+            )}
+
+            {/* BOTÃO */}
+
+            <button
+                className={
+                    styles.continueButton
+                }
+                style={{
+                    marginTop: 30
+                }}
+                onClick={
+                    handleConfirm
+                }
+                disabled={loading}
+            >
+                {loading
+                    ? "Confirmando..."
+                    : "Confirmar agendamento"}
+            </button>
+
         </div>
-    )
+    );
 }

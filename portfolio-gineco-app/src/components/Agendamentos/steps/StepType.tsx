@@ -68,11 +68,6 @@ export default function StepType({
                 const result =
                     await response.json();
 
-                console.log(
-                    "EVENTOS:",
-                    result
-                );
-
                 if (!response.ok) {
 
                     throw new Error(
@@ -80,10 +75,6 @@ export default function StepType({
                         "Erro ao buscar eventos"
                     );
                 }
-
-                // =========================
-                // FILTRO DOS IDS
-                // =========================
 
                 const filteredEvents =
                     (result.data || []).filter(
@@ -109,10 +100,6 @@ export default function StepType({
                 setLoading(false);
             }
         };
-
-    // =========================
-    // INIT
-    // =========================
 
     useEffect(() => {
         fetchEvents();
@@ -147,9 +134,14 @@ export default function StepType({
 
     const handleContinue = () => {
 
-        if (selectedEvent) {
-            onSelect(selectedEvent);
-        }
+        if (!selectedEvent) return;
+
+        onSelect({
+            id: selectedEvent.id,
+            name: selectedEvent.name,
+            preview_name:
+                selectedEvent.preview_name
+        });
     };
 
     return (

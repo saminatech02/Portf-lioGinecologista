@@ -22,6 +22,87 @@ export type Step =
   | "schedule"
   | "success";
 
+type FormType = {
+
+  cpf: string;
+  code: string;
+
+  name: string;
+  born: string;
+  gender: string;
+
+  contact_cellphone: string;
+  email: string;
+
+  cpf_responsible: string;
+
+  insurance_number: string;
+  insurance_id: string;
+
+  address_cep: string;
+  address_address: string;
+  address_number: string;
+  address_district: string;
+  address_city: string;
+  address_state: string;
+  address_country: string;
+
+  categoria: string;
+
+  data: string;
+  horario: string;
+
+  user_id: string;
+  timegrid_id: string;
+  slot_id: string;
+
+  patient_id?: string;
+
+  event_id: number | null;
+
+  event: any;
+};
+
+const initialForm: FormType = {
+
+  cpf: "",
+  code: "",
+
+  name: "",
+  born: "",
+  gender: "",
+
+  contact_cellphone: "",
+  email: "",
+
+  cpf_responsible: "",
+
+  insurance_number: "",
+  insurance_id: "",
+
+  address_cep: "",
+  address_address: "",
+  address_number: "",
+  address_district: "",
+  address_city: "",
+  address_state: "",
+  address_country: "Brasil",
+
+  categoria: "",
+
+  data: "",
+  horario: "",
+
+  user_id: "",
+  timegrid_id: "",
+  slot_id: "",
+
+  patient_id: "",
+
+  event_id: null,
+  event: null
+};
+
 export default function Agendamento() {
 
   const [step, setStep] =
@@ -30,45 +111,38 @@ export default function Agendamento() {
   const [registerStep, setRegisterStep] =
     useState(1);
 
-  const [form, setForm] = useState({
+  const [patientExists, setPatientExists] =
+    useState(false);
 
-    cpf: "",
-    code: "",
+  const [form, setForm] =
+    useState<FormType>(initialForm);
 
-    name: "",
-    born: "",
-    gender: "",
-
-    contact_cellphone: "",
-    email: "",
-
-    cpf_responsible: "",
-
-    insurance_number: "",
-    insurance_id: "",
-
-    address_cep: "",
-    address_address: "",
-    address_number: "",
-    address_district: "",
-    address_city: "",
-    address_state: "",
-    address_country: "Brasil",
-
-    categoria: "",
-
-    data: "",
-    horario: ""
-  });
+  // =========================
+  // UPDATE FIELD
+  // =========================
 
   const updateField = (
-    field: string,
-    value: string
+    field: keyof FormType,
+    value: any
   ) => {
 
     setForm((prev) => ({
       ...prev,
       [field]: value
+    }));
+  };
+
+  // =========================
+  // UPDATE MULTIPLE
+  // =========================
+
+  const updateForm = (
+    values: Partial<FormType>
+  ) => {
+
+    setForm((prev) => ({
+      ...prev,
+      ...values
     }));
   };
 
@@ -79,6 +153,10 @@ export default function Agendamento() {
   const handleCpfCheck = (
     pacienteExiste: boolean
   ) => {
+
+    setPatientExists(
+      pacienteExiste
+    );
 
     if (pacienteExiste) {
 
@@ -91,62 +169,75 @@ export default function Agendamento() {
   };
 
   // =========================
+  // RESET FORM
+  // =========================
+
+  const resetFlow = () => {
+
+    setStep("patientType");
+
+    setRegisterStep(1);
+
+    setPatientExists(false);
+
+    setForm(initialForm);
+  };
+
+  // =========================
   // VOLTAR
   // =========================
 
   const handleBack = () => {
 
-    if (step === "cpf") {
+    switch (step) {
 
-      setStep("patientType");
-    }
+      case "cpf":
+        resetFlow()
+        break;
 
-    else if (
-      step === "register" &&
-      registerStep === 2
-    ) {
+      case "register":
 
-      setRegisterStep(1);
-    }
+        if (registerStep === 2) {
 
-    else if (
-      step === "register" &&
-      registerStep === 1
-    ) {
+          setRegisterStep(1);
 
-      setStep("patientType");
-    }
+        } else {
 
-    else if (step === "otp") {
+          resetFlow();
+        }
 
-      if (form.name) {
+        break;
 
-        setStep("register");
+      case "otp":
 
-      } else {
+        if (patientExists) {
 
-        setStep("cpf");
-      }
-    }
+          setStep("cpf");
 
-    else if (step === "category") {
+        } else {
 
-      setStep("otp");
-    }
+          setStep("register");
 
-    else if (step === "date") {
+          setRegisterStep(2);
+        }
 
-      setStep("category");
-    }
+        break;
 
-    else if (step === "schedule") {
+      case "category":
+        setStep("otp");
+        break;
 
-      setStep("date");
-    }
+      case "date":
+        setStep("category");
+        break;
 
-    else if (step === "success") {
+      case "schedule":
+        setStep("date");
+        break;
 
-      setStep("schedule");
+      case "success":
+        setStep("patientType");
+        break;
     }
   };
 
@@ -225,13 +316,7 @@ export default function Agendamento() {
 
             updateField={updateField}
 
-            onNext={(
-              pacienteExiste: boolean
-            ) =>
-              handleCpfCheck(
-                pacienteExiste
-              )
-            }
+            onNext={handleCpfCheck}
           />
         )}
 
@@ -287,7 +372,13 @@ export default function Agendamento() {
 
             form={form}
 
-            updateField={updateField}
+            patientBool={
+              patientExists
+            }
+
+            updateField={
+              updateField
+            }
 
             onNext={() =>
               setStep("category")
@@ -303,12 +394,15 @@ export default function Agendamento() {
 
           <StepType
 
-            onSelect={(tipo: string) => {
+            onSelect={(event) => {
 
-              updateField(
-                "categoria",
-                tipo
-              );
+              updateForm({
+
+                event_id:
+                  event.id,
+
+                event
+              });
 
               setStep("date");
             }}
@@ -316,21 +410,38 @@ export default function Agendamento() {
         )}
 
         {/* =========================
-            DATA
+            DATA/HORÁRIO
         ========================= */}
 
         {step === "date" && (
 
           <StepCategory
 
-            selectedDate={form.data}
+            form={form}
 
-            onSelect={(data: string) => {
+            onSelect={(slot: any) => {
 
-              updateField(
-                "data",
-                data
-              );
+              updateForm({
+
+                data:
+                  slot.date,
+
+                horario:
+                  slot.start,
+
+                user_id:
+                  String(
+                    slot.user_id
+                  ),
+
+                timegrid_id:
+                  String(
+                    slot.timegrid_id
+                  ),
+
+                slot_id:
+                  slot.slot_id
+              });
 
               setStep("schedule");
             }}
@@ -338,24 +449,18 @@ export default function Agendamento() {
         )}
 
         {/* =========================
-            HORÁRIO
+            CONFIRMAÇÃO
         ========================= */}
 
         {step === "schedule" && (
 
           <StepSchedule
 
-            selectedDate={form.data}
+            form={form}
 
-            onSelect={(horario: string) => {
-
-              updateField(
-                "horario",
-                horario
-              );
-
-              setStep("success");
-            }}
+            onSuccess={() =>
+              setStep("success")
+            }
           />
         )}
 
@@ -371,45 +476,14 @@ export default function Agendamento() {
 
             data={form.data}
 
-            categoria={form.categoria}
+            categoria={
+              form.event?.preview_name ||
+              form.event?.name
+            }
 
-            onFinish={() => {
-
-              setStep("patientType");
-
-              setRegisterStep(1);
-
-              setForm({
-
-                cpf: "",
-                code: "",
-
-                name: "",
-                born: "",
-                gender: "",
-
-                contact_cellphone: "",
-                email: "",
-
-                cpf_responsible: "",
-
-                insurance_number: "",
-                insurance_id: "",
-
-                address_cep: "",
-                address_address: "",
-                address_number: "",
-                address_district: "",
-                address_city: "",
-                address_state: "",
-                address_country: "Brasil",
-
-                categoria: "",
-
-                data: "",
-                horario: ""
-              });
-            }}
+            onFinish={
+              resetFlow
+            }
           />
         )}
 

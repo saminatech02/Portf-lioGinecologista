@@ -1,121 +1,195 @@
-import { useState } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-
+import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "../Agendamento.module.css";
 
-type Props = {
-    onSelect: (date: Date) => void;
+type SlotType = {
+    start: string;
+    end: string;
+    timegrid_id: number;
+    user_id: number;
+    event_id: number;
+    place_id: number;
+    id: string;
+};
+
+type DoctorSlotsType = {
+    user: {
+        id: number;
+        name: string;
+        label: string;
+        specialty: string;
+    };
+
+    event: {
+        name: string;
+    };
+
+    slots: SlotType[];
+};
+
+type CalendarDayType = {
+    date: string;
+    status: string;
+    slotsByUser: DoctorSlotsType[];
 };
 
 export default function StepCategory({
+    form,
     onSelect
-}: Props) {
+}: any) {
 
-    const [date, setDate] =
-        useState<Date | null>(
-            new Date()
-        );
+    const [calendar, setCalendar] =
+        useState<CalendarDayType[]>([]);
 
-const fetchCalendar =
-  async () => {
+    const [loading, setLoading] =
+        useState(false);
 
-    try {
+    const [error, setError] =
+        useState("");
 
-      const response =
-        await fetch(
-          `http://localhost:3000/calendar?event_id=${selectedEvent.id}&place_id=13649`
-        );
+    const allowedUserId = 160011;
 
-      const result =
-        await response.json();
-
-      console.log(
-        "CALENDAR:",
-        result
-      );
-
-    } catch (error) {
-
-      console.error(error);
-    }
-  };
-  
-    const availableDates = [
-        "2026-05-14",
-        "2026-05-20",
-        "2026-05-22",
-        "2026-06-03",
-        "2026-06-10",
-        "2026-06-17",
-        "2026-07-05"
-    ];
+    const carouselRef =
+        useRef<HTMLDivElement>(null);
 
     // =========================
-    // FORMATAR DATA
+    // FETCH
+    // =========================
+
+    useEffect(() => {
+
+        const fetchCalendar =
+            async () => {
+
+                try {
+
+                    if (!form.event_id) {
+                        return;
+                    }
+
+                    setLoading(true);
+
+                    setError("");
+
+                    const response =
+                        await fetch(
+                            `http://localhost:3000/calendar?event_id=${form.event_id}&place_id=13649`
+                        );
+
+                    const result =
+                        await response.json();
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            result.message ||
+                            "Erro ao buscar horários"
+                        );
+                    }
+
+                    const calendarData =
+                        Array.isArray(result.data)
+                            ? result.data
+                            : [];
+
+                    setCalendar(
+                        calendarData
+                    );
+
+                } catch (error: any) {
+
+                    console.error(error);
+
+                    setError(
+                        error.message ||
+                        "Erro ao carregar horários"
+                    );
+
+                } finally {
+
+                    setLoading(false);
+                }
+            };
+
+        fetchCalendar();
+
+    }, [form.event_id]);
+
+    // =========================
+    // FILTRO
+    // =========================
+
+    const filteredCalendar =
+        useMemo(() => {
+
+            return calendar
+                .map((day) => ({
+
+                    ...day,
+
+                    slotsByUser:
+                        day.slotsByUser?.filter(
+                            (doctorSlots) =>
+                                doctorSlots.user?.id ===
+                                allowedUserId
+                        ) || []
+
+                }))
+                .filter(
+                    (day) =>
+                        day.slotsByUser.length > 0
+                );
+
+        }, [calendar]);
+
+    // =========================
+    // FORMAT DATE
     // =========================
 
     const formatDate = (
-        date: Date
+        date: string
     ) => {
 
-        return date
-            .toISOString()
-            .split("T")[0];
-    };
+        const [year, month, day] =
+            date.split("-");
 
-    // =========================
-    // VERIFICAR DISPONIBILIDADE
-    // =========================
+        const localDate =
+            new Date(
+                Number(year),
+                Number(month) - 1,
+                Number(day)
+            );
 
-    const isDateAvailable = (
-        date: Date
-    ) => {
-
-        const formatted =
-            formatDate(date);
-
-        return availableDates.includes(
-            formatted
+        return localDate.toLocaleDateString(
+            "pt-BR",
+            {
+                weekday: "long",
+                day: "2-digit",
+                month: "2-digit"
+            }
         );
     };
 
     // =========================
-    // DATA MÁXIMA
+    // CARROSSEL
     // =========================
 
-    const maxDate =
-        new Date();
-
-    maxDate.setMonth(
-        maxDate.getMonth() + 2
-    );
-
-    // =========================
-    // SELECIONAR DATA
-    // =========================
-
-    const handleSelectDate = (
-        value: any
+    const scrollCarousel = (
+        direction: "left" | "right"
     ) => {
 
-        const selectedDate =
-            value as Date;
+        if (!carouselRef.current)
+            return;
 
-        if (
-            isDateAvailable(
-                selectedDate
-            )
-        ) {
+        const scrollAmount = 340;
 
-            setDate(
-                selectedDate
-            );
+        carouselRef.current.scrollBy({
+            left:
+                direction === "left"
+                    ? -scrollAmount
+                    : scrollAmount,
 
-            onSelect(
-                selectedDate
-            );
-        }
+            behavior: "smooth"
+        });
     };
 
     return (
@@ -123,64 +197,331 @@ const fetchCalendar =
         <div className={styles.card}>
 
             <h2 className={styles.title}>
-                Selecione uma data
+                Escolha um horário
             </h2>
 
-            <Calendar
-                onChange={
-                    handleSelectDate
-                }
+            {loading && (
+                <p>
+                    Carregando horários...
+                </p>
+            )}
 
-                value={date}
+            {error && (
+                <div className={styles.disclaimer}>
+                    {error}
+                </div>
+            )}
 
-                minDate={
-                    new Date()
-                }
+            {!loading &&
+                !error &&
+                filteredCalendar.length === 0 && (
+                    <p>
+                        Nenhum horário encontrado.
+                    </p>
+                )}
 
-                maxDate={
-                    maxDate
-                }
+            {!loading &&
+                filteredCalendar.length > 0 && (
 
-                prev2Label={null}
+                    <div
+                        style={{
+                            position: "relative"
+                        }}
+                    >
 
-                next2Label={null}
+                        {/* SETA ESQUERDA */}
+                        <button
+                            onClick={() =>
+                                scrollCarousel(
+                                    "left"
+                                )
+                            }
+                            style={{
+                                position:
+                                    "absolute",
 
-                // BLOQUEIA DATAS
-                tileDisabled={({
-                    date,
-                    view
-                }) => {
+                                left: -10,
 
-                    if (
-                        view !== "month"
-                    ) {
-                        return false;
-                    }
+                                top: "50%",
 
-                    return !isDateAvailable(
-                        date
-                    );
-                }}
+                                transform:
+                                    "translateY(-50%)",
 
-                // ESTILIZA DATAS DISPONÍVEIS
-                tileClassName={({
-                    date,
-                    view
-                }) => {
+                                zIndex: 10,
 
-                    if (
-                        view === "month" &&
-                        isDateAvailable(
-                            date
-                        )
-                    ) {
+                                width: 40,
+                                height: 40,
 
-                        return styles.availableDate;
-                    }
+                                borderRadius:
+                                    "50%",
 
-                    return "";
-                }}
-            />
+                                border:
+                                    "1px solid #ddd",
+
+                                background:
+                                    "#fff",
+
+                                cursor: "pointer",
+
+                                boxShadow:
+                                    "0 2px 10px rgba(0,0,0,0.08)"
+                            }}
+                        >
+                            ←
+                        </button>
+
+                        {/* SETA DIREITA */}
+                        <button
+                            onClick={() =>
+                                scrollCarousel(
+                                    "right"
+                                )
+                            }
+                            style={{
+                                position:
+                                    "absolute",
+
+                                right: -10,
+
+                                top: "50%",
+
+                                transform:
+                                    "translateY(-50%)",
+
+                                zIndex: 10,
+
+                                width: 40,
+                                height: 40,
+
+                                borderRadius:
+                                    "50%",
+
+                                border:
+                                    "1px solid #ddd",
+
+                                background:
+                                    "#fff",
+
+                                cursor: "pointer",
+
+                                boxShadow:
+                                    "0 2px 10px rgba(0,0,0,0.08)"
+                            }}
+                        >
+                            →
+                        </button>
+
+                        {/* CARROSSEL */}
+                        <div
+                            ref={carouselRef}
+                            style={{
+                                display: "flex",
+                                gap: 16,
+
+                                overflowX:
+                                    "hidden",
+
+                                scrollBehavior:
+                                    "smooth",
+
+                                padding:
+                                    "4px 6px"
+                            }}
+                        >
+
+                            {filteredCalendar.map(
+                                (
+                                    day,
+                                    index
+                                ) => {
+
+                                    const doctor =
+                                        day
+                                            .slotsByUser?.[0];
+
+                                    return (
+
+                                        <div
+                                            key={
+                                                index
+                                            }
+                                            style={{
+                                                minWidth:
+                                                    320,
+
+                                                maxWidth:
+                                                    320,
+
+                                                flexShrink:
+                                                    0,
+
+                                                border:
+                                                    "1px solid #e5e7eb",
+
+                                                borderRadius:
+                                                    18,
+
+                                                padding:
+                                                    18,
+
+                                                background:
+                                                    "#fff"
+                                            }}
+                                        >
+
+                                            {/* HEADER */}
+                                            <div
+                                                style={{
+                                                    marginBottom:
+                                                        16
+                                                }}
+                                            >
+
+                                                <h3
+                                                    style={{
+                                                        margin: 0,
+
+                                                        textTransform:
+                                                            "capitalize",
+
+                                                        fontSize:
+                                                            17
+                                                    }}
+                                                >
+                                                    {formatDate(
+                                                        day.date
+                                                    )}
+                                                </h3>
+
+                                                {doctor && (
+
+                                                    <div
+                                                        style={{
+                                                            marginTop:
+                                                                6
+                                                        }}
+                                                    >
+
+                                                        <p
+                                                            style={{
+                                                                margin:
+                                                                    0,
+
+                                                                fontWeight:
+                                                                    600,
+
+                                                                fontSize:
+                                                                    14
+                                                            }}
+                                                        >
+                                                            {
+                                                                doctor
+                                                                    .user
+                                                                    .name
+                                                            }
+                                                        </p>
+
+                                                        <p
+                                                            style={{
+                                                                margin:
+                                                                    "2px 0 0",
+
+                                                                opacity:
+                                                                    0.7,
+
+                                                                fontSize:
+                                                                    13
+                                                            }}
+                                                        >
+                                                            {
+                                                                doctor
+                                                                    .user
+                                                                    .specialty
+                                                            }
+                                                        </p>
+
+                                                    </div>
+                                                )}
+
+                                            </div>
+
+                                            {/* HORÁRIOS */}
+                                            <div
+                                                style={{
+                                                    display:
+                                                        "grid",
+
+                                                    gridTemplateColumns:
+                                                        "repeat(2, 1fr)",
+
+                                                    gap: 10
+                                                }}
+                                            >
+
+                                                {doctor?.slots?.map(
+                                                    (
+                                                        slot
+                                                    ) => (
+
+                                                        <button
+                                                            key={
+                                                                slot.id
+                                                            }
+                                                            className={
+                                                                styles.continueButton
+                                                            }
+                                                            style={{
+                                                                padding:
+                                                                    "12px",
+
+                                                                minHeight:
+                                                                    46,
+
+                                                                fontSize:
+                                                                    14
+                                                            }}
+                                                            onClick={() =>
+                                                                onSelect?.(
+                                                                    {
+                                                                        date:
+                                                                            day.date,
+
+                                                                        start:
+                                                                            slot.start,
+
+                                                                        end:
+                                                                            slot.end,
+
+                                                                        slot_id:
+                                                                            slot.id,
+
+                                                                        user_id:
+                                                                            slot.user_id,
+
+                                                                        timegrid_id:
+                                                                            slot.timegrid_id
+                                                                    }
+                                                                )
+                                                            }
+                                                        >
+                                                            {
+                                                                slot.start
+                                                            }
+                                                        </button>
+                                                    )
+                                                )}
+
+                                            </div>
+
+                                        </div>
+                                    );
+                                }
+                            )}
+
+                        </div>
+
+                    </div>
+                )}
 
         </div>
     );

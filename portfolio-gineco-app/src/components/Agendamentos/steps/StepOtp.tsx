@@ -4,7 +4,8 @@ import styles from "../Agendamento.module.css";
 export default function StepOtp({
     form,
     updateField,
-    onNext
+    onNext,
+    patientBool
 }: any) {
 
     const [loading, setLoading] =
@@ -17,97 +18,264 @@ export default function StepOtp({
     // VALIDAR OTP
     // =========================
 
-const handleValidateOtp = async (
-    e?: React.MouseEvent<HTMLButtonElement>
-) => {
+    const handleValidateOtp = async (
+        e?: React.MouseEvent<HTMLButtonElement>
+    ) => {
 
-    e?.preventDefault();
+        e?.preventDefault();
 
-    setErrorMessage("");
+        setErrorMessage("");
 
-    if (!form.code?.trim()) {
+        // =========================
+        // VALIDAÇÕES
+        // =========================
 
-        setErrorMessage(
-            "Informe o código de validação."
-        );
+        if (!form.code?.trim()) {
 
-        return;
-    }
-
-    if (form.code.length < 6) {
-
-        setErrorMessage(
-            "O código deve possuir 6 dígitos."
-        );
-
-        return;
-    }
-
-    if (!form.email) {
-
-        setErrorMessage(
-            "E-mail não encontrado."
-        );
-
-        return;
-    }
-
-    try {
-
-        setLoading(true);
-
-        console.log(
-            "ENVIANDO REQUEST"
-        );
-
-        const response =
-            await fetch(
-                "http://localhost:3000/auth/validate-otp",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        email: form.email,
-                        otp: form.code
-                    })
-                }
+            setErrorMessage(
+                "Informe o código de validação."
             );
 
-        console.log(
-            "REQUEST ENVIADA"
-        );
-
-        const result =
-            await response.json();
-
-        if (!response.ok) {
-
-            throw new Error(
-                result.message
-            );
+            return;
         }
 
-        onNext();
+        if (form.code.length < 6) {
 
-    } catch (error: any) {
+            setErrorMessage(
+                "O código deve possuir 6 dígitos."
+            );
 
-        console.error(error);
+            return;
+        }
 
-        setErrorMessage(
-            error.message ||
-            "Erro ao validar código"
-        );
+        if (!form.email) {
 
-    } finally {
+            setErrorMessage(
+                "E-mail não encontrado."
+            );
 
-        setLoading(false);
-    }
-};
+            return;
+        }
+
+        try {
+
+            setLoading(true);
+
+            const otpResponse =
+                await fetch(
+                    "http://localhost:3000/auth/validate-otp",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            email: form.email,
+                            otp: form.code
+                        })
+                    }
+                );
+
+            const otpResult =
+                await otpResponse.json();
+
+            if (!otpResponse.ok) {
+
+                throw new Error(
+                    otpResult.message
+                );
+            }
+
+
+            if (patientBool) {
+
+                console.log(
+                    "PACIENTE JÁ EXISTE:",
+                    form.patient_id
+                );
+
+                onNext();
+
+                return;
+            }
+
+            // =========================
+            // CALCULAR IDADE
+            // =========================
+
+            const calcularIdade = (
+                dataNascimento: string
+            ) => {
+
+                if (!dataNascimento)
+                    return 0;
+
+                const hoje =
+                    new Date();
+
+                const nascimento =
+                    new Date(
+                        dataNascimento
+                    );
+
+                let idade =
+                    hoje.getFullYear() -
+                    nascimento.getFullYear();
+
+                const mes =
+                    hoje.getMonth() -
+                    nascimento.getMonth();
+
+                if (
+                    mes < 0 ||
+                    (
+                        mes === 0 &&
+                        hoje.getDate() <
+                        nascimento.getDate()
+                    )
+                ) {
+                    idade--;
+                }
+
+                return idade;
+            };
+
+            const menorDeIdade =
+                calcularIdade(
+                    form.born
+                ) < 18;
+
+            // =========================
+            // PAYLOAD PACIENTE
+            // =========================
+
+            const payload = {
+
+                name: form.name,
+
+                born: form.born,
+
+                contact_cellphone:
+                    form.contact_cellphone?.replace(
+                        /\D/g,
+                        ""
+                    ),
+
+                email: form.email,
+
+                cpf:
+                    form.cpf?.replace(
+                        /\D/g,
+                        ""
+                    ),
+
+                cpf_responsible:
+                    menorDeIdade
+                        ? form.cpf_responsible?.replace(
+                            /\D/g,
+                            ""
+                        )
+                        : form.cpf?.replace(
+                            /\D/g,
+                            ""
+                        ),
+
+                insurance_number:
+                    form.insurance_id ===
+                        "no-insurance"
+                        ? ""
+                        : form.insurance_number,
+
+                insurance_id:
+                    form.insurance_id ===
+                        "no-insurance"
+                        ? null
+                        : Number(
+                            form.insurance_id
+                        )
+            };
+
+            console.log(
+                "CRIANDO PACIENTE:",
+                payload
+            );
+
+            // =========================
+            // CRIAR PACIENTE
+            // =========================
+
+            const patientResponse =
+                await fetch(
+                    "http://localhost:3000/patients",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify(
+                            payload
+                        )
+                    }
+                );
+
+            const patientResult =
+                await patientResponse.json();
+
+            if (!patientResponse.ok) {
+
+                throw new Error(
+                    patientResult.message ||
+                    "Erro ao cadastrar paciente"
+                );
+            }
+
+            console.log(
+                "PACIENTE CRIADO:",
+                patientResult
+            );
+
+            // =========================
+            // SALVAR PATIENT_ID
+            // =========================
+
+            const patientId =
+                patientResult?.data?.id ||
+                patientResult?.data?.data?.id;
+
+            if (patientId) {
+
+                updateField(
+                    "patient_id",
+                    patientId
+                );
+            }
+
+            // =========================
+            // NEXT STEP
+            // =========================
+
+            onNext();
+
+        } catch (error: any) {
+
+            console.error(error);
+
+            setErrorMessage(
+                error.message ||
+                "Erro ao validar código"
+            );
+
+        } finally {
+
+            setLoading(false);
+        }
+    };
 
     return (
 
@@ -122,7 +290,6 @@ const handleValidateOtp = async (
                 preencha o código de validação
             </h5>
 
-            {/* 🔥 debug email */}
             <p
                 style={{
                     fontSize: 14,

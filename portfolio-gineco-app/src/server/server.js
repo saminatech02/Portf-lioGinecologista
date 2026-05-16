@@ -598,7 +598,7 @@ app.get("/events", async (req, res) => {
       await axios.get(
         `${API_URL}/events?place_id=${place_id}`,
         {
-                   headers: {
+          headers: {
             ...getHeaders(),
             "Content-Type":
               "application/json"
@@ -645,6 +645,7 @@ app.post("/appointments", async (req, res) => {
       event_id,
       user_id,
       start_date,
+      end_date,
       place_id,
       patient_id,
       patient
@@ -667,37 +668,28 @@ app.post("/appointments", async (req, res) => {
 
     // 🔥 payload final
     const payload = {
+      event_id: Number(event_id),
 
-      insurance_id:
-        insurance_id || null,
-
-      event_id:
-        Number(event_id),
-
-      user_id:
-        Number(user_id),
+      user_id: Number(user_id),
 
       start_date,
 
-      place_id:
-        Number(place_id),
+      end_date,
 
-      patient_id:
-        patient_id || null,
+      place_id: Number(place_id),
 
-      patient: patient
-        ? {
-          name: patient.name,
-          born: patient.born,
-          contact_cellphone:
-            String(
-              patient.contact_cellphone
-            ).replace(/\D/g, ""),
-
-          email: patient.email
-        }
-        : undefined
+      patient_id: patient_id
+        ? Number(patient_id)
+        : null
     };
+
+    // 🔥 adiciona insurance_id somente se existir
+    if (insurance_id && insurance_id !== null) {
+      payload.insurance_id =
+        Number(insurance_id);
+    } else {
+      payload.insurance_id = 42470;
+    }
 
     console.log(
       "Payload agendamento:",
@@ -707,7 +699,7 @@ app.post("/appointments", async (req, res) => {
     // 🔥 request API
     const response =
       await axios.post(
-        `${API_URL}/appointments`,
+        `${API_URL}/attendances`,
         payload,
         {
           headers: {
