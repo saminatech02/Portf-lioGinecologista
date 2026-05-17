@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "../Agendamento.module.css";
 
 type SlotType = {
@@ -36,7 +36,6 @@ export default function StepCategory({
     form,
     onSelect
 }: any) {
-
     const [calendar, setCalendar] =
         useState<CalendarDayType[]>([]);
 
@@ -46,118 +45,103 @@ export default function StepCategory({
     const [error, setError] =
         useState("");
 
-    const allowedUserId = 160011;
+    const [currentIndex, setCurrentIndex] =
+        useState(0);
 
-    const carouselRef =
-        useRef<HTMLDivElement>(null);
+    const allowedUserId = 160011;
 
     // =========================
     // FETCH
     // =========================
 
     useEffect(() => {
-
-        const fetchCalendar =
-            async () => {
-
-                try {
-
-                    if (!form.event_id) {
-                        return;
-                    }
-
-                    setLoading(true);
-
-                    setError("");
-
-                    const response =
-                        await fetch(
-                            `/api/calendar?event_id=${form.event_id}&place_id=13649`
-                        );
-
-                    const result =
-                        await response.json();
-
-                    if (!response.ok) {
-
-                        throw new Error(
-                            result.message ||
-                            "Erro ao buscar horários"
-                        );
-                    }
-
-                    const calendarData =
-                        Array.isArray(result.data)
-                            ? result.data
-                            : [];
-
-                    setCalendar(
-                        calendarData
-                    );
-
-                } catch (error: any) {
-
-                    console.error(error);
-
-                    setError(
-                        error.message ||
-                        "Erro ao carregar horários"
-                    );
-
-                } finally {
-
-                    setLoading(false);
+        const fetchCalendar = async () => {
+            try {
+                if (!form.event_id) {
+                    return;
                 }
-            };
+
+                setLoading(true);
+                setError("");
+                setCurrentIndex(0);
+
+                const response = await fetch(
+                    `/api/calendar?event_id=${form.event_id}&place_id=13649`
+                );
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        result.message ||
+                        "Erro ao buscar horários"
+                    );
+                }
+
+                const calendarData =
+                    Array.isArray(result.data)
+                        ? result.data
+                        : [];
+
+                setCalendar(calendarData);
+            } catch (error: any) {
+                console.error(error);
+
+                setError(
+                    error.message ||
+                    "Erro ao carregar horários"
+                );
+            } finally {
+                setLoading(false);
+            }
+        };
 
         fetchCalendar();
-
     }, [form.event_id]);
 
     // =========================
     // FILTRO
     // =========================
 
-    const filteredCalendar =
-        useMemo(() => {
+    const filteredCalendar = useMemo(() => {
+        return calendar
+            .map((day) => ({
+                ...day,
 
-            return calendar
-                .map((day) => ({
+                slotsByUser:
+                    day.slotsByUser?.filter(
+                        (doctorSlots) =>
+                            doctorSlots.user?.id === allowedUserId
+                    ) || []
+            }))
+            .filter(
+                (day) => day.slotsByUser.length > 0
+            );
+    }, [calendar]);
 
-                    ...day,
+    useEffect(() => {
+        setCurrentIndex(0);
+    }, [filteredCalendar.length]);
 
-                    slotsByUser:
-                        day.slotsByUser?.filter(
-                            (doctorSlots) =>
-                                doctorSlots.user?.id ===
-                                allowedUserId
-                        ) || []
+    const currentDay =
+        filteredCalendar[currentIndex];
 
-                }))
-                .filter(
-                    (day) =>
-                        day.slotsByUser.length > 0
-                );
-
-        }, [calendar]);
+    const doctor =
+        currentDay?.slotsByUser?.[0];
 
     // =========================
     // FORMAT DATE
     // =========================
 
-    const formatDate = (
-        date: string
-    ) => {
-
+    const formatDate = (date: string) => {
         const [year, month, day] =
             date.split("-");
 
-        const localDate =
-            new Date(
-                Number(year),
-                Number(month) - 1,
-                Number(day)
-            );
+        const localDate = new Date(
+            Number(year),
+            Number(month) - 1,
+            Number(day)
+        );
 
         return localDate.toLocaleDateString(
             "pt-BR",
@@ -170,32 +154,26 @@ export default function StepCategory({
     };
 
     // =========================
-    // CARROSSEL
+    // NAVEGAÇÃO
     // =========================
 
-    const scrollCarousel = (
-        direction: "left" | "right"
-    ) => {
+    const goToPrevious = () => {
+        setCurrentIndex((prev) =>
+            Math.max(prev - 1, 0)
+        );
+    };
 
-        if (!carouselRef.current)
-            return;
-
-        const scrollAmount = 340;
-
-        carouselRef.current.scrollBy({
-            left:
-                direction === "left"
-                    ? -scrollAmount
-                    : scrollAmount,
-
-            behavior: "smooth"
-        });
+    const goToNext = () => {
+        setCurrentIndex((prev) =>
+            Math.min(
+                prev + 1,
+                filteredCalendar.length - 1
+            )
+        );
     };
 
     return (
-
         <div className={styles.card}>
-
             <h2 className={styles.title}>
                 Escolha um horário
             </h2>
@@ -221,308 +199,190 @@ export default function StepCategory({
                 )}
 
             {!loading &&
-                filteredCalendar.length > 0 && (
-
+                !error &&
+                currentDay && (
                     <div
                         style={{
-                            position: "relative"
+                            position: "relative",
+                            maxWidth: 360,
+                            margin: "0 auto"
                         }}
                     >
+                        {filteredCalendar.length > 1 && (
+                            <>
+                                <button
+                                    type="button"
+                                    onClick={goToPrevious}
+                                    disabled={currentIndex === 0}
+                                    style={{
+                                        position: "absolute",
+                                        left: -18,
+                                        top: "50%",
+                                        transform: "translateY(-50%)",
+                                        zIndex: 10,
+                                        width: 40,
+                                        height: 40,
+                                        borderRadius: "50%",
+                                        border: "1px solid #ddd",
+                                        background: "#fff",
+                                        cursor:
+                                            currentIndex === 0
+                                                ? "not-allowed"
+                                                : "pointer",
+                                        opacity:
+                                            currentIndex === 0
+                                                ? 0.4
+                                                : 1,
+                                        boxShadow:
+                                            "0 2px 10px rgba(0,0,0,0.08)"
+                                    }}
+                                >
+                                    ←
+                                </button>
 
-                        {/* SETA ESQUERDA */}
-                        <button
-                            onClick={() =>
-                                scrollCarousel(
-                                    "left"
-                                )
-                            }
-                            style={{
-                                position:
-                                    "absolute",
+                                <button
+                                    type="button"
+                                    onClick={goToNext}
+                                    disabled={
+                                        currentIndex ===
+                                        filteredCalendar.length - 1
+                                    }
+                                    style={{
+                                        position: "absolute",
+                                        right: -18,
+                                        top: "50%",
+                                        transform: "translateY(-50%)",
+                                        zIndex: 10,
+                                        width: 40,
+                                        height: 40,
+                                        borderRadius: "50%",
+                                        border: "1px solid #ddd",
+                                        background: "#fff",
+                                        cursor:
+                                            currentIndex ===
+                                                filteredCalendar.length - 1
+                                                ? "not-allowed"
+                                                : "pointer",
+                                        opacity:
+                                            currentIndex ===
+                                                filteredCalendar.length - 1
+                                                ? 0.4
+                                                : 1,
+                                        boxShadow:
+                                            "0 2px 10px rgba(0,0,0,0.08)"
+                                    }}
+                                >
+                                    →
+                                </button>
+                            </>
+                        )}
 
-                                left: -10,
-
-                                top: "50%",
-
-                                transform:
-                                    "translateY(-50%)",
-
-                                zIndex: 10,
-
-                                width: 40,
-                                height: 40,
-
-                                borderRadius:
-                                    "50%",
-
-                                border:
-                                    "1px solid #ddd",
-
-                                background:
-                                    "#fff",
-
-                                cursor: "pointer",
-
-                                boxShadow:
-                                    "0 2px 10px rgba(0,0,0,0.08)"
-                            }}
-                        >
-                            ←
-                        </button>
-
-                        {/* SETA DIREITA */}
-                        <button
-                            onClick={() =>
-                                scrollCarousel(
-                                    "right"
-                                )
-                            }
-                            style={{
-                                position:
-                                    "absolute",
-
-                                right: -10,
-
-                                top: "50%",
-
-                                transform:
-                                    "translateY(-50%)",
-
-                                zIndex: 10,
-
-                                width: 40,
-                                height: 40,
-
-                                borderRadius:
-                                    "50%",
-
-                                border:
-                                    "1px solid #ddd",
-
-                                background:
-                                    "#fff",
-
-                                cursor: "pointer",
-
-                                boxShadow:
-                                    "0 2px 10px rgba(0,0,0,0.08)"
-                            }}
-                        >
-                            →
-                        </button>
-
-                        {/* CARROSSEL */}
                         <div
-                            ref={carouselRef}
                             style={{
-                                display: "flex",
-                                gap: 16,
-
-                                overflowX:
-                                    "hidden",
-
-                                scrollBehavior:
-                                    "smooth",
-
-                                padding:
-                                    "4px 6px"
+                                width: "100%",
+                                border: "1px solid #e5e7eb",
+                                borderRadius: 18,
+                                padding: 18,
+                                background: "#fff",
+                                boxShadow:
+                                    "0 4px 18px rgba(0,0,0,0.05)"
                             }}
                         >
+                            <div
+                                style={{
+                                    marginBottom: 16
+                                }}
+                            >
+                                <h3
+                                    style={{
+                                        margin: 0,
+                                        textTransform: "capitalize",
+                                        fontSize: 17
+                                    }}
+                                >
+                                    {formatDate(currentDay.date)}
+                                </h3>
 
-                            {filteredCalendar.map(
-                                (
-                                    day,
-                                    index
-                                ) => {
-
-                                    const doctor =
-                                        day
-                                            .slotsByUser?.[0];
-
-                                    return (
-
-                                        <div
-                                            key={
-                                                index
-                                            }
+                                {doctor && (
+                                    <div
+                                        style={{
+                                            marginTop: 6
+                                        }}
+                                    >
+                                        <p
                                             style={{
-                                                minWidth:
-                                                    320,
-
-                                                maxWidth:
-                                                    320,
-
-                                                flexShrink:
-                                                    0,
-
-                                                border:
-                                                    "1px solid #e5e7eb",
-
-                                                borderRadius:
-                                                    18,
-
-                                                padding:
-                                                    18,
-
-                                                background:
-                                                    "#fff"
+                                                margin: 0,
+                                                fontWeight: 600,
+                                                fontSize: 14
                                             }}
                                         >
+                                            {doctor.user.name}
+                                        </p>
 
-                                            {/* HEADER */}
-                                            <div
-                                                style={{
-                                                    marginBottom:
-                                                        16
-                                                }}
-                                            >
+                                        <p
+                                            style={{
+                                                margin: "2px 0 0",
+                                                opacity: 0.7,
+                                                fontSize: 13
+                                            }}
+                                        >
+                                            {doctor.user.specialty}
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
 
-                                                <h3
-                                                    style={{
-                                                        margin: 0,
-
-                                                        textTransform:
-                                                            "capitalize",
-
-                                                        fontSize:
-                                                            17
-                                                    }}
-                                                >
-                                                    {formatDate(
-                                                        day.date
-                                                    )}
-                                                </h3>
-
-                                                {doctor && (
-
-                                                    <div
-                                                        style={{
-                                                            marginTop:
-                                                                6
-                                                        }}
-                                                    >
-
-                                                        <p
-                                                            style={{
-                                                                margin:
-                                                                    0,
-
-                                                                fontWeight:
-                                                                    600,
-
-                                                                fontSize:
-                                                                    14
-                                                            }}
-                                                        >
-                                                            {
-                                                                doctor
-                                                                    .user
-                                                                    .name
-                                                            }
-                                                        </p>
-
-                                                        <p
-                                                            style={{
-                                                                margin:
-                                                                    "2px 0 0",
-
-                                                                opacity:
-                                                                    0.7,
-
-                                                                fontSize:
-                                                                    13
-                                                            }}
-                                                        >
-                                                            {
-                                                                doctor
-                                                                    .user
-                                                                    .specialty
-                                                            }
-                                                        </p>
-
-                                                    </div>
-                                                )}
-
-                                            </div>
-
-                                            {/* HORÁRIOS */}
-                                            <div
-                                                style={{
-                                                    display:
-                                                        "grid",
-
-                                                    gridTemplateColumns:
-                                                        "repeat(2, 1fr)",
-
-                                                    gap: 10
-                                                }}
-                                            >
-
-                                                {doctor?.slots?.map(
-                                                    (
-                                                        slot
-                                                    ) => (
-
-                                                        <button
-                                                            key={
-                                                                slot.id
-                                                            }
-                                                            className={
-                                                                styles.continueButton
-                                                            }
-                                                            style={{
-                                                                padding:
-                                                                    "12px",
-
-                                                                minHeight:
-                                                                    46,
-
-                                                                fontSize:
-                                                                    14
-                                                            }}
-                                                            onClick={() =>
-                                                                onSelect?.(
-                                                                    {
-                                                                        date:
-                                                                            day.date,
-
-                                                                        start:
-                                                                            slot.start,
-
-                                                                        end:
-                                                                            slot.end,
-
-                                                                        slot_id:
-                                                                            slot.id,
-
-                                                                        user_id:
-                                                                            slot.user_id,
-
-                                                                        timegrid_id:
-                                                                            slot.timegrid_id
-                                                                    }
-                                                                )
-                                                            }
-                                                        >
-                                                            {
-                                                                slot.start
-                                                            }
-                                                        </button>
-                                                    )
-                                                )}
-
-                                            </div>
-
-                                        </div>
-                                    );
-                                }
-                            )}
-
+                            <div
+                                style={{
+                                    display: "grid",
+                                    gridTemplateColumns:
+                                        "repeat(2, 1fr)",
+                                    gap: 10
+                                }}
+                            >
+                                {doctor?.slots?.map((slot) => (
+                                    <button
+                                        key={slot.id}
+                                        className={
+                                            styles.continueButton
+                                        }
+                                        style={{
+                                            padding: "12px",
+                                            minHeight: 46,
+                                            fontSize: 14
+                                        }}
+                                        onClick={() =>
+                                            onSelect?.({
+                                                date: currentDay.date,
+                                                start: slot.start,
+                                                end: slot.end,
+                                                slot_id: slot.id,
+                                                user_id: slot.user_id,
+                                                timegrid_id:
+                                                    slot.timegrid_id
+                                            })
+                                        }
+                                    >
+                                        {slot.start}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
 
+                        {filteredCalendar.length > 1 && (
+                            <p
+                                style={{
+                                    textAlign: "center",
+                                    marginTop: 12,
+                                    fontSize: 13,
+                                    opacity: 0.7
+                                }}
+                            >
+                                {currentIndex + 1} / {filteredCalendar.length}
+                            </p>
+                        )}
                     </div>
                 )}
-
         </div>
     );
 }

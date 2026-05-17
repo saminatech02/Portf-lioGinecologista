@@ -69,7 +69,6 @@ export default async function handler(req, res) {
         font-family: Arial, sans-serif;
         background: #f4f7fb;
         padding: 32px;
-        width: 75%
       ">
         <div style="
           max-width: 600px;
