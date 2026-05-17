@@ -179,6 +179,14 @@ textarea {
   border-radius: 10px;
 }
 
+.selectForm:active{
+   border: 1px solid #d8c4a2 !important;
+}
+
+.selectForm:focus{
+  border: 1px solid #d8c4a2 !important;
+}
+
 .title {
   font-size: 25px !important;
   margin-top: 10px;
