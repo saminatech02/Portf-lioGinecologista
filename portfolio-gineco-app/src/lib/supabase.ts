@@ -98,6 +98,28 @@ export const api = {
     });
   },
 
+  sendFeedbackEmail: async ({
+  patientName,
+  comment,
+  rating,
+  publish
+}: {
+  patientName: string;
+  comment: string;
+  rating: number;
+  publish: boolean;
+}) => {
+  return request<{ status: string; message: string }>("/api/send-feedback", {
+    method: "POST",
+    body: JSON.stringify({
+      patientName,
+      comment,
+      rating,
+      publish
+    })
+  });
+},
+
   // Agendamentos
   createAgendamento: async (
     agendamento: Omit<Agendamento, "id" | "created_at" | "updated_at">

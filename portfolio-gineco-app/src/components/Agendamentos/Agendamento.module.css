@@ -245,7 +245,7 @@ button {
 }
 
 .subtitle {
-  margin-top: -8px;
+  margin-top: 8px;
   margin-bottom: 24px;
   font-size: 15px;
   color: #666;
@@ -267,15 +267,6 @@ button {
   }
 }
 
-.subtitle {
-  text-align: center;
-  margin-top: -10px;
-  margin-bottom: 28px;
-
-  color: #7b7280;
-  font-size: 15px;
-  line-height: 1.5;
-}
 
 .categoryList {
   display: flex;

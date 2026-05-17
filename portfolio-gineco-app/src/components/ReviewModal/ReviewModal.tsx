@@ -40,7 +40,7 @@ export default function ReviewModal({
         setEnviando(true);
 
         try {
-            // Enviar para o Supabase - aprovado = publish (usuário autoriza)
+
             await api.createAvaliacao({
                 paciente_nome: form.name,
                 comentario: form.comment,
@@ -48,10 +48,15 @@ export default function ReviewModal({
                 aprovado: form.publish
             });
 
-            alert("Avaliação enviada com sucesso! Obrigada pelo feedback ✨");
+            await api.sendFeedbackEmail({
+                patientName: form.name,
+                comment: form.comment,
+                rating,
+                publish: form.publish
+            });
+
             onClose();
-            
-            // Limpar formulário
+
             setForm({ name: "", comment: "", publish: false });
             setRating(0);
         } catch (error) {
@@ -141,7 +146,7 @@ export default function ReviewModal({
                                     publish: e.target.checked
                                 })}
                             className={styles.checkboxSelect}
-                            
+
                         />
                         Autorizo publicar meu depoimento
                     </label>
