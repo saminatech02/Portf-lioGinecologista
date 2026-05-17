@@ -244,6 +244,15 @@ button {
   color: #C8A46A;
 }
 
+.subtitle {
+  margin-top: -8px;
+  margin-bottom: 24px;
+  font-size: 15px;
+  color: #666;
+  line-height: 1.5;
+  text-align: center;
+}
+
 @media(max-width:768px) {
   .card {
     padding: 20px 10px;
@@ -306,11 +315,9 @@ button {
   border-color: #C8A46A;
 
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       #C8A46A,
-      #E5C185
-    );
+      #E5C185);
 
   color: white;
 }

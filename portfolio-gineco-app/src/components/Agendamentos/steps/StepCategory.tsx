@@ -178,6 +178,10 @@ export default function StepCategory({
                 Escolha um horário
             </h2>
 
+            <p className={styles.subtitle}>
+                Navegue pelos dias disponíveis e selecione o melhor horário para sua consulta.
+            </p>
+
             {loading && (
                 <p>
                     Carregando horários...
