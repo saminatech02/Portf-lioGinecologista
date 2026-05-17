@@ -233,10 +233,6 @@ export default function StepOtp({
                 );
             }
 
-            // =========================
-            // SALVAR PATIENT_ID
-            // =========================
-
             const patientId =
                 patientResult?.data?.id ||
                 patientResult?.data?.data?.id;
@@ -280,7 +276,7 @@ export default function StepOtp({
 
             <h5>
                 Verifique seu e-mail e
-                preencha o código de validação
+                preencha o código de validação. Caso não encontre verifique seu spam
             </h5>
 
             <p

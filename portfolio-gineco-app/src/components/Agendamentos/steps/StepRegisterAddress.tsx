@@ -390,22 +390,6 @@ export default function StepRegisterAddress({
                             "insurance_id",
                             value
                         );
-
-                        if (
-                            Number(value) === 42470
-                        ) {
-
-                            updateField(
-                                "insurance_number",
-                                "42470"
-                            );
-                        } else {
-
-                            updateField(
-                                "insurance_number",
-                                ""
-                            );
-                        }
                     }}
                     className={
                         styles.selectForm

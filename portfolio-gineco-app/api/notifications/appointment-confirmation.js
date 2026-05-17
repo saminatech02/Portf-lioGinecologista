@@ -250,7 +250,7 @@ export default async function handler(req, res) {
               line-height: 1.6;
               font-size: 14px;
             ">
-              Caso precise remarcar ou cancelar, entre em contato com a clínica.
+              Caso precise remarcar ou cancelar, entre em contato com a clínica. Através do número: 81 99812-4105 ou 813019-4526
             </p>
 
             <p style="
