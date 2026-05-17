@@ -1,15 +1,14 @@
 import nodemailer from "nodemailer";
 import { supabase } from "../_lib/supabase.js";
 
-const transporter =
-  nodemailer.createTransport({
-    service: "gmail",
+const transporter = nodemailer.createTransport({
+  service: "gmail",
 
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
-  });
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
 
 export default async function handler(req, res) {
   try {
@@ -22,36 +21,44 @@ export default async function handler(req, res) {
 
     const { email } = req.body;
 
-    if (!email) {
+    if (!email || typeof email !== "string") {
       return res.status(400).json({
         status: "error",
         message: "E-mail é obrigatório"
       });
     }
 
-    const otp =
-      Math.floor(
-        100000 + Math.random() * 900000
-      ).toString();
+    const emailFormatado = email.trim().toLowerCase();
 
-    const expiresAt =
-      new Date(
-        Date.now() + 5 * 60 * 1000
-      ).toISOString();
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailFormatado);
+
+    if (!emailValido) {
+      return res.status(400).json({
+        status: "error",
+        message: "E-mail inválido"
+      });
+    }
+
+    const otp = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString();
+
+    const expiresAt = new Date(
+      Date.now() + 5 * 60 * 1000
+    ).toISOString();
 
     await supabase
       .from("otp_codes")
       .delete()
-      .eq("email", email);
+      .eq("email", emailFormatado);
 
-    const { error: insertError } =
-      await supabase
-        .from("otp_codes")
-        .insert({
-          email,
-          otp,
-          expires_at: expiresAt
-        });
+    const { error: insertError } = await supabase
+      .from("otp_codes")
+      .insert({
+        email: emailFormatado,
+        otp,
+        expires_at: expiresAt
+      });
 
     if (insertError) {
       throw insertError;
@@ -62,6 +69,7 @@ export default async function handler(req, res) {
         font-family: Arial, sans-serif;
         background: #f4f7fb;
         padding: 32px;
+        width: 100%
       ">
         <div style="
           max-width: 600px;
@@ -150,16 +158,10 @@ export default async function handler(req, res) {
     `;
 
     await transporter.sendMail({
-      from:
-        `"Dr. Denny Chalegre" <${process.env.EMAIL_USER}>`,
-
-      to: email,
-
-      subject:
-        "🔐 Código de verificação | Dr. Denny Chalegre",
-
+      from: `"Dr. Denny Chalegre" <${process.env.EMAIL_USER}>`,
+      to: emailFormatado,
+      subject: "🔐 Código de verificação | Dr. Denny Chalegre",
       html,
-
       priority: "high",
 
       headers: {
