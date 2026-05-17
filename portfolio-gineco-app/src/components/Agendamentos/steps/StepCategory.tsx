@@ -229,6 +229,7 @@ export default function StepCategory({
                                         borderRadius: "50%",
                                         border: "1px solid #ddd",
                                         background: "#fff",
+                                        color:"black",
                                         cursor:
                                             currentIndex === 0
                                                 ? "not-allowed"
