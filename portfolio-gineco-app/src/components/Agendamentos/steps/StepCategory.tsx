@@ -230,6 +230,7 @@ export default function StepCategory({
                                         border: "1px solid #ddd",
                                         background: "#fff",
                                         color:"black",
+                                        fontWeight: 500,
                                         cursor:
                                             currentIndex === 0
                                                 ? "not-allowed"
@@ -241,9 +242,7 @@ export default function StepCategory({
                                         boxShadow:
                                             "0 2px 10px rgba(0,0,0,0.08)"
                                     }}
-                                >
-                                    ←
-                                </button>
+                                >←</button>
 
                                 <button
                                     type="button"
@@ -262,6 +261,8 @@ export default function StepCategory({
                                         height: 40,
                                         borderRadius: "50%",
                                         border: "1px solid #ddd",
+                                        color:"black",
+                                        fontWeight: 500,
                                         background: "#fff",
                                         cursor:
                                             currentIndex ===
@@ -276,9 +277,7 @@ export default function StepCategory({
                                         boxShadow:
                                             "0 2px 10px rgba(0,0,0,0.08)"
                                     }}
-                                >
-                                    →
-                                </button>
+                                >→</button>
                             </>
                         )}
 
