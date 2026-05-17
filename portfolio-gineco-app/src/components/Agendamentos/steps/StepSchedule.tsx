@@ -24,15 +24,23 @@ export default function StepSchedule({
     // das consultas online e presenciais.
 
     const onlineEventCodes = [
-        1,
-        2,
-        3
+        636635,
+        182205,
+        636631,
+
     ];
 
     const presencialEventCodes = [
-        4,
-        5,
-        6
+        634146,
+        631785,
+        636634,
+        354107,
+        99286,
+        631793,
+        93634,
+        636630,
+        631784,
+        
     ];
 
     // =========================
