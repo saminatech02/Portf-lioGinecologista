@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./FQA.module.css";
 
 const faqs = [
@@ -73,14 +73,47 @@ const faqs = [
 ];
 
 export default function FAQ() {
+  const faqRef = useRef<HTMLElement | null>(null);
+
+  const [show, setShow] = useState(false);
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  useEffect(() => {
+    const element = faqRef.current;
+
+    if (!element) return;
+
+    setShow(false);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setShow(true);
+          }, 100);
+
+          observer.unobserve(element);
+        }
+      },
+      {
+        threshold: 0.2,
+      }
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
 
   const toggleFAQ = (index: number) => {
     setOpenIndex((prev) => (prev === index ? null : index));
   };
 
   return (
-    <section className={styles.faq}>
+    <section
+      ref={faqRef}
+      className={`${styles.faq} ${show ? styles.show : ""}`}
+    >
       <div className={styles.titulo}>
         <h2>Dúvidas frequentes</h2>
       </div>
@@ -98,13 +131,14 @@ export default function FAQ() {
                 type="button"
                 className={styles.question}
                 onClick={() => toggleFAQ(index)}
+                aria-expanded={isOpen}
               >
                 <span>{faq.question}</span>
                 <strong>{isOpen ? "−" : "+"}</strong>
               </button>
 
-              {isOpen && (
-                <div className={styles.answer}>
+              <div className={styles.answer}>
+                <div className={styles.answerContent}>
                   {Array.isArray(faq.answer) ? (
                     <ul>
                       {faq.answer.map((text, idx) => (
@@ -115,7 +149,7 @@ export default function FAQ() {
                     <p>{faq.answer}</p>
                   )}
                 </div>
-              )}
+              </div>
             </div>
           );
         })}
