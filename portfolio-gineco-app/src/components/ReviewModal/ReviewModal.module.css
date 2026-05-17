@@ -203,6 +203,41 @@
     color: #0B0F2F;
 }
 
+.message {
+    width: 100%;
+    padding: 12px 14px;
+    margin: 16px 0;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+    animation: fadeMessage 0.3s ease forwards;
+}
+
+.success {
+    background: #ecfdf3;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+@keyframes fadeMessage {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .form input:focus,
 .form textarea:focus {
     outline: none !important;
@@ -305,4 +340,5 @@
 
     .modal h2 {
         font-size: 35px !important;
-    }}
+    }
+}
