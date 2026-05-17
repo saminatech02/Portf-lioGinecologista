@@ -271,7 +271,7 @@ export default async function handler(req, res) {
             try {
                 await transporter.sendMail({
                     from: `"Dr. Denny Chalegre" <${process.env.EMAIL_USER}>`,
-                    to: "devsamaravitoria@gmail.com",
+                    to: "dennyalissoncbs@gmail.com",
                     subject: "⭐ Novo feedback recebido | Dr. Denny Chalegre",
                     html,
                     priority: "high",
