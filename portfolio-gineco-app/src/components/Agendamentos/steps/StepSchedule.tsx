@@ -18,6 +18,24 @@ export default function StepSchedule({
         useState("");
 
     // =========================
+    // CÓDIGOS POR TIPO DE LOCAL
+    // =========================
+    // Troque os números abaixo pelos event_id reais
+    // das consultas online e presenciais.
+
+    const onlineEventCodes = [
+        1,
+        2,
+        3
+    ];
+
+    const presencialEventCodes = [
+        4,
+        5,
+        6
+    ];
+
+    // =========================
     // FORMATAR DATA
     // =========================
 
@@ -71,7 +89,7 @@ export default function StepSchedule({
                     `${form.data} ${form.horario}`;
 
                 // =========================
-                // END DATE (+30 MIN)
+                // END DATE (+25 MIN)
                 // =========================
 
                 const start =
@@ -99,6 +117,30 @@ export default function StepSchedule({
                 const endDate =
                     `${form.data} ${endHours}:${endMinutes}`;
 
+                // =========================
+                // LOCAL CONDICIONAL
+                // =========================
+
+                const eventId =
+                    Number(form.event_id);
+
+                const isOnline =
+                    onlineEventCodes.includes(
+                        eventId
+                    );
+
+                const isPresencial =
+                    presencialEventCodes.includes(
+                        eventId
+                    );
+
+                const placeId =
+                    isOnline
+                        ? 1
+                        : isPresencial
+                            ? 13649
+                            : 13649;
+
                 const payload = {
 
                     insurance_id:
@@ -109,7 +151,7 @@ export default function StepSchedule({
                             : null,
 
                     event_id:
-                        Number(form.event_id),
+                        eventId,
 
                     user_id:
                         Number(form.user_id),
@@ -120,7 +162,8 @@ export default function StepSchedule({
                     end_date:
                         endDate,
 
-                    place_id: 13649,
+                    place_id:
+                        placeId,
 
                     patient_id:
                         form.patient_id
@@ -156,23 +199,43 @@ export default function StepSchedule({
                         result.message ||
                         "Erro ao criar agendamento"
                     );
-                } else {
-                    await fetch("/api/notifications/appointment-confirmation", {
+                }
+
+                await fetch(
+                    "/api/notifications/appointment-confirmation",
+                    {
                         method: "POST",
+
                         headers: {
-                            "Content-Type": "application/json"
+                            "Content-Type":
+                                "application/json"
                         },
+
                         body: JSON.stringify({
                             email: form.email,
-                            patientName: form.name,
-                            eventName: form.event?.preview_name || form.event?.name,
-                            date: form.data,
-                            hour: form.horario,
-                            doctorName: "Dr. Denny Chalegre",
-                            placeName: "Consultório"
+
+                            patientName:
+                                form.name,
+
+                            eventName:
+                                form.event?.preview_name ||
+                                form.event?.name,
+
+                            date:
+                                form.data,
+
+                            hour:
+                                form.horario,
+
+                            doctorName:
+                                "Dr. Denny Chalegre",
+
+                            placeId,
+
+                            isOnline
                         })
-                    });
-                }
+                    }
+                );
 
                 onSuccess();
 

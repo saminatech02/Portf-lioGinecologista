@@ -34,6 +34,16 @@ const formatDate = (date) => {
     );
 };
 
+const getPlaceById = (placeId) => {
+    const places = {
+        1: "Rua Francisco Alves, 325, Paissandu - Recife - PE (Clínica Acolher Saúde - salas 504 - 506)",
+
+        2: "Online. O link para a consulta será enviado 15min antes do horário",
+    };
+
+    return places[placeId] || places[1];
+};
+
 export default async function handler(req, res) {
     try {
         if (req.method !== "POST") {
@@ -50,7 +60,7 @@ export default async function handler(req, res) {
             date,
             hour,
             doctorName,
-            placeName
+            placeId
         } = req.body;
 
         if (!email) {
@@ -62,6 +72,9 @@ export default async function handler(req, res) {
 
         const formattedDate =
             formatDate(date);
+
+        const placeAddress =
+            getPlaceById(placeId);
 
         const html = `
       <div style="
@@ -208,7 +221,7 @@ export default async function handler(req, res) {
                   color: #111827;
                   font-size: 16px;
                 ">
-                Rua Francisco Alves, 325, Paissandu - Recife - PE (Clínica Acolher Saúde - salas 504 - 506)
+                  ${placeAddress}
                 </strong>
               </div>
 
@@ -250,7 +263,7 @@ export default async function handler(req, res) {
               line-height: 1.6;
               font-size: 14px;
             ">
-              Caso precise remarcar ou cancelar, entre em contato com a clínica. Através do número: 81 99812-4105 ou 813019-4526
+              Caso precise remarcar ou cancelar, entre em contato com a clínica. Através do número: 81 99812-4105 ou 81 3019-4526
             </p>
 
             <p style="
