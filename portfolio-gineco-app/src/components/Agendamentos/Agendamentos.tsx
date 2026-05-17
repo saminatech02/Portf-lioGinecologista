@@ -393,7 +393,7 @@ export default function Agendamento() {
         {step === "category" && (
 
           <StepType
-
+            form={form}
             onSelect={(event) => {
 
               updateForm({
