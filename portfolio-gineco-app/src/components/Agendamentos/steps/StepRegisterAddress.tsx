@@ -38,6 +38,10 @@ export default function StepRegisterAddress({
             name: "AMIL"
         },
         {
+            id: 99497,
+            name: "BRADESCO"
+        },
+        {
             id: 145994,
             name: "FOX SAÚDE"
         },
