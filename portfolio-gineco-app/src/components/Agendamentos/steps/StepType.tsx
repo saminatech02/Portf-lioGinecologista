@@ -33,27 +33,20 @@ export default function StepType({
         useState("");
 
     // =========================
-    // IDS PARTICULARES
-    // =========================
-
-    const privateOrNullIds = [
-        636634,
-        636635,
-        93634,
-        636631
-    ];
-
-    // =========================
     // TODOS OS IDS PERMITIDOS
     // =========================
 
     const allAllowedIds = [
         634146,
         631785,
+        636634,
+        636635,
         182205,
         354107,
         99286,
         631793,
+        93634,
+        636631,
         636630,
         631784
     ];
@@ -67,8 +60,13 @@ export default function StepType({
             setLoading(true);
             setError("");
 
+            const insuranceIdToFetch =
+                form?.insurance_id
+                    ? Number(form.insurance_id)
+                    : 42470;
+
             const response = await fetch(
-                "/api/events?place_id=13649"
+                `/api/events?place_id=13649&insurance_id=${insuranceIdToFetch}`
             );
 
             const result = await response.json();
@@ -80,43 +78,13 @@ export default function StepType({
                 );
             }
 
-            const insuranceId =
-                form?.insurance_id
-                    ? Number(form.insurance_id)
-                    : null;
-
-            const shouldShowPrivateOnly =
-                insuranceId === null || 42470
-
             const filteredEvents =
-                (result.data || []).filter((event: EventType) => {
-                    const eventId = Number(event.id);
-
-                    if (!allAllowedIds.includes(eventId)) {
-                        return false;
-                    }
-
-                    if (shouldShowPrivateOnly) {
-                        return privateOrNullIds.includes(eventId);
-                    }
-
-                    if (privateOrNullIds.includes(eventId)) {
-                        return false;
-                    }
-
-                    const eventInsurances =
-                        Array.isArray(event.insurances)
-                            ? event.insurances
-                            : [];
-
-                    const hasPatientInsurance =
-                        eventInsurances.some(
-                            (insurance) =>
-                                Number(insurance) === insuranceId
-                        );
-
-                    return hasPatientInsurance;
-                });
+                (result.data || []).filter(
+                    (event: EventType) =>
+                        allAllowedIds.includes(
+                            Number(event.id)
+                        )
+                );
 
             setEvents(filteredEvents);
             setSelectedId("");

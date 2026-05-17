@@ -15,7 +15,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const { place_id } = req.query;
+    const { place_id, insurance_id } = req.query;
 
     if (!place_id) {
       return res.status(400).json({
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     }
 
     const response = await axios.get(
-      `${API_URL}/events?place_id=${place_id}`,
+      `${API_URL}/events?place_id=${place_id}&insurance_id=${insurance_id}`,
       {
         headers: {
           ...getHeaders(),
