@@ -34,14 +34,14 @@ const formatDate = (date) => {
     );
 };
 
-const getPlaceById = (placeId) => {
+const getPlaceById = (placeIdOnline) => {
     const places = {
         1: "Rua Francisco Alves, 325, Paissandu - Recife - PE (Clínica Acolher Saúde - salas 504 - 506)",
 
         2: "Online. O link para a consulta será enviado 15min antes do horário",
     };
 
-    return places[placeId] || places[1];
+    return places[placeIdOnline] || places[1];
 };
 
 export default async function handler(req, res) {
@@ -60,7 +60,8 @@ export default async function handler(req, res) {
             date,
             hour,
             doctorName,
-            placeId
+            placeId,
+            placeIdOnline
         } = req.body;
 
         if (!email) {

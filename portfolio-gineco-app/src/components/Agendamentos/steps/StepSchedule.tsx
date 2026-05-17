@@ -142,12 +142,14 @@ export default function StepSchedule({
                         eventId
                     );
 
-                const placeId =
+                const placeIdOnline =
                     isOnline
                         ? 1
                         : isPresencial
                             ? 13649
                             : 13649;
+
+                const placeId = 13649;
 
                 const payload = {
 
@@ -240,7 +242,7 @@ export default function StepSchedule({
 
                             placeId,
 
-                            isOnline
+                            placeIdOnline
                         })
                     }
                 );
