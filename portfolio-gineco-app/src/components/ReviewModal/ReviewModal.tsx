@@ -8,7 +8,7 @@ type Props = {
 };
 
 type FeedbackMessage = {
-    type: "success" | "error";
+    type: "error";
     text: string;
 } | null;
 
@@ -16,10 +16,11 @@ export default function ReviewModal({
     isOpen,
     onClose
 }: Props) {
-
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
     const [enviando, setEnviando] = useState(false);
+    const [successStep, setSuccessStep] = useState(false);
+
     const [feedbackMessage, setFeedbackMessage] =
         useState<FeedbackMessage>(null);
 
@@ -40,6 +41,13 @@ export default function ReviewModal({
 
         setRating(0);
         setHover(0);
+    };
+
+    const handleClose = () => {
+        setFeedbackMessage(null);
+        setSuccessStep(false);
+        resetForm();
+        onClose();
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -73,18 +81,8 @@ export default function ReviewModal({
                 aprovado: form.publish
             });
 
-            setFeedbackMessage({
-                type: "success",
-                text: "Avaliação enviada com sucesso! Obrigada pelo feedback ✨"
-            });
-
             resetForm();
-
-            setTimeout(() => {
-                setFeedbackMessage(null);
-                onClose();
-            }, 1800);
-
+            setSuccessStep(true);
         } catch (error) {
             console.error("Erro ao enviar avaliação:", error);
 
@@ -97,19 +95,12 @@ export default function ReviewModal({
         }
     };
 
-    const handleClose = () => {
-        setFeedbackMessage(null);
-        onClose();
-    };
-
     return (
         <div className={styles.overlay} onClick={handleClose}>
-
             <div
                 className={styles.modal}
                 onClick={(e) => e.stopPropagation()}
             >
-
                 <button
                     className={styles.close}
                     onClick={handleClose}
@@ -118,105 +109,123 @@ export default function ReviewModal({
                     ×
                 </button>
 
-                <h2>
-                    Avalie seu atendimento
-                </h2>
+                {successStep ? (
+                    <div className={styles.finalStep}>
+                        <div className={styles.successIcon}>
+                            ✓
+                        </div>
 
-                <p>
-                    Sua experiência nos ajuda a melhorar.
-                </p>
+                        <h2>
+                            Avaliação enviada!
+                        </h2>
 
-                {feedbackMessage && (
-                    <div
-                        className={`${styles.message} ${
-                            feedbackMessage.type === "success"
-                                ? styles.success
-                                : styles.error
-                        }`}
-                    >
-                        {feedbackMessage.text}
-                    </div>
-                )}
+                        <p>
+                            Obrigada pelo feedback ✨ Sua experiência nos ajuda a melhorar.
+                        </p>
 
-                <div className={styles.stars}>
-                    {[1, 2, 3, 4, 5].map((star) => (
                         <button
-                            key={star}
                             type="button"
-                            onClick={() => {
-                                setRating(star);
-                                setFeedbackMessage(null);
-                            }}
-                            onMouseEnter={() => setHover(star)}
-                            onMouseLeave={() => setHover(0)}
-                            className={
-                                star <= (hover || rating)
-                                    ? styles.activeStar
-                                    : styles.star
-                            }
+                            className={styles.submit}
+                            onClick={handleClose}
                         >
-                            ★
+                            Fechar
                         </button>
-                    ))}
-                </div>
+                    </div>
+                ) : (
+                    <>
+                        <h2>
+                            Avalie seu atendimento
+                        </h2>
 
-                <form
-                    onSubmit={handleSubmit}
-                    className={styles.form}
-                >
+                        <p>
+                            Sua experiência nos ajuda a melhorar.
+                        </p>
 
-                    <input
-                        placeholder="Seu nome"
-                        value={form.name}
-                        onChange={(e) => {
-                            setForm({
-                                ...form,
-                                name: e.target.value
-                            });
+                        {feedbackMessage && (
+                            <div
+                                className={`${styles.message} ${styles.error}`}
+                            >
+                                {feedbackMessage.text}
+                            </div>
+                        )}
 
-                            setFeedbackMessage(null);
-                        }}
-                    />
+                        <div className={styles.stars}>
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <button
+                                    key={star}
+                                    type="button"
+                                    onClick={() => {
+                                        setRating(star);
+                                        setFeedbackMessage(null);
+                                    }}
+                                    onMouseEnter={() => setHover(star)}
+                                    onMouseLeave={() => setHover(0)}
+                                    className={
+                                        star <= (hover || rating)
+                                            ? styles.activeStar
+                                            : styles.star
+                                    }
+                                >
+                                    ★
+                                </button>
+                            ))}
+                        </div>
 
-                    <textarea
-                        placeholder="Conte como foi sua experiência"
-                        value={form.comment}
-                        onChange={(e) => {
-                            setForm({
-                                ...form,
-                                comment: e.target.value
-                            });
+                        <form
+                            onSubmit={handleSubmit}
+                            className={styles.form}
+                        >
+                            <input
+                                placeholder="Seu nome"
+                                value={form.name}
+                                onChange={(e) => {
+                                    setForm({
+                                        ...form,
+                                        name: e.target.value
+                                    });
 
-                            setFeedbackMessage(null);
-                        }}
-                    />
+                                    setFeedbackMessage(null);
+                                }}
+                            />
 
-                    <label className={styles.check}>
-                        <input
-                            type="checkbox"
-                            checked={form.publish}
-                            onChange={(e) =>
-                                setForm({
-                                    ...form,
-                                    publish: e.target.checked
-                                })}
-                            className={styles.checkboxSelect}
-                        />
-                        Autorizo publicar meu depoimento
-                    </label>
+                            <textarea
+                                placeholder="Conte como foi sua experiência"
+                                value={form.comment}
+                                onChange={(e) => {
+                                    setForm({
+                                        ...form,
+                                        comment: e.target.value
+                                    });
 
-                    <button
-                        className={styles.submit}
-                        type="submit"
-                        disabled={enviando}
-                    >
-                        {enviando ? "Enviando..." : "Enviar avaliação"}
-                    </button>
+                                    setFeedbackMessage(null);
+                                }}
+                            />
 
-                </form>
+                            <label className={styles.check}>
+                                <input
+                                    type="checkbox"
+                                    checked={form.publish}
+                                    onChange={(e) =>
+                                        setForm({
+                                            ...form,
+                                            publish: e.target.checked
+                                        })}
+                                    className={styles.checkboxSelect}
+                                />
+                                Autorizo publicar meu depoimento
+                            </label>
 
+                            <button
+                                className={styles.submit}
+                                type="submit"
+                                disabled={enviando}
+                            >
+                                {enviando ? "Enviando..." : "Enviar avaliação"}
+                            </button>
+                        </form>
+                    </>
+                )}
             </div>
-
         </div>
     );
 }
