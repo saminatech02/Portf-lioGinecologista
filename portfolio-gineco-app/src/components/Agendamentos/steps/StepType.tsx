@@ -63,14 +63,6 @@ export default function StepType({
     ];
 
     // =========================
-    // CONVÊNIOS QUE SE COMPORTAM COMO PARTICULAR
-    // =========================
-
-    const particularLikeInsuranceIds = [
-        42470
-    ];
-
-    // =========================
     // BUSCAR EVENTOS
     // =========================
 
@@ -98,10 +90,7 @@ export default function StepType({
                     : null;
 
             const shouldShowPrivateOnly =
-                insuranceId === null ||
-                particularLikeInsuranceIds.includes(
-                    insuranceId
-                );
+                insuranceId === null || 42470
 
             const filteredEvents =
                 (result.data || []).filter((event: EventType) => {
