@@ -59,6 +59,8 @@ export default async function handler(req, res) {
         ? addMinutes(start_date, 40)
         : end_date;
 
+    console.log(endDateFinal, insuranceIdFinal)
+
     if (!endDateFinal) {
       return res.status(400).json({
         status: "error",
