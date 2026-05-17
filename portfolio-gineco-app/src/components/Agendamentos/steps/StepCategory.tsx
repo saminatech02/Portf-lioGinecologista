@@ -239,7 +239,7 @@ export default function StepCategory({
                                         borderRadius: "50%",
                                         border: "1px solid #ddd",
                                         background: "#fff",
-                                        color: "black",
+                                        color: "#C8A46A",
                                         fontWeight: 500,
 
                                         cursor:
@@ -257,7 +257,7 @@ export default function StepCategory({
                                     }}
                                 >
                                     ←
-                                </button>\
+                                </button>
 
                                 <button
                                     type="button"
@@ -287,7 +287,7 @@ export default function StepCategory({
                                         borderRadius: "50%",
                                         border: "1px solid #ddd",
                                         background: "#fff",
-                                        color: "black",
+                                        color: "#C8A46A",
                                         fontWeight: 500,
 
                                         cursor:
