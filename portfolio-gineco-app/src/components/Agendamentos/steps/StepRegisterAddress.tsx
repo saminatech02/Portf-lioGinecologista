@@ -29,6 +29,7 @@ export default function StepRegisterAddress({
     // =========================
 
     const conveniosPermitidos = [
+        // Convênios já existentes
         36769,
         36768,
         36770,
@@ -57,7 +58,14 @@ export default function StepRegisterAddress({
         36801,
         36799,
         36787,
-        36800
+        36800,
+
+        // Novos convênios solicitados
+        36798,  // AMIL
+        145994, // FOX SAÚDE
+        124940, // SELECT - COOPEGO
+        36791,  // UNIMED INTERCAMBIO
+        36789   // UNIMED RECIFE
     ];
 
     // =========================
@@ -127,7 +135,7 @@ export default function StepRegisterAddress({
             return convenios.filter(
                 (convenio) =>
                     conveniosPermitidos.includes(
-                        convenio.id
+                        Number(convenio.id)
                     )
             );
 
@@ -364,6 +372,11 @@ export default function StepRegisterAddress({
                             updateField(
                                 "insurance_number",
                                 "42470"
+                            );
+                        } else {
+                            updateField(
+                                "insurance_number",
+                                ""
                             );
                         }
                     }}
