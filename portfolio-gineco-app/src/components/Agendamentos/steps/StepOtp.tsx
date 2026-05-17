@@ -18,6 +18,16 @@ export default function StepOtp({
     // VALIDAR OTP
     // =========================
 
+    const formatDateToApi = (date: string) => {
+        if (!date) return "";
+
+        const [day, month, year] = date.split("/");
+
+        if (!day || !month || !year) return date;
+
+        return `${year}-${month}-${day}`;
+    };
+
     const handleValidateOtp = async (
         e?: React.MouseEvent<HTMLButtonElement>
     ) => {
@@ -156,7 +166,7 @@ export default function StepOtp({
 
                 name: form.name,
 
-                born: form.born,
+                born: formatDateToApi(form.born),
 
                 contact_cellphone:
                     form.contact_cellphone?.replace(
