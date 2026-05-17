@@ -7,6 +7,16 @@ export default function StepRegisterPersonal({
     onNext
 }: any) {
 
+    const formatDateToApi = (date: string) => {
+        if (!date) return "";
+
+        const [day, month, year] = date.split("/");
+
+        if (!day || !month || !year) return date;
+
+        return `${year}-${month}-${day}`;
+    };
+
     const [errorMessage, setErrorMessage] = useState("");
 
     // 🔥 regex email
@@ -80,7 +90,7 @@ export default function StepRegisterPersonal({
 
             // 🔥 dados pessoais
             name: form.name,
-            born: form.born,
+            born: formatDateToApi(form.born),
             contact_cellphone: celularLimpo,
             email: form.email,
 
