@@ -67,7 +67,7 @@
 }
 
 .about.show img {
-  animation: fadeZoom 0.9s ease forwards;
+  animation: fadeZoom 1.2s ease forwards;
 }
 
 .about.show img:hover {
@@ -137,7 +137,7 @@
 
 .about.show .highlightCard {
   animation-name: slideLeft;
-  animation-duration: 0.7s;
+  animation-duration: 1.7s;
   animation-timing-function: ease;
   animation-fill-mode: forwards;
 }
@@ -147,15 +147,15 @@
 }
 
 .about.show .highlightCard:nth-child(2) {
-  animation-delay: 1.4s;
+  animation-delay: 2.4s;
 }
 
 .about.show .highlightCard:nth-child(3) {
-  animation-delay: 1.55s;
+  animation-delay: 2.55s;
 }
 
 .about.show .highlightCard:nth-child(4) {
-  animation-delay: 0.7s;
+  animation-delay: 2.7s;
 }
 
 .about.show .highlightCard:hover {
