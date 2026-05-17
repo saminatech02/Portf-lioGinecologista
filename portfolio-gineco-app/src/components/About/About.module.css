@@ -2,6 +2,42 @@
    ABOUT - BASE (MOBILE FIRST)
 ========================= */
 
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeZoom {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .about {
   display: flex;
   flex-direction: column;
@@ -23,12 +59,33 @@
 
   border-radius: 16px;
   object-fit: cover;
+
+  opacity: 0;
+  transform: scale(0.94);
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about.show img {
+  animation: fadeZoom 0.9s ease forwards;
+}
+
+.about.show img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
 }
 
 /* TEXTO */
 .about h2 {
   margin-bottom: 12px;
   font-size: 45px;
+
+  opacity: 0;
+  transform: translateY(32px);
+}
+
+.about.show h2 {
+  animation: fadeUp 0.8s ease forwards;
 }
 
 .about p {
@@ -36,6 +93,14 @@
   margin-bottom: 16px;
   font-size: 17px;
   line-height: 1.5;
+
+  opacity: 0;
+  transform: translateY(32px);
+}
+
+.about.show p {
+  animation: fadeUp 0.9s ease forwards;
+  animation-delay: 0.15s;
 }
 
 /* HIGHLIGHTS */
@@ -63,8 +128,43 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 
   text-align: left;
+
+  opacity: 0;
+  transform: translateX(-28px);
+
+  transition: box-shadow 0.3s ease;
 }
 
+.about.show .highlightCard {
+  animation-name: slideLeft;
+  animation-duration: 0.7s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+.about.show .highlightCard:nth-child(1) {
+  animation-delay: 1.25s;
+}
+
+.about.show .highlightCard:nth-child(2) {
+  animation-delay: 1.4s;
+}
+
+.about.show .highlightCard:nth-child(3) {
+  animation-delay: 1.55s;
+}
+
+.about.show .highlightCard:nth-child(4) {
+  animation-delay: 0.7s;
+}
+
+.about.show .highlightCard:hover {
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   📱 MOBILE
+========================= */
 @media (min-width: 320px) and (max-width: 767px) {
   .about h2 {
     font-size: 34px;
@@ -72,7 +172,7 @@
 
   .about {
     padding: 60px 40px;
-    background: #FDF4F1;
+    background: #fdf4f1;
     margin-top: -55px;
   }
 
@@ -80,18 +180,18 @@
     font-size: 17px;
   }
 
-  .about p{
+  .about p {
     text-align: justify;
   }
 }
 
 /* =========================
-   📲 TABLET (768px - 1023px)
+   📲 TABLET
 ========================= */
 @media (min-width: 768px) and (max-width: 1023px) {
   .about {
     padding: 60px 40px;
-    background: #FDF4F1;
+    background: #fdf4f1;
   }
 
   .highlightCard {
@@ -106,7 +206,7 @@
     font-size: 16px;
   }
 
-  h2 {
+  .about h2 {
     font-size: 35px !important;
   }
 
@@ -116,7 +216,7 @@
 }
 
 /* =========================
-   💻 DESKTOP (1024px+)
+   💻 DESKTOP
 ========================= */
 @media (min-width: 1024px) {
   .about {
@@ -139,10 +239,25 @@
 }
 
 /* =========================
-   💻 LARGE (1440px+)
+   💻 LARGE
 ========================= */
 @media (min-width: 1440px) {
   .about {
     padding: 80px 120px;
+  }
+}
+
+/* =========================
+   ACESSIBILIDADE
+========================= */
+@media (prefers-reduced-motion: reduce) {
+  .about img,
+  .about h2,
+  .about p,
+  .highlightCard {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    transition: none;
   }
 }

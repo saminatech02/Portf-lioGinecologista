@@ -71,6 +71,11 @@ export default function StepRegisterPersonal({
             return;
         }
 
+        if (!/^\d{2}\/\d{2}\/\d{4}$/.test(form.born)) {
+            setErrorMessage("Informe a data no formato dd/mm/yyyy");
+            return;
+        }
+
         const payload = {
 
             // 🔥 dados pessoais
@@ -116,13 +121,23 @@ export default function StepRegisterPersonal({
                 />
 
                 <input
-                    type="date"
+                    type="text"
+                    placeholder="Data de nascimento"
                     value={form.born}
-                    onChange={(e) =>
-                        updateField(
-                            "born",
-                            e.target.value
-                        )}
+                    maxLength={10}
+                    onChange={(e) => {
+                        let value = e.target.value.replace(/\D/g, "");
+
+                        if (value.length > 2) {
+                            value = value.slice(0, 2) + "/" + value.slice(2);
+                        }
+
+                        if (value.length > 5) {
+                            value = value.slice(0, 5) + "/" + value.slice(5, 9);
+                        }
+
+                        updateField("born", value);
+                    }}
                     className={styles.formInput}
                 />
 
