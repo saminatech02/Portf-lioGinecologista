@@ -11,10 +11,15 @@ const About: React.FC = () => {
 
     if (!element) return;
 
+    setShow(false);
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setShow(true);
+          setTimeout(() => {
+            setShow(true);
+          }, 100);
+
           observer.unobserve(element);
         }
       },
@@ -28,17 +33,23 @@ const About: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
-
   return (
-    <section ref={aboutRef} className={`${styles.about} ${show ? styles.show : ""}`}>
+    <section
+      ref={aboutRef}
+      className={`${styles.about} ${show ? styles.show : ""}`}
+    >
       <img src={dennyGinecologista} alt="Sobre a médica" />
 
       <div>
         <h2>Sobre o Dr. Denny Chalegre</h2>
+
         <p>
-          Denny Chalegre é Ginecologista, Obstetra e Uroginecologista pelo IMIP. Médico formado pela UFPE, atua com foco na saúde da mulher,
-          oferecendo um atendimento humanizado, baseado em escuta, confiança e cuidado individualizado.
+          Denny Chalegre é Ginecologista, Obstetra e Uroginecologista pelo IMIP.
+          Médico formado pela UFPE, atua com foco na saúde da mulher, oferecendo
+          um atendimento humanizado, baseado em escuta, confiança e cuidado
+          individualizado.
         </p>
+
         <div className={styles.highlights}>
           <div className={styles.highlightCard}>
             Especialista em Ginecologia e Obstetrícia (IMIP)
@@ -48,9 +59,7 @@ const About: React.FC = () => {
             Fellowship em Uroginecologia (IMIP)
           </div>
 
-          <div className={styles.highlightCard}>
-            Graduado pela UFPE
-          </div>
+          <div className={styles.highlightCard}>Graduado pela UFPE</div>
         </div>
       </div>
     </section>
