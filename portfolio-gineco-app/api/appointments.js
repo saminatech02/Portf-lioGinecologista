@@ -6,6 +6,18 @@ const getHeaders = () => ({
   Authorization: `Bearer ${String(process.env.API_TOKEN).trim()}`
 });
 
+const addMinutes = (dateString, minutes) => {
+  const date = new Date(dateString);
+
+  if (Number.isNaN(date.getTime())) {
+    return dateString;
+  }
+
+  date.setMinutes(date.getMinutes() + minutes);
+
+  return date.toISOString();
+};
+
 export default async function handler(req, res) {
   try {
     if (req.method !== "POST") {
@@ -29,7 +41,6 @@ export default async function handler(req, res) {
       !event_id ||
       !user_id ||
       !start_date ||
-      !end_date ||
       !place_id ||
       !patient_id
     ) {
@@ -39,26 +50,33 @@ export default async function handler(req, res) {
       });
     }
 
+    const insuranceIdFinal = insurance_id
+      ? Number(insurance_id)
+      : 42470;
+
+    const endDateFinal =
+      insuranceIdFinal === 42470
+        ? addMinutes(start_date, 40)
+        : end_date;
+
+    if (!endDateFinal) {
+      return res.status(400).json({
+        status: "error",
+        message: "Data final do agendamento ausente"
+      });
+    }
+
     const payload = {
       event_id: Number(event_id),
       user_id: Number(user_id),
       start_date,
-      end_date,
+      end_date: endDateFinal,
       place_id: Number(place_id),
-      patient_id: Number(patient_id)
+      patient_id: Number(patient_id),
+      insurance_id: insuranceIdFinal
     };
 
-    if (insurance_id) {
-      payload.insurance_id =
-        Number(insurance_id);
-    } else {
-      payload.insurance_id = 42470;
-    }
-
-    console.log(
-      "Payload agendamento:",
-      payload
-    );
+    console.log("Payload agendamento:", payload);
 
     const response = await axios.post(
       `${API_URL}/attendances`,
@@ -79,8 +97,7 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error(
       "Erro ao criar agendamento:",
-      error.response?.data ||
-      error.message
+      error.response?.data || error.message
     );
 
     return res.status(

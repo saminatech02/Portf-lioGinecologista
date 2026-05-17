@@ -83,7 +83,7 @@ export default function StepSchedule({
                     new Date(start);
 
                 end.setMinutes(
-                    end.getMinutes() + 30
+                    end.getMinutes() + 25
                 );
 
                 const endHours =
@@ -98,10 +98,6 @@ export default function StepSchedule({
 
                 const endDate =
                     `${form.data} ${endHours}:${endMinutes}`;
-
-                // =========================
-                // PAYLOAD
-                // =========================
 
                 const payload = {
 
