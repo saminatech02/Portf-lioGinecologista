@@ -224,25 +224,40 @@ export default function StepCategory({
                                         top: "50%",
                                         transform: "translateY(-50%)",
                                         zIndex: 10,
+
                                         width: 40,
                                         height: 40,
+
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+
+                                        padding: 0,
+                                        lineHeight: 1,
+                                        fontSize: 20,
+
                                         borderRadius: "50%",
                                         border: "1px solid #ddd",
                                         background: "#fff",
-                                        color:"black",
+                                        color: "black",
                                         fontWeight: 500,
+
                                         cursor:
                                             currentIndex === 0
                                                 ? "not-allowed"
                                                 : "pointer",
+
                                         opacity:
                                             currentIndex === 0
                                                 ? 0.4
                                                 : 1,
+
                                         boxShadow:
                                             "0 2px 10px rgba(0,0,0,0.08)"
                                     }}
-                                >←</button>
+                                >
+                                    ←
+                                </button>\
 
                                 <button
                                     type="button"
@@ -257,27 +272,42 @@ export default function StepCategory({
                                         top: "50%",
                                         transform: "translateY(-50%)",
                                         zIndex: 10,
+
                                         width: 40,
                                         height: 40,
+
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+
+                                        padding: 0,
+                                        lineHeight: 1,
+                                        fontSize: 20,
+
                                         borderRadius: "50%",
                                         border: "1px solid #ddd",
-                                        color:"black",
-                                        fontWeight: 500,
                                         background: "#fff",
+                                        color: "black",
+                                        fontWeight: 500,
+
                                         cursor:
                                             currentIndex ===
                                                 filteredCalendar.length - 1
                                                 ? "not-allowed"
                                                 : "pointer",
+
                                         opacity:
                                             currentIndex ===
                                                 filteredCalendar.length - 1
                                                 ? 0.4
                                                 : 1,
+
                                         boxShadow:
                                             "0 2px 10px rgba(0,0,0,0.08)"
                                     }}
-                                >→</button>
+                                >
+                                    →
+                                </button>
                             </>
                         )}
 
