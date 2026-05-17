@@ -208,7 +208,7 @@ export default async function handler(req, res) {
                   color: #111827;
                   font-size: 16px;
                 ">
-                  ${placeName || "Consultório"}
+                Rua Francisco Alves, 325, Paissandu - Recife - PE (Clínica Acolher Saúde - salas 504 - 506)
                 </strong>
               </div>
 
