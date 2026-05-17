@@ -5,6 +5,7 @@ type EventType = {
     id: number;
     name: string;
     preview_name?: string;
+    insurances?: number[];
 };
 
 type Props = {
@@ -32,7 +33,7 @@ export default function StepType({
         useState("");
 
     // =========================
-    // IDS
+    // IDS PARTICULARES
     // =========================
 
     const privateOrNullIds = [
@@ -41,6 +42,10 @@ export default function StepType({
         93634,
         636631
     ];
+
+    // =========================
+    // TODOS OS IDS PERMITIDOS
+    // =========================
 
     const allAllowedIds = [
         634146,
@@ -55,6 +60,14 @@ export default function StepType({
         636631,
         636630,
         631784
+    ];
+
+    // =========================
+    // CONVÊNIOS QUE SE COMPORTAM COMO PARTICULAR
+    // =========================
+
+    const particularLikeInsuranceIds = [
+        42470
     ];
 
     // =========================
@@ -79,23 +92,45 @@ export default function StepType({
                 );
             }
 
-            const insuranceId = form?.insurance_id
-                ? Number(form.insurance_id)
-                : null;
+            const insuranceId =
+                form?.insurance_id
+                    ? Number(form.insurance_id)
+                    : null;
 
             const shouldShowPrivateOnly =
-                insuranceId === 42470 || insuranceId === null;
+                insuranceId === null ||
+                particularLikeInsuranceIds.includes(
+                    insuranceId
+                );
 
             const filteredEvents =
                 (result.data || []).filter((event: EventType) => {
-                    if (shouldShowPrivateOnly) {
-                        return privateOrNullIds.includes(event.id);
+                    const eventId = Number(event.id);
+
+                    if (!allAllowedIds.includes(eventId)) {
+                        return false;
                     }
 
-                    return (
-                        allAllowedIds.includes(event.id) &&
-                        !privateOrNullIds.includes(event.id)
-                    );
+                    if (shouldShowPrivateOnly) {
+                        return privateOrNullIds.includes(eventId);
+                    }
+
+                    if (privateOrNullIds.includes(eventId)) {
+                        return false;
+                    }
+
+                    const eventInsurances =
+                        Array.isArray(event.insurances)
+                            ? event.insurances
+                            : [];
+
+                    const hasPatientInsurance =
+                        eventInsurances.some(
+                            (insurance) =>
+                                Number(insurance) === insuranceId
+                        );
+
+                    return hasPatientInsurance;
                 });
 
             setEvents(filteredEvents);
@@ -147,7 +182,9 @@ export default function StepType({
             id: selectedEvent.id,
             name: selectedEvent.name,
             preview_name:
-                selectedEvent.preview_name
+                selectedEvent.preview_name,
+            insurances:
+                selectedEvent.insurances
         });
     };
 
