@@ -33,22 +33,29 @@ export default function StepType({
         useState("");
 
     // =========================
-    // TODOS OS IDS PERMITIDOS
+    // IDS PARA CONVÊNIO
     // =========================
 
     const allAllowedIds = [
         634146,
         631785,
-        636634,
-        636635,
         182205,
         354107,
         99286,
         631793,
-        93634,
-        636631,
         636630,
         631784
+    ];
+
+    // =========================
+    // IDS PARA PARTICULAR / SEM CONVÊNIO
+    // =========================
+
+    const privateOrNullIds = [
+        636634,
+        636635,
+        93634,
+        636631
     ];
 
     // =========================
@@ -60,9 +67,12 @@ export default function StepType({
             setLoading(true);
             setError("");
 
+            const rawInsuranceId =
+                form?.insurance_id;
+
             const insuranceIdToFetch =
-                form?.insurance_id
-                    ? Number(form.insurance_id)
+                rawInsuranceId
+                    ? Number(rawInsuranceId)
                     : 42470;
 
             const response = await fetch(
@@ -78,10 +88,19 @@ export default function StepType({
                 );
             }
 
+            const isPrivateOrNull =
+                !rawInsuranceId ||
+                Number(rawInsuranceId) === 42470;
+
+            const idsToShow =
+                isPrivateOrNull
+                    ? privateOrNullIds
+                    : allAllowedIds;
+
             const filteredEvents =
                 (result.data || []).filter(
                     (event: EventType) =>
-                        allAllowedIds.includes(
+                        idsToShow.includes(
                             Number(event.id)
                         )
                 );
