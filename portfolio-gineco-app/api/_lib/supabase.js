@@ -1,30 +1,15 @@
-async function request(url, options = {}) {
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {})
-    }
-  });
+import { createClient } from "@supabase/supabase-js";
 
-  const data = await response.json().catch(() => null);
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  if (!response.ok) {
-    throw new Error(data?.error || "Erro na requisição");
-  }
-
-  return data;
+if (!supabaseUrl || !supabaseServiceRoleKey) {
+  throw new Error(
+    "SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY não configuradas"
+  );
 }
 
-export const api = {
-  async getAvaliacoes() {
-    return request("/api/avaliacoes");
-  },
-
-  async createAvaliacao(avaliacao) {
-    return request("/api/avaliacoes", {
-      method: "POST",
-      body: JSON.stringify(avaliacao)
-    });
-  }
-};
+export const supabase = createClient(
+  supabaseUrl,
+  supabaseServiceRoleKey
+);

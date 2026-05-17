@@ -9,10 +9,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const {
-      email,
-      otp
-    } = req.body;
+    const { email, otp } = req.body;
 
     if (!email || !otp) {
       return res.status(400).json({
@@ -21,16 +18,34 @@ export default async function handler(req, res) {
       });
     }
 
-    const { data, error } =
-      await supabase
-        .from("otp_codes")
-        .select("*")
-        .eq("email", email)
-        .order("created_at", {
-          ascending: false
-        })
-        .limit(1)
-        .maybeSingle();
+    const emailFormatado = String(email).trim().toLowerCase();
+    const otpFormatado = String(otp).trim();
+
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailFormatado);
+
+    if (!emailValido) {
+      return res.status(400).json({
+        status: "error",
+        message: "E-mail inválido"
+      });
+    }
+
+    if (!/^\d{6}$/.test(otpFormatado)) {
+      return res.status(400).json({
+        status: "error",
+        message: "OTP inválido"
+      });
+    }
+
+    const { data, error } = await supabase
+      .from("otp_codes")
+      .select("*")
+      .eq("email", emailFormatado)
+      .order("created_at", {
+        ascending: false
+      })
+      .limit(1)
+      .maybeSingle();
 
     if (error) {
       throw error;
@@ -43,14 +58,13 @@ export default async function handler(req, res) {
       });
     }
 
-    if (
-      new Date(data.expires_at).getTime() <
-      Date.now()
-    ) {
+    const expirou = new Date(data.expires_at).getTime() < Date.now();
+
+    if (expirou) {
       await supabase
         .from("otp_codes")
         .delete()
-        .eq("email", email);
+        .eq("email", emailFormatado);
 
       return res.status(400).json({
         status: "error",
@@ -58,7 +72,7 @@ export default async function handler(req, res) {
       });
     }
 
-    if (data.otp !== String(otp)) {
+    if (String(data.otp) !== otpFormatado) {
       return res.status(400).json({
         status: "error",
         message: "OTP inválido"
@@ -68,18 +82,14 @@ export default async function handler(req, res) {
     await supabase
       .from("otp_codes")
       .delete()
-      .eq("email", email);
+      .eq("email", emailFormatado);
 
     return res.status(200).json({
       status: "success",
       message: "OTP validado"
     });
-
   } catch (error) {
-    console.error(
-      "Erro validar OTP:",
-      error
-    );
+    console.error("Erro validar OTP:", error);
 
     return res.status(500).json({
       status: "error",

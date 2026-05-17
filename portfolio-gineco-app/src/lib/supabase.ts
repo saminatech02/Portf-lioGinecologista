@@ -1,11 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
+// src/lib/supabase.ts
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-// Tipos TypeScript para as tabelas
 export interface Convenio {
   id: number;
   nome: string;
@@ -61,67 +55,81 @@ export interface Avaliacao {
   created_at: string;
 }
 
-// Funções helper para API
+async function request<T>(url: string, options: RequestInit = {}): Promise<T> {
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {})
+    }
+  });
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(data?.message || data?.error || "Erro na requisição");
+  }
+
+  return data as T;
+}
+
 export const api = {
   // Convênios
   getConvenios: async () => {
-    const { data, error } = await supabase
-      .from('convenios')
-      .select('*')
-      .eq('ativo', true)
-      .order('nome');
-    if (error) throw error;
-    return data as Convenio[];
+    return request<Convenio[]>("/api/convenios");
   },
 
   // Médicos
   getMedicos: async () => {
-    const { data, error } = await supabase
-      .from('medicos')
-      .select('*')
-      .eq('ativo', true)
-      .order('nome');
-    if (error) throw error;
-    return data as Medico[];
+    return request<Medico[]>("/api/medicos");
   },
 
   // Avaliações
   getAvaliacoes: async () => {
-    const { data, error } = await supabase
-      .from('avaliacoes')
-      .select('*')
-      .eq('aprovado', true)
-      .order('created_at', { ascending: false });
-    if (error) throw error;
-    return data as Avaliacao[];
+    return request<Avaliacao[]>("/api/avaliacoes");
   },
 
-  createAvaliacao: async (avaliacao: Omit<Avaliacao, 'id' | 'created_at'>) => {
-    const { data, error } = await supabase
-      .from('avaliacoes')
-      .insert([avaliacao])
-      .select();
-    if (error) throw error;
-    return data;
+  createAvaliacao: async (
+    avaliacao: Omit<Avaliacao, "id" | "created_at">
+  ) => {
+    return request<Avaliacao[]>("/api/avaliacoes", {
+      method: "POST",
+      body: JSON.stringify(avaliacao)
+    });
   },
 
   // Agendamentos
-  createAgendamento: async (agendamento: Omit<Agendamento, 'id' | 'created_at' | 'updated_at'>) => {
-    const { data, error } = await supabase
-      .from('agendamentos')
-      .insert([agendamento])
-      .select();
-    if (error) throw error;
-    return data;
+  createAgendamento: async (
+    agendamento: Omit<Agendamento, "id" | "created_at" | "updated_at">
+  ) => {
+    return request<Agendamento[]>("/api/agendamentos", {
+      method: "POST",
+      body: JSON.stringify(agendamento)
+    });
   },
 
   // Pacientes
-  createPaciente: async (paciente: Omit<Paciente, 'id' | 'created_at' | 'updated_at' | 'ativo'>) => {
-    const { data, error } = await supabase
-      .from('pacientes')
-      .insert([{ ...paciente, ativo: true }])
-      .select();
-    if (error) throw error;
-    return data;
+  createPaciente: async (
+    paciente: Omit<Paciente, "id" | "created_at" | "updated_at" | "ativo">
+  ) => {
+    return request<Paciente[]>("/api/pacientes", {
+      method: "POST",
+      body: JSON.stringify(paciente)
+    });
   },
+
+  // OTP
+  sendOtp: async (email: string) => {
+    return request<{ status: string; message: string }>("/api/send-otp", {
+      method: "POST",
+      body: JSON.stringify({ email })
+    });
+  },
+
+  verifyOtp: async (email: string, otp: string) => {
+    return request<{ status: string; message: string }>("/api/verify-otp", {
+      method: "POST",
+      body: JSON.stringify({ email, otp })
+    });
+  }
 };
