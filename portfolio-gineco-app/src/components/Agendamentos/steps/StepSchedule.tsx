@@ -30,18 +30,6 @@ export default function StepSchedule({
 
     ];
 
-    const presencialEventCodes = [
-        634146,
-        631785,
-        636634,
-        354107,
-        99286,
-        631793,
-        93634,
-        636630,
-        631784,
-        
-    ];
 
     // =========================
     // FORMATAR DATA
@@ -137,17 +125,10 @@ export default function StepSchedule({
                         eventId
                     );
 
-                const isPresencial =
-                    presencialEventCodes.includes(
-                        eventId
-                    );
-
                 const placeIdOnline =
                     isOnline
-                        ? 1
-                        : isPresencial
-                            ? 13649
-                            : 13649;
+                        ? 2
+                        : 1;
 
                 const placeId = 13649;
 
