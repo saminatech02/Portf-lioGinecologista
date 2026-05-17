@@ -26,8 +26,7 @@ export default function StepSchedule({
     const onlineEventCodes = [
         636635,
         182205,
-        636631,
-
+        636631
     ];
 
 
