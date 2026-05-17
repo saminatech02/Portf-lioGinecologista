@@ -75,7 +75,7 @@ export default async function handler(req, res) {
             formatDate(date);
 
         const placeAddress =
-            getPlaceById(placeId);
+            getPlaceById(placeIdOnline);
 
         const html = `
       <div style="
