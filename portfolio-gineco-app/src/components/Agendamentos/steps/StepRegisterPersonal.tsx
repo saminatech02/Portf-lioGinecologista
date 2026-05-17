@@ -76,23 +76,6 @@ export default function StepRegisterPersonal({
             return;
         }
 
-        const payload = {
-
-            // 🔥 dados pessoais
-            name: form.name,
-            born: form.born,
-            contact_cellphone: celularLimpo,
-            email: form.email,
-
-            // 🔥 CPF já validado anteriormente
-            cpf: Number(form.cpf?.replace(/\D/g, "")),
-            cpf_responsible: Number(form.cpf?.replace(/\D/g, "")),
-
-            // 🔥 preencher depois nas próximas etapas
-            insurance_number: form.insurance_number || "",
-            insurance_id: form.insurance_id || null
-        };
-
         onNext();
     };
 
