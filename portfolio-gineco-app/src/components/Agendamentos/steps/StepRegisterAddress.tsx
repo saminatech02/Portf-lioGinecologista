@@ -343,11 +343,6 @@ export default function StepRegisterAddress({
                     );
                 }
 
-                console.log(
-                    "OTP enviado:",
-                    otpResult
-                );
-
                 // =========================
                 // AVANÇA ETAPA
                 // =========================

@@ -93,8 +93,6 @@ export default function StepRegisterPersonal({
             insurance_id: form.insurance_id || null
         };
 
-        console.log("Payload enviado:", payload);
-
         onNext();
     };
 

@@ -101,12 +101,6 @@ export default function StepOtp({
 
 
             if (patientBool) {
-
-                console.log(
-                    "PACIENTE JÁ EXISTE:",
-                    form.patient_id
-                );
-
                 onNext();
 
                 return;
@@ -207,12 +201,6 @@ export default function StepOtp({
                             form.insurance_id
                         )
             };
-
-            console.log(
-                "CRIANDO PACIENTE:",
-                payload
-            );
-
             // =========================
             // CRIAR PACIENTE
             // =========================
@@ -244,11 +232,6 @@ export default function StepOtp({
                     "Erro ao cadastrar paciente"
                 );
             }
-
-            console.log(
-                "PACIENTE CRIADO:",
-                patientResult
-            );
 
             // =========================
             // SALVAR PATIENT_ID

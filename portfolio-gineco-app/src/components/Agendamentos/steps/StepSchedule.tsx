@@ -130,11 +130,6 @@ export default function StepSchedule({
                             : null
                 };
 
-                console.log(
-                    "PAYLOAD:",
-                    payload
-                );
-
                 const response =
                     await fetch(
                         "/api/appointments",

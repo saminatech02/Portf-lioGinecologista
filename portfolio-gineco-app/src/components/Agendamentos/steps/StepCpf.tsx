@@ -106,11 +106,6 @@ export default function StepCpf({
             const result =
                 await response.json();
 
-            console.log(
-                "RESULTADO CPF:",
-                result
-            );
-
             if (!response.ok) {
 
                 throw new Error(
@@ -195,10 +190,6 @@ export default function StepCpf({
             const result =
                 await response.json();
 
-            console.log(
-                "OTP RESULT:",
-                result
-            );
 
             if (!response.ok) {
 
@@ -260,11 +251,6 @@ export default function StepCpf({
 
                 if (patient) {
 
-                    console.log(
-                        "Paciente encontrado:",
-                        patient
-                    );
-
                     // 🔥 preenche dados
                     fillPatientData(
                         patient
@@ -279,14 +265,6 @@ export default function StepCpf({
 
                     return;
                 }
-
-                // =========================
-                // PACIENTE NÃO EXISTE
-                // =========================
-
-                console.log(
-                    "Paciente não encontrado"
-                );
 
                 onNext(false);
 
