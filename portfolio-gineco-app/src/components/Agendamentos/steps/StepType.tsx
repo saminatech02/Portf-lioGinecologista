@@ -50,14 +50,10 @@ export default function StepType({
     const allAllowedIds = [
         634146,
         631785,
-        636634,
-        636635,
         182205,
         354107,
         99286,
         631793,
-        93634,
-        636631,
         636630,
         631784
     ];
