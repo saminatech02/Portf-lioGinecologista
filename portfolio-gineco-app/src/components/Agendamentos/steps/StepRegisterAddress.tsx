@@ -25,11 +25,44 @@ export default function StepRegisterAddress({
         useState(false);
 
     // =========================
+    // CONVÊNIOS FIXOS
+    // =========================
+
+    const conveniosFixos = [
+        {
+            id: 42470,
+            name: "Particular"
+        },
+        {
+            id: 36798,
+            name: "AMIL"
+        },
+        {
+            id: 145994,
+            name: "FOX SAÚDE"
+        },
+        {
+            id: 124940,
+            name: "SELECT - COOPEGO"
+        },
+        {
+            id: 36791,
+            name: "UNIMED INTERCAMBIO"
+        },
+        {
+            id: 36789,
+            name: "UNIMED RECIFE"
+        }
+    ];
+
+    const idsConveniosFixos =
+        conveniosFixos.map((convenio) => convenio.id);
+
+    // =========================
     // CONVÊNIOS PERMITIDOS
     // =========================
 
     const conveniosPermitidos = [
-        // Convênios já existentes
         36769,
         36768,
         36770,
@@ -58,14 +91,7 @@ export default function StepRegisterAddress({
         36801,
         36799,
         36787,
-        36800,
-
-        // Novos convênios solicitados
-        36798,  // AMIL
-        145994, // FOX SAÚDE
-        124940, // SELECT - COOPEGO
-        36791,  // UNIMED INTERCAMBIO
-        36789   // UNIMED RECIFE
+        36800
     ];
 
     // =========================
@@ -135,6 +161,9 @@ export default function StepRegisterAddress({
             return convenios.filter(
                 (convenio) =>
                     conveniosPermitidos.includes(
+                        Number(convenio.id)
+                    ) &&
+                    !idsConveniosFixos.includes(
                         Number(convenio.id)
                     )
             );
@@ -237,8 +266,7 @@ export default function StepRegisterAddress({
             }
 
             if (
-                form.insurance_id !==
-                "no-insurance" &&
+                Number(form.insurance_id) !== 42470 &&
                 !form.insurance_number?.trim()
             ) {
 
@@ -365,8 +393,7 @@ export default function StepRegisterAddress({
                         );
 
                         if (
-                            value ===
-                            "no-insurance"
+                            Number(value) === 42470
                         ) {
 
                             updateField(
@@ -374,6 +401,7 @@ export default function StepRegisterAddress({
                                 "42470"
                             );
                         } else {
+
                             updateField(
                                 "insurance_number",
                                 ""
@@ -391,9 +419,23 @@ export default function StepRegisterAddress({
                             : "Selecione o convênio"}
                     </option>
 
-                    <option value="no-insurance">
-                        Particular
-                    </option>
+                    {conveniosFixos.map(
+                        (convenio) => (
+
+                            <option
+                                key={
+                                    convenio.id
+                                }
+                                value={
+                                    convenio.id
+                                }
+                            >
+                                {
+                                    convenio.name
+                                }
+                            </option>
+                        )
+                    )}
 
                     {conveniosFiltrados.map(
                         (convenio) => (
@@ -416,8 +458,8 @@ export default function StepRegisterAddress({
                 </select>
 
                 {/* NÚMERO CONVÊNIO */}
-                {form.insurance_id !==
-                    "no-insurance" && (
+                {Number(form.insurance_id) !==
+                    42470 && (
 
                         <input
                             placeholder="Número do convênio"
