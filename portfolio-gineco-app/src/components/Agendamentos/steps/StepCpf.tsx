@@ -155,6 +155,11 @@ export default function StepCpf({
             "born",
             patient.born || ""
         );
+
+        updateField(
+            "insurance_id",
+            patient.insurance_id || null
+        );
     };
     // =========================
     // ENVIAR OTP
