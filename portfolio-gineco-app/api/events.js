@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 
     const url =
       insurance_id === 42470
-        ? `${API_URL}/events`
+        ? `${API_URL}/events?`
         : `${API_URL}/events?place_id=${place_id}&insurance_id=${insurance_id}`;
 
     const response = await axios.get(url, {
