@@ -54,8 +54,6 @@ export default async function handler(req, res) {
       ? Number(insurance_id)
       : "";
 
-    const insuranceIdToFetch = insuranceIdFinal === 42470 ? "" : insuranceIdFinal;
-
     const endDateFinal =
       insuranceIdFinal === 42470
         ? addMinutes(start_date, 40)

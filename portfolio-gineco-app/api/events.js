@@ -25,12 +25,12 @@ export default async function handler(req, res) {
     }
 
     const insuranceId =
-      insurance_id !== undefined
+      insurance_id && insurance_id !== "null"
         ? Number(insurance_id)
         : undefined;
 
     const url =
-      insuranceId === 42470 || insuranceId === undefined
+      insuranceId === undefined || insuranceId === 42470
         ? `${API_URL}/events?place_id=${place_id}`
         : `${API_URL}/events?place_id=${place_id}&insurance_id=${insuranceId}`;
 
