@@ -52,7 +52,9 @@ export default async function handler(req, res) {
 
     const insuranceIdFinal = insurance_id
       ? Number(insurance_id)
-      : 42470;
+      : "";
+
+    const insuranceIdToFetch = insuranceIdFinal === 42470 ? "" : insuranceIdFinal;
 
     const endDateFinal =
       insuranceIdFinal === 42470
