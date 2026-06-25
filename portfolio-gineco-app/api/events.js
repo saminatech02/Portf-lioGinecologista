@@ -24,15 +24,17 @@ export default async function handler(req, res) {
       });
     }
 
-    const response = await axios.get(
-      `${API_URL}/events?place_id=${place_id}&insurance_id=${insurance_id}`,
-      {
-        headers: {
-          ...getHeaders(),
-          "Content-Type": "application/json"
-        }
-      }
-    );
+    const url =
+      place_id === 42470
+        ? `${API_URL}/events`
+        : `${API_URL}/events?place_id=${place_id}&insurance_id=${insurance_id}`;
+
+    const response = await axios.get(url, {
+      headers: {
+        ...getHeaders(),
+        "Content-Type": "application/json",
+      },
+    });
 
     return res.status(200).json({
       status: "success",
