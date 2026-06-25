@@ -24,10 +24,15 @@ export default async function handler(req, res) {
       });
     }
 
+    const insuranceId =
+      insurance_id !== undefined
+        ? Number(insurance_id)
+        : undefined;
+
     const url =
-      insurance_id === 42470
+      insuranceId === 42470 || insuranceId === undefined
         ? `${API_URL}/events?place_id=${place_id}`
-        : `${API_URL}/events?place_id=${place_id}&insurance_id=${insurance_id}`;
+        : `${API_URL}/events?place_id=${place_id}&insurance_id=${insuranceId}`;
 
     const response = await axios.get(url, {
       headers: {
