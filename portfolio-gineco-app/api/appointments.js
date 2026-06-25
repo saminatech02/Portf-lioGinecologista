@@ -73,7 +73,9 @@ export default async function handler(req, res) {
       end_date: endDateFinal,
       place_id: Number(place_id),
       patient_id: Number(patient_id),
-      insurance_id: insuranceIdFinal
+      ...(insuranceIdFinal !== 42470 && insuranceIdFinal !== null
+        ? { insurance_id: insuranceIdFinal }
+        : {})
     };
 
     const response = await axios.post(
